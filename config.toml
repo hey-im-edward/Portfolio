@@ -88,9 +88,9 @@ summaryLength = 70
     weight = 1
   
   [[menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about/"
+    identifier = "projects"
+    name = "Projects"
+    url = "/projects/"
     weight = 2
   
   [[menu.main]]
@@ -100,10 +100,37 @@ summaryLength = 70
     weight = 3
   
   [[menu.main]]
-    identifier = "tags"
+    identifier = "blog-posts"
+    name = "All Posts"
+    parent = "blog"
+    url = "/blog/"
+    weight = 1
+  
+  [[menu.main]]
+    identifier = "blog-categories"
+    name = "Categories"
+    parent = "blog"
+    url = "/categories/"
+    weight = 2
+  
+  [[menu.main]]
+    identifier = "blog-tags"
     name = "Tags"
+    parent = "blog"
     url = "/tags/"
+    weight = 3
+  
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
     weight = 4
+  
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/contact/"
+    weight = 5
 
 # Privacy settings (GDPR)
 [privacy]

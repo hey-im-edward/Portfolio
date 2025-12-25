@@ -9,13 +9,33 @@
     {{/* Desktop Navigation */}}
     <div class="nav" id="nav-menu">
       {{ range .Site.Menus.main }}
-      <a 
-        href="{{ .URL | relURL }}" 
-        class="nav__link {{ if $.IsMenuCurrent "main" . }}nav__link--active{{ end }}"
-        {{ if hasPrefix .URL "http" }}target="_blank" rel="noopener"{{ end }}
-      >
-        {{ .Name }}
-      </a>
+        {{ if .HasChildren }}
+        {{/* Dropdown Menu */}}
+        <div class="nav__dropdown">
+          <button class="nav__link nav__link--dropdown" aria-expanded="false" aria-haspopup="true">
+            {{ .Name }}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="nav__dropdown-menu">
+            {{ range .Children }}
+            <a href="{{ .URL | relURL }}" class="nav__dropdown-item">
+              {{ .Name }}
+            </a>
+            {{ end }}
+          </div>
+        </div>
+        {{ else if not .Parent }}
+        {{/* Regular Link */}}
+        <a 
+          href="{{ .URL | relURL }}" 
+          class="nav__link {{ if $.IsMenuCurrent "main" . }}nav__link--active{{ end }}"
+          {{ if hasPrefix .URL "http" }}target="_blank" rel="noopener"{{ end }}
+        >
+          {{ .Name }}
+        </a>
+        {{ end }}
       {{ end }}
     </div>
     
@@ -59,9 +79,20 @@
 <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu__content">
     {{ range .Site.Menus.main }}
-    <a href="{{ .URL | relURL }}" class="mobile-menu__link">
-      {{ .Name }}
-    </a>
+      {{ if not .Parent }}
+      <a href="{{ .URL | relURL }}" class="mobile-menu__link">
+        {{ .Name }}
+      </a>
+      {{ end }}
+      {{ if .HasChildren }}
+      <div class="mobile-menu__submenu">
+        {{ range .Children }}
+        <a href="{{ .URL | relURL }}" class="mobile-menu__sublink">
+          {{ .Name }}
+        </a>
+        {{ end }}
+      </div>
+      {{ end }}
     {{ end }}
   </div>
 </div>
@@ -120,12 +151,18 @@
 
 .nav__link {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   text-decoration: none;
+  border: none;
+  background: none;
   border-radius: var(--radius-lg);
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
@@ -141,6 +178,50 @@
 
 [data-theme="dark"] .nav__link--active {
   background: var(--color-primary-900);
+}
+
+/* Dropdown */
+.nav__dropdown {
+  position: relative;
+}
+
+.nav__dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  padding: var(--space-2);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all var(--transition-fast);
+  z-index: var(--z-dropdown);
+}
+
+.nav__dropdown:hover .nav__dropdown-menu,
+.nav__dropdown:focus-within .nav__dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(4px);
+}
+
+.nav__dropdown-item {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.nav__dropdown-item:hover {
+  color: var(--color-primary-500);
+  background: var(--color-surface);
 }
 
 /* Header Actions */
@@ -254,6 +335,26 @@
 }
 
 .mobile-menu__link:hover {
+  background: var(--color-surface);
+}
+
+.mobile-menu__submenu {
+  padding-left: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.mobile-menu__sublink {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.mobile-menu__sublink:hover {
+  color: var(--color-primary-500);
   background: var(--color-surface);
 }
 </style>
