@@ -10,7 +10,9 @@ enableEmoji = true
 
 # Content settings
 summaryLength = 70
-paginate = 10
+
+[pagination]
+  pagerSize = 10
 
 # Outputs
 [outputs]
