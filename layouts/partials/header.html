@@ -1,15 +1,16 @@
 <div class="container">
   <nav class="header" aria-label="Main navigation">
     {{/* Logo */}}
-    <a href="/" class="header__logo">
-      {{ .Site.Title | default "Portfolio" }}
+    <a href="{{ "/" | relURL }}" class="header__logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">{{ .Site.Title | default "Portfolio" }}</span>
     </a>
     
     {{/* Desktop Navigation */}}
-    <div class="nav">
+    <div class="nav" id="nav-menu">
       {{ range .Site.Menus.main }}
       <a 
-        href="{{ .URL }}" 
+        href="{{ .URL | relURL }}" 
         class="nav__link {{ if $.IsMenuCurrent "main" . }}nav__link--active{{ end }}"
         {{ if hasPrefix .URL "http" }}target="_blank" rel="noopener"{{ end }}
       >
@@ -19,10 +20,10 @@
     </div>
     
     {{/* Actions */}}
-    <div style="display: flex; align-items: center; gap: var(--space-2);">
+    <div class="header__actions">
       {{/* Theme Toggle */}}
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-        <svg class="theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="theme-icon theme-icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
           <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -33,16 +34,226 @@
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
+        <svg class="theme-icon theme-icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+        </svg>
       </button>
       
       {{/* Mobile Menu Toggle */}}
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="menu-icon menu-icon--open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="menu-icon menu-icon--close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
   </nav>
 </div>
+
+{{/* Mobile Menu Overlay */}}
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu__content">
+    {{ range .Site.Menus.main }}
+    <a href="{{ .URL | relURL }}" class="mobile-menu__link">
+      {{ .Name }}
+    </a>
+    {{ end }}
+  </div>
+</div>
+
+<style>
+/* Enhanced Header Styles */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: var(--space-4);
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.header__logo:hover {
+  color: var(--color-primary-500);
+}
+
+.logo-icon {
+  font-size: 1.5em;
+}
+
+.logo-text {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .logo-text {
+    display: inline;
+  }
+}
+
+/* Navigation */
+.nav {
+  display: none;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
+}
+
+.nav__link {
+  position: relative;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.nav__link:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+}
+
+.nav__link--active {
+  color: var(--color-primary-500);
+  background: var(--color-primary-50);
+}
+
+[data-theme="dark"] .nav__link--active {
+  background: var(--color-primary-900);
+}
+
+/* Header Actions */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-200);
+  color: var(--color-primary-500);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background: var(--color-primary-900);
+}
+
+.theme-icon--dark {
+  display: none;
+}
+
+[data-theme="dark"] .theme-icon--light {
+  display: none;
+}
+
+[data-theme="dark"] .theme-icon--dark {
+  display: block;
+}
+
+/* Menu Toggle */
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+}
+
+.menu-icon--close {
+  display: none;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-icon--open {
+  display: none;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-icon--close {
+  display: block;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-background);
+  z-index: var(--z-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu__content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+}
+
+.mobile-menu__link {
+  padding: var(--space-4);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: background var(--transition-fast);
+}
+
+.mobile-menu__link:hover {
+  background: var(--color-surface);
+}
+</style>

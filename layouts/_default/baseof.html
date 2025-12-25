@@ -25,7 +25,8 @@
   {{ $base := resources.Get "css/base.css" }}
   {{ $layout := resources.Get "css/layout.css" }}
   {{ $components := resources.Get "css/components.css" }}
-  {{ $styles := slice $variables $base $layout $components | resources.Concat "css/main.css" | resources.Minify | resources.Fingerprint }}
+  {{ $home := resources.Get "css/home.css" }}
+  {{ $styles := slice $variables $base $layout $components $home | resources.Concat "css/main.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
   
   {{/* Favicon */}}
