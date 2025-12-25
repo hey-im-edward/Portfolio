@@ -1,0 +1,99 @@
+{{ define "main" }}
+<article class="container container--narrow">
+  {{/* Article Header */}}
+  <header class="article__header">
+    {{/* Meta */}}
+    <div class="card__meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">
+        {{ .Date.Format "02 thg 1, 2006" }}
+      </time>
+      {{ if .Params.reading_time }}
+      <span class="reading-time">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12,6 12,12 16,14"></polyline>
+        </svg>
+        {{ .ReadingTime }} phút đọc
+      </span>
+      {{ end }}
+    </div>
+    
+    {{/* Title */}}
+    <h1>{{ .Title }}</h1>
+    
+    {{/* Summary */}}
+    {{ with .Params.summary }}
+    <p class="article__summary">{{ . }}</p>
+    {{ end }}
+    
+    {{/* Tags */}}
+    {{ with .Params.tags }}
+    <div class="tags" style="margin-top: var(--space-4);">
+      {{ range . }}
+      <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+    
+    {{/* Featured Image */}}
+    {{ with .Params.featured_image }}
+    <figure class="article__image">
+      {{ $image := $.Resources.GetMatch . }}
+      {{ if $image }}
+        {{ $webp := $image.Resize "1200x webp" }}
+        <img 
+          src="{{ $webp.RelPermalink }}" 
+          alt="{{ $.Title }}"
+          width="{{ $webp.Width }}"
+          height="{{ $webp.Height }}"
+          loading="eager"
+        >
+      {{ else }}
+        <img src="{{ . }}" alt="{{ $.Title }}" loading="eager">
+      {{ end }}
+    </figure>
+    {{ end }}
+  </header>
+  
+  {{/* Table of Contents */}}
+  {{ if and .Params.toc .TableOfContents }}
+  <nav class="toc" aria-label="Table of Contents">
+    <h2 class="toc__title">Mục lục</h2>
+    {{ .TableOfContents }}
+  </nav>
+  {{ end }}
+  
+  {{/* Content */}}
+  <div class="prose">
+    {{ .Content }}
+  </div>
+  
+  {{/* Author */}}
+  {{ with .Params.author }}
+  <div class="article__author" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border);">
+    <div style="display: flex; align-items: center; gap: var(--space-4);">
+      <div class="avatar avatar--lg">{{ substr .name 0 1 }}</div>
+      <div>
+        <div style="font-weight: var(--font-weight-semibold);">{{ .name }}</div>
+        <div style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Author</div>
+      </div>
+    </div>
+  </div>
+  {{ end }}
+  
+  {{/* Related Posts */}}
+  {{ if .Site.Params.showRelatedPosts }}
+  {{ $related := .Site.RegularPages.Related . | first 3 }}
+  {{ with $related }}
+  <section style="margin-top: var(--space-12);">
+    <h2>Bài viết liên quan</h2>
+    <div class="grid grid--3">
+      {{ range . }}
+      {{ partial "card.html" . }}
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+  {{ end }}
+</article>
+{{ end }}

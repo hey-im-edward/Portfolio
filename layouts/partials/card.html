@@ -1,0 +1,59 @@
+{{/* Card Component */}}
+<article class="card-container">
+  <div class="card">
+    {{/* Image */}}
+    {{ with .Params.featured_image }}
+    <div class="card__image">
+      {{ $image := $.Resources.GetMatch . }}
+      {{ if $image }}
+        {{ $thumb := $image.Resize "600x webp" }}
+        <img 
+          src="{{ $thumb.RelPermalink }}" 
+          alt="{{ $.Title }}"
+          width="{{ $thumb.Width }}"
+          height="{{ $thumb.Height }}"
+          loading="lazy"
+        >
+      {{ else }}
+        <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+      {{ end }}
+    </div>
+    {{ end }}
+    
+    {{/* Content */}}
+    <div class="card__content">
+      {{/* Meta */}}
+      <div class="card__meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">
+          {{ .Date.Format "02/01/2006" }}
+        </time>
+        {{ if .Params.reading_time }}
+        <span class="reading-time">{{ .ReadingTime }} phút</span>
+        {{ end }}
+      </div>
+      
+      {{/* Title */}}
+      <h3 class="card__title">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+      </h3>
+      
+      {{/* Excerpt */}}
+      <p class="card__excerpt">
+        {{ with .Params.summary }}
+          {{ . | truncate 120 }}
+        {{ else }}
+          {{ .Summary | plainify | truncate 120 }}
+        {{ end }}
+      </p>
+      
+      {{/* Tags */}}
+      {{ with .Params.tags }}
+      <div class="tags" style="margin-top: var(--space-3);">
+        {{ range first 3 . }}
+        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</article>

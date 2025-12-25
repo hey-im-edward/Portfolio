@@ -1,0 +1,57 @@
+{{ define "main" }}
+{{/* Hero Section */}}
+<section class="hero">
+  <div class="container">
+    <h1 class="hero__title">
+      Xin chào, mình là <span style="color: var(--color-primary-500);">Edward</span> 👋
+    </h1>
+    <p class="hero__subtitle">
+      {{ .Site.Params.description | default "Developer đam mê Java & JavaScript. Nơi chia sẻ kiến thức, kinh nghiệm và dự án." }}
+    </p>
+    <div class="hero__actions">
+      <a href="/blog/" class="btn btn--primary btn--lg">Đọc Blog</a>
+      <a href="/about/" class="btn btn--secondary btn--lg">Về tôi</a>
+    </div>
+  </div>
+</section>
+
+{{/* Latest Posts */}}
+<section class="section">
+  <div class="container">
+    <h2 class="section__title">Bài viết mới nhất</h2>
+    
+    {{ $posts := where .Site.RegularPages "Section" "blog" | first 6 }}
+    {{ if $posts }}
+    <div class="grid grid--3">
+      {{ range $posts }}
+      {{ partial "card.html" . }}
+      {{ end }}
+    </div>
+    
+    <div style="text-align: center; margin-top: var(--space-8);">
+      <a href="/blog/" class="btn btn--secondary">Xem tất cả bài viết</a>
+    </div>
+    {{ else }}
+    <p style="text-align: center; color: var(--color-text-muted);">Chưa có bài viết nào. Hãy tạo bài viết đầu tiên!</p>
+    {{ end }}
+  </div>
+</section>
+
+{{/* Categories */}}
+<section class="section" style="background-color: var(--color-surface);">
+  <div class="container">
+    <h2 class="section__title" style="text-align: center;">Chủ đề</h2>
+    
+    <div style="display: flex; justify-content: center; gap: var(--space-4); flex-wrap: wrap;">
+      {{ range .Site.Taxonomies.categories }}
+      {{ $name := .Page.Title }}
+      {{ $count := len .Pages }}
+      <a href="{{ .Page.Permalink }}" class="btn btn--secondary">
+        {{ $name }}
+        <span style="background: var(--color-primary-100); color: var(--color-primary-600); padding: 2px 8px; border-radius: var(--radius-full); font-size: var(--font-size-xs);">{{ $count }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

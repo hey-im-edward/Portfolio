@@ -1,0 +1,19 @@
+{{- /* layouts/_default/index.json - Search Index */ -}}
+{{- $pages := where .Site.RegularPages "Params.draft" "ne" true -}}
+[
+{{- $first := true -}}
+{{- range $pages -}}
+  {{- if not $first }},{{ end -}}
+  {{- $first = false }}
+  {
+    "slug": "{{ .RelPermalink }}",
+    "title": {{ .Title | jsonify }},
+    "summary": {{ (or .Params.summary .Summary) | plainify | jsonify }},
+    "content": {{ .Plain | truncate 5000 | jsonify }},
+    "tags": {{ .Params.tags | default (slice) | jsonify }},
+    "categories": {{ .Params.categories | default (slice) | jsonify }},
+    "date": "{{ .Date.Format "2006-01-02" }}",
+    "reading_time": {{ .ReadingTime }}
+  }
+{{- end }}
+]

@@ -1,0 +1,117 @@
+# Hugo configuration
+baseURL = "https://hey-im-edward.github.io/Portfolio/"
+languageCode = "vi-VN"
+title = "Portfolio - Java & JavaScript"
+
+# Build settings
+enableRobotsTXT = true
+enableGitInfo = true
+enableEmoji = true
+
+# Content settings
+summaryLength = 70
+paginate = 10
+
+# Outputs
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+
+[outputFormats]
+  [outputFormats.JSON]
+    mediaType = "application/json"
+    baseName = "index"
+    isPlainText = false
+
+# Taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+# Params
+[params]
+  author = "Edward"
+  description = "Portfolio và Blog về Java & JavaScript"
+  keywords = ["java", "javascript", "web development", "portfolio"]
+  
+  # Social
+  github = "hey-im-edward"
+  linkedin = ""
+  
+  # Features
+  showReadingTime = true
+  showTableOfContents = true
+  showRelatedPosts = true
+  
+  # Comments (Giscus)
+  [params.giscus]
+    enabled = false
+    repo = ""
+    repoId = ""
+    category = ""
+    categoryId = ""
+
+# Markup settings
+[markup]
+  [markup.highlight]
+    noClasses = false
+    style = "dracula"
+    guessSyntax = true
+    lineNos = false
+    lineNumbersInTable = true
+    tabWidth = 2
+  
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      footnote = true
+      strikethrough = true
+      table = true
+      taskList = true
+    [markup.goldmark.renderer]
+      # ⚠️ WARNING: Chỉ bật nếu kiểm soát 100% content
+      unsafe = false
+  
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+# Menu
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+  
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 2
+  
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/blog/"
+    weight = 3
+  
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 4
+
+# Privacy settings (GDPR)
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    respectDoNotTrack = true
+  [privacy.youtube]
+    privacyEnhanced = true
+
+# Security
+[security]
+  [security.funcs]
+    getenv = ["^HUGO_", "^CI$"]

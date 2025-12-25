@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 - Trang không tìm thấy | {{ .Site.Title }}</title>
+  
+  {{/* CSS */}}
+  {{ $variables := resources.Get "css/variables.css" }}
+  {{ $base := resources.Get "css/base.css" }}
+  {{ $layout := resources.Get "css/layout.css" }}
+  {{ $components := resources.Get "css/components.css" }}
+  {{ $styles := slice $variables $base $layout $components | resources.Concat "css/main.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page">
+    <main class="page__main" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+      <div style="text-align: center;">
+        <h1 style="font-size: var(--font-size-5xl); color: var(--color-primary-500);">404</h1>
+        <p style="font-size: var(--font-size-xl); color: var(--color-text-secondary); margin-bottom: var(--space-8);">
+          Oops! Trang bạn tìm không tồn tại.
+        </p>
+        <div style="display: flex; gap: var(--space-4); justify-content: center;">
+          <a href="/" class="btn btn--primary">Về trang chủ</a>
+          <a href="/blog/" class="btn btn--secondary">Đọc Blog</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

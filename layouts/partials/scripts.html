@@ -1,0 +1,46 @@
+{{/* Theme Toggle Script */}}
+<script>
+(function() {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+  
+  toggle.addEventListener('click', function() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+  
+  // Listen for system preference changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    }
+  });
+})();
+</script>
+
+{{/* Mobile Menu Script */}}
+<script>
+(function() {
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.querySelector('.nav');
+  if (!toggle || !nav) return;
+  
+  toggle.addEventListener('click', function() {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !expanded);
+    nav.classList.toggle('nav--open');
+  });
+})();
+</script>
+
+{{/* Structured Data - JSON-LD */}}
+{{ if .IsPage }}
+{{ partial "schema/blogposting.html" . }}
+{{ end }}
+
+{{/* Analytics (optional) */}}
+{{ if .Site.Params.googleAnalytics }}
+<!-- Google Analytics -->
+{{ end }}

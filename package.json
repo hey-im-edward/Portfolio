@@ -1,0 +1,25 @@
+{
+  "name": "portfolio-blog",
+  "version": "1.0.0",
+  "description": "Hugo portfolio blog with modern best practices",
+  "scripts": {
+    "dev": "hugo server -D --navigateToChanged",
+    "build": "hugo --gc --minify",
+    "lint:md": "markdownlint-cli2 'content/**/*.md'",
+    "lint:css": "stylelint 'assets/css/**/*.css'",
+    "lint": "npm run lint:md && npm run lint:css"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.12.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0"
+  },
+  "keywords": [
+    "hugo",
+    "portfolio",
+    "blog",
+    "static-site"
+  ],
+  "author": "Edward",
+  "license": "MIT"
+}

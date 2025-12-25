@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> Pending: User submits
+    Pending --> Approved: Moderator approves
+    Pending --> Rejected: Moderator rejects
+    Pending --> Spam: Auto-detected spam
+    
+    Approved --> Visible: Public
+    Rejected --> Deleted
+    Spam --> Deleted
+    
+    Visible --> [*]
+    Deleted --> [*]

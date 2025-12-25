@@ -1,0 +1,43 @@
+{{ $image := .Page.Resources.GetMatch .Destination }}
+{{ if $image }}
+  {{ $avifMedium := $image.Resize "768x avif" }}
+  {{ $avifLarge := $image.Resize "1200x avif" }}
+  {{ $webpSmall := $image.Resize "480x webp" }}
+  {{ $webpMedium := $image.Resize "768x webp" }}
+  {{ $webpLarge := $image.Resize "1200x webp" }}
+  
+  <figure>
+    <picture>
+      {{/* AVIF (best compression) */}}
+      <source 
+        type="image/avif"
+        srcset="{{ $avifMedium.RelPermalink }} 768w,
+                {{ $avifLarge.RelPermalink }} 1200w"
+        sizes="(max-width: 768px) 768px, 1200px">
+      
+      {{/* WebP fallback */}}
+      <source 
+        type="image/webp"
+        srcset="{{ $webpSmall.RelPermalink }} 480w,
+                {{ $webpMedium.RelPermalink }} 768w,
+                {{ $webpLarge.RelPermalink }} 1200w"
+        sizes="(max-width: 480px) 480px,
+               (max-width: 768px) 768px,
+               1200px">
+      
+      {{/* Original fallback */}}
+      <img 
+        src="{{ $webpMedium.RelPermalink }}" 
+        alt="{{ .Text }}"
+        width="{{ $webpMedium.Width }}"
+        height="{{ $webpMedium.Height }}"
+        loading="lazy"
+        decoding="async">
+    </picture>
+    {{ with .Title }}
+    <figcaption>{{ . }}</figcaption>
+    {{ end }}
+  </figure>
+{{ else }}
+  <img src="{{ .Destination }}" alt="{{ .Text }}" loading="lazy">
+{{ end }}
