@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode | default "en" }}" {{ with .Site.Params.defaultTheme }}data-theme="{{ . }}"{{ end }}>
+<html lang="{{ .Site.LanguageCode | default "vi" }}" {{ with .Site.Params.defaultTheme }}data-theme="{{ . }}"{{ end }}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,10 +23,11 @@
   {{/* CSS */}}
   {{ $variables := resources.Get "css/variables.css" }}
   {{ $base := resources.Get "css/base.css" }}
+  {{ $glass := resources.Get "css/glass.css" }}
   {{ $layout := resources.Get "css/layout.css" }}
   {{ $components := resources.Get "css/components.css" }}
   {{ $home := resources.Get "css/home.css" }}
-  {{ $styles := slice $variables $base $layout $components $home | resources.Concat "css/main.css" | resources.Minify | resources.Fingerprint }}
+  {{ $styles := slice $variables $base $glass $layout $components $home | resources.Concat "css/main.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
   
   {{/* Favicon */}}
@@ -57,6 +58,9 @@
   {{ hugo.Generator }}
 </head>
 <body>
+  {{/* Interactive Background */}}
+  {{ partial "background.html" . }}
+  
   {{/* Skip Link */}}
   <a href="#main-content" class="skip-link">Skip to main content</a>
   

@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Glass Morphism Components
+   ========================================================================== */
+
+/* Glass Panel */
+.glass {
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3xl);
+}
+
+.glass-xl {
+  backdrop-filter: blur(var(--glass-blur-xl));
+  -webkit-backdrop-filter: blur(var(--glass-blur-xl));
+}
+
+.glass:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-hover);
+}
+
+/* Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(var(--glass-blur-xl));
+  -webkit-backdrop-filter: blur(var(--glass-blur-xl));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-2xl);
+  transition: all var(--transition-base);
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(17, 24, 39, 0.2);
+  border-color: rgba(55, 65, 81, 0.2);
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-amber);
+  transform: translateY(-4px);
+}
+
+/* Glass Button - Primary */
+.btn-glass-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  background: var(--gradient-amber);
+  color: white;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-xl);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-amber);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glass-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-amber-500),
+    var(--color-orange-400)
+  );
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.btn-glass-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-amber-lg);
+}
+
+.btn-glass-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-glass-primary span {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Glass Button - Secondary */
+.btn-glass-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-base);
+}
+
+[data-theme="dark"] .btn-glass-secondary {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+}
+
+.btn-glass-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+[data-theme="dark"] .btn-glass-secondary:hover {
+  background: rgba(17, 24, 39, 0.4);
+}
+
+/* Glass Badge */
+.glass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-amber-600);
+}
+
+[data-theme="dark"] .glass-badge {
+  color: var(--color-amber-400);
+}
+
+/* Glass Tag */
+.glass-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-amber-700);
+}
+
+[data-theme="dark"] .glass-tag {
+  color: var(--color-amber-300);
+}
+
+/* Glass Input */
+.glass-input {
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .glass-input {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--color-amber-500);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.glass-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Social Icon Button */
+.social-glass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  color: var(--color-gray-700);
+  transition: all var(--transition-base);
+}
+
+[data-theme="dark"] .social-glass {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+  color: var(--color-gray-300);
+}
+
+.social-glass:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--color-amber-600);
+}
+
+[data-theme="dark"] .social-glass:hover {
+  color: var(--color-amber-400);
+}

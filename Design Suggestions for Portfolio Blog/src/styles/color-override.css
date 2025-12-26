@@ -1,0 +1,13 @@
+/* Color Override - Purple Theme */
+:root {
+  --color-primary: #9333ea; /* purple-600 */
+  --color-primary-light: #a855f7; /* purple-500 */
+  --color-primary-lighter: #c084fc; /* purple-400 */
+  --color-primary-dark: #7e22ce; /* purple-700 */
+}
+
+.dark {
+  --color-primary: #c084fc; /* purple-400 */
+  --color-primary-light: #a855f7; /* purple-500 */
+  --color-primary-lighter: #d8b4fe; /* purple-300 */
+}

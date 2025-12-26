@@ -1,0 +1,235 @@
+{{/* Interactive Background with Floating Bubbles and Gradient Orbs */}}
+
+<!-- Canvas for floating bubbles -->
+<canvas id="bubble-canvas" class="interactive-bg__canvas"></canvas>
+
+<!-- Gradient orbs with parallax -->
+<div class="interactive-bg__orbs">
+  <div class="orb orb--1"></div>
+  <div class="orb orb--2"></div>
+  <div class="orb orb--3"></div>
+</div>
+
+<!-- Subtle grid overlay -->
+<div class="interactive-bg__grid"></div>
+
+<style>
+  /* Interactive Background Styles */
+  .interactive-bg__canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .interactive-bg__orbs {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    transition: transform 0.3s ease-out;
+  }
+
+  .orb--1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+    background: var(--color-amber-500);
+  }
+
+  [data-theme="dark"] .orb--1 {
+    opacity: 0.2;
+  }
+
+  .orb--2 {
+    width: 400px;
+    height: 400px;
+    top: 50%;
+    right: -100px;
+    background: var(--color-orange-400);
+    opacity: 0.2;
+  }
+
+  [data-theme="dark"] .orb--2 {
+    background: var(--color-amber-600);
+    opacity: 0.15;
+  }
+
+  .orb--3 {
+    width: 400px;
+    height: 400px;
+    bottom: -100px;
+    left: 33%;
+    background: var(--color-amber-300);
+    opacity: 0.2;
+  }
+
+  [data-theme="dark"] .orb--3 {
+    background: var(--color-amber-700);
+    opacity: 0.15;
+  }
+
+  .interactive-bg__grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.02;
+    background-image: linear-gradient(
+        to right,
+        rgb(245, 158, 11) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(245, 158, 11) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  [data-theme="dark"] .interactive-bg__grid {
+    opacity: 0.03;
+  }
+</style>
+
+<script>
+  (function () {
+    const canvas = document.getElementById("bubble-canvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Track mouse position for orb parallax
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Move orbs based on mouse position
+      const orbs = document.querySelectorAll(".orb");
+      const factors = [0.02, -0.015, 0.01];
+      orbs.forEach((orb, i) => {
+        const factor = factors[i] || 0.01;
+        orb.style.transform = `translate(${mouseX * factor}px, ${
+          mouseY * factor
+        }px)`;
+      });
+    });
+
+    // Set canvas size
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Bubble class
+    class Bubble {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 100;
+        this.radius = Math.random() * 30 + 10;
+        this.speedY = Math.random() * 1 + 0.5;
+        this.opacity = Math.random() * 0.3 + 0.1;
+        this.hue = Math.random() * 20 + 25; // Amber hues (25-45)
+      }
+
+      update() {
+        this.y -= this.speedY;
+        this.x += Math.sin(this.y / 50) * 0.5;
+
+        if (this.y + this.radius < 0) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        const isDark =
+          document.documentElement.getAttribute("data-theme") === "dark";
+
+        const gradient = ctx.createRadialGradient(
+          this.x - this.radius / 3,
+          this.y - this.radius / 3,
+          0,
+          this.x,
+          this.y,
+          this.radius
+        );
+
+        if (isDark) {
+          gradient.addColorStop(
+            0,
+            `hsla(${this.hue}, 80%, 65%, ${this.opacity * 0.8})`
+          );
+          gradient.addColorStop(
+            0.5,
+            `hsla(${this.hue}, 70%, 55%, ${this.opacity * 0.4})`
+          );
+          gradient.addColorStop(1, `hsla(${this.hue}, 60%, 45%, 0)`);
+        } else {
+          gradient.addColorStop(
+            0,
+            `hsla(${this.hue}, 90%, 75%, ${this.opacity})`
+          );
+          gradient.addColorStop(
+            0.5,
+            `hsla(${this.hue}, 80%, 65%, ${this.opacity * 0.5})`
+          );
+          gradient.addColorStop(1, `hsla(${this.hue}, 70%, 55%, 0)`);
+        }
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Highlight
+        ctx.beginPath();
+        ctx.arc(
+          this.x - this.radius / 3,
+          this.y - this.radius / 3,
+          this.radius / 3,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.3})`;
+        ctx.fill();
+      }
+    }
+
+    // Create bubbles
+    const bubbles = [];
+    const bubbleCount = 25;
+    for (let i = 0; i < bubbleCount; i++) {
+      bubbles.push(new Bubble());
+    }
+
+    // Animation loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      bubbles.forEach((bubble) => {
+        bubble.update();
+        bubble.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  })();
+</script>

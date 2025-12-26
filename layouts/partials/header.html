@@ -1,26 +1,28 @@
 <div class="container">
-  <nav class="header" aria-label="Main navigation">
+  <nav class="nav-glass" aria-label="Main navigation">
     {{/* Logo */}}
-    <a href="{{ "/" | relURL }}" class="header__logo">
-      <span class="logo-icon">⚡</span>
-      <span class="logo-text">{{ .Site.Title | default "Portfolio" }}</span>
+    <a href="{{ "/" | relURL }}" class="nav-glass__logo">
+      <svg class="nav-glass__icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+      <span class="nav-glass__title">{{ .Site.Title | default "Portfolio" }}</span>
     </a>
     
     {{/* Desktop Navigation */}}
-    <div class="nav" id="nav-menu">
+    <div class="nav-glass__menu" id="nav-menu">
       {{ range .Site.Menus.main }}
         {{ if .HasChildren }}
         {{/* Dropdown Menu */}}
-        <div class="nav__dropdown">
-          <button class="nav__link nav__link--dropdown" aria-expanded="false" aria-haspopup="true">
+        <div class="nav-glass__dropdown">
+          <button class="nav-glass__link" aria-expanded="false" aria-haspopup="true">
             {{ .Name }}
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
-          <div class="nav__dropdown-menu">
+          <div class="nav-glass__dropdown-menu">
             {{ range .Children }}
-            <a href="{{ .URL | relURL }}" class="nav__dropdown-item">
+            <a href="{{ .URL | relURL }}" class="nav-glass__dropdown-item">
               {{ .Name }}
             </a>
             {{ end }}
@@ -28,21 +30,16 @@
         </div>
         {{ else if not .Parent }}
         {{/* Regular Link */}}
-        <a 
-          href="{{ .URL | relURL }}" 
-          class="nav__link {{ if $.IsMenuCurrent "main" . }}nav__link--active{{ end }}"
-          {{ if hasPrefix .URL "http" }}target="_blank" rel="noopener"{{ end }}
-        >
+        <a href="{{ .URL | relURL }}" class="nav-glass__link {{ if $.IsMenuCurrent "main" . }}nav-glass__link--active{{ end }}">
           {{ .Name }}
         </a>
         {{ end }}
       {{ end }}
     </div>
     
-    {{/* Actions */}}
-    <div class="header__actions">
-      {{/* Theme Toggle */}}
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+    {{/* Theme Toggle - Desktop */}}
+    <div class="nav-glass__actions">
+      <button class="nav-glass__toggle" id="theme-toggle" aria-label="Toggle dark mode">
         <svg class="theme-icon theme-icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -58,20 +55,20 @@
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
         </svg>
       </button>
-      
-      {{/* Mobile Menu Toggle */}}
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <svg class="menu-icon menu-icon--open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-        <svg class="menu-icon menu-icon--close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
     </div>
+    
+    {{/* Mobile Menu Toggle */}}
+    <button class="nav-glass__mobile-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <svg class="menu-icon menu-icon--open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <svg class="menu-icon menu-icon--close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
   </nav>
 </div>
 
@@ -84,117 +81,153 @@
         {{ .Name }}
       </a>
       {{ end }}
-      {{ if .HasChildren }}
-      <div class="mobile-menu__submenu">
-        {{ range .Children }}
-        <a href="{{ .URL | relURL }}" class="mobile-menu__sublink">
-          {{ .Name }}
-        </a>
-        {{ end }}
-      </div>
-      {{ end }}
     {{ end }}
   </div>
 </div>
 
+{{/* Mobile Theme Toggle */}}
+<button class="nav-glass__mobile-theme" id="mobile-theme-toggle" aria-label="Toggle dark mode">
+  <svg class="theme-icon theme-icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+  </svg>
+  <svg class="theme-icon theme-icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+  </svg>
+</button>
+
 <style>
-/* Enhanced Header Styles */
-.header {
+/* Glass Navigation */
+.nav-glass {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
-  gap: var(--space-4);
+  padding: var(--space-6) 0;
 }
 
-.header__logo {
+.nav-glass__logo {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
   color: var(--color-text-primary);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-base);
 }
 
-.header__logo:hover {
-  color: var(--color-primary-500);
+[data-theme="dark"] .nav-glass__logo {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
 }
 
-.logo-icon {
-  font-size: 1.5em;
+.nav-glass__logo:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.logo-text {
+[data-theme="dark"] .nav-glass__logo:hover {
+  background: rgba(17, 24, 39, 0.4);
+}
+
+.nav-glass__icon {
+  color: var(--color-amber-600);
+}
+
+[data-theme="dark"] .nav-glass__icon {
+  color: var(--color-amber-400);
+}
+
+.nav-glass__title {
   display: none;
 }
 
 @media (min-width: 640px) {
-  .logo-text {
+  .nav-glass__title {
     display: inline;
   }
 }
 
-/* Navigation */
-.nav {
+/* Navigation Menu */
+.nav-glass__menu {
   display: none;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-2xl);
+}
+
+[data-theme="dark"] .nav-glass__menu {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
 }
 
 @media (min-width: 768px) {
-  .nav {
+  .nav-glass__menu {
     display: flex;
   }
 }
 
-.nav__link {
-  position: relative;
+.nav-glass__link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+  color: var(--color-gray-700);
   text-decoration: none;
   border: none;
   background: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-base);
 }
 
-.nav__link:hover {
-  color: var(--color-text-primary);
-  background: var(--color-surface);
+[data-theme="dark"] .nav-glass__link {
+  color: var(--color-gray-300);
 }
 
-.nav__link--active {
-  color: var(--color-primary-500);
-  background: var(--color-primary-50);
+.nav-glass__link:hover,
+.nav-glass__link--active {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--color-amber-600);
 }
 
-[data-theme="dark"] .nav__link--active {
-  background: var(--color-primary-900);
+[data-theme="dark"] .nav-glass__link:hover,
+[data-theme="dark"] .nav-glass__link--active {
+  color: var(--color-amber-400);
 }
 
 /* Dropdown */
-.nav__dropdown {
+.nav-glass__dropdown {
   position: relative;
 }
 
-.nav__dropdown-menu {
+.nav-glass__dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
+  margin-top: var(--space-3);
   min-width: 180px;
   padding: var(--space-2);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
@@ -202,60 +235,153 @@
   z-index: var(--z-dropdown);
 }
 
-.nav__dropdown:hover .nav__dropdown-menu,
-.nav__dropdown:focus-within .nav__dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(4px);
+[data-theme="dark"] .nav-glass__dropdown-menu {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
 }
 
-.nav__dropdown-item {
+.nav-glass__dropdown:hover .nav-glass__dropdown-menu,
+.nav-glass__dropdown:focus-within .nav-glass__dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-glass__dropdown-item {
   display: block;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-gray-700);
   text-decoration: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   transition: all var(--transition-fast);
 }
 
-.nav__dropdown-item:hover {
-  color: var(--color-primary-500);
-  background: var(--color-surface);
+[data-theme="dark"] .nav-glass__dropdown-item {
+  color: var(--color-gray-300);
 }
 
-/* Header Actions */
-.header__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+.nav-glass__dropdown-item:hover {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--color-amber-600);
 }
 
-/* Theme Toggle */
-.theme-toggle {
+[data-theme="dark"] .nav-glass__dropdown-item:hover {
+  color: var(--color-amber-400);
+}
+
+/* Actions */
+.nav-glass__actions {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-glass__actions {
+    display: flex;
+  }
+}
+
+.nav-glass__toggle {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  color: var(--color-text-primary);
-  transition: all var(--transition-fast);
+  color: var(--color-amber-600);
+  transition: all var(--transition-base);
 }
 
-.theme-toggle:hover {
-  background: var(--color-primary-50);
-  border-color: var(--color-primary-200);
-  color: var(--color-primary-500);
+[data-theme="dark"] .nav-glass__toggle {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+  color: var(--color-amber-400);
 }
 
-[data-theme="dark"] .theme-toggle:hover {
-  background: var(--color-primary-900);
+.nav-glass__toggle:hover {
+  background: rgba(245, 158, 11, 0.2);
 }
 
+/* Mobile */
+.nav-glass__mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--color-amber-600);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .nav-glass__mobile-toggle {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+  color: var(--color-amber-400);
+}
+
+@media (min-width: 768px) {
+  .nav-glass__mobile-toggle {
+    display: none;
+  }
+}
+
+.menu-icon--close {
+  display: none;
+}
+
+.nav-glass__mobile-toggle[aria-expanded="true"] .menu-icon--open {
+  display: none;
+}
+
+.nav-glass__mobile-toggle[aria-expanded="true"] .menu-icon--close {
+  display: block;
+}
+
+/* Mobile Theme Toggle */
+.nav-glass__mobile-theme {
+  position: fixed;
+  top: var(--space-6);
+  right: var(--space-6);
+  z-index: var(--z-fixed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--color-amber-600);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .nav-glass__mobile-theme {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+  color: var(--color-amber-400);
+}
+
+@media (min-width: 768px) {
+  .nav-glass__mobile-theme {
+    display: none;
+  }
+}
+
+/* Theme Icons */
 .theme-icon--dark {
   display: none;
 }
@@ -268,46 +394,14 @@
   display: block;
 }
 
-/* Menu Toggle */
-.menu-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text-primary);
-}
-
-@media (min-width: 768px) {
-  .menu-toggle {
-    display: none;
-  }
-}
-
-.menu-icon--close {
-  display: none;
-}
-
-.menu-toggle[aria-expanded="true"] .menu-icon--open {
-  display: none;
-}
-
-.menu-toggle[aria-expanded="true"] .menu-icon--close {
-  display: block;
-}
-
 /* Mobile Menu */
 .mobile-menu {
   position: fixed;
-  top: 72px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--color-background);
+  inset: 0;
   z-index: var(--z-modal);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
   transition: all var(--transition-base);
@@ -319,42 +413,53 @@
 }
 
 .mobile-menu__content {
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 100%;
+  padding: 96px var(--space-8) var(--space-8);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(var(--glass-blur-xl));
+  -webkit-backdrop-filter: blur(var(--glass-blur-xl));
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-2xl);
+  transform: translateX(-100%);
+  transition: transform var(--transition-base);
+}
+
+[data-theme="dark"] .mobile-menu__content {
+  background: rgba(17, 24, 39, 0.4);
+  border-color: rgba(55, 65, 81, 0.3);
+}
+
+.mobile-menu.is-open .mobile-menu__content {
+  transform: translateX(0);
 }
 
 .mobile-menu__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   padding: var(--space-4);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
+  color: var(--color-gray-700);
   text-decoration: none;
-  border-radius: var(--radius-lg);
-  transition: background var(--transition-fast);
-}
-
-.mobile-menu__link:hover {
-  background: var(--color-surface);
-}
-
-.mobile-menu__submenu {
-  padding-left: var(--space-4);
-  margin-bottom: var(--space-2);
-}
-
-.mobile-menu__sublink {
-  display: block;
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   transition: all var(--transition-fast);
 }
 
-.mobile-menu__sublink:hover {
-  color: var(--color-primary-500);
-  background: var(--color-surface);
+[data-theme="dark"] .mobile-menu__link {
+  color: var(--color-gray-300);
+}
+
+.mobile-menu__link:hover {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--color-amber-600);
+}
+
+[data-theme="dark"] .mobile-menu__link:hover {
+  color: var(--color-amber-400);
 }
 </style>

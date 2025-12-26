@@ -2,15 +2,15 @@
 
 ## Supported Versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| latest  | :white_check_mark: |
+| Version | Supported |
+| ------- | --------- |
+| latest  | ✅        |
 
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability, please report it by:
 
-1. **Email**: Send details to [your-email@example.com]
+1. **Email**: Send details to [elros@outlook.com.vn]
 2. **GitHub**: Open a private security advisory
 
 ### What to include
