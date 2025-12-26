@@ -1,39 +1,22 @@
-{{/* SEO Meta Tags */}}
+{{/* SEO Meta Tags */}} {{/* Description */}} {{ $description := "" }} {{ if
+.Description }} {{ $description = .Description }} {{ else if
+.Params.seo.meta_description }} {{ $description = .Params.seo.meta_description
+}} {{ else if .Summary }} {{ $description = .Summary | plainify | truncate 160
+}} {{ else }} {{ $description = .Site.Params.description }} {{ end }}
+<meta name="description" content="{{ $description }}" />
 
-{{/* Description */}}
-{{ $description := "" }}
-{{ if .Description }}
-  {{ $description = .Description }}
-{{ else if .Params.seo.meta_description }}
-  {{ $description = .Params.seo.meta_description }}
-{{ else if .Summary }}
-  {{ $description = .Summary | plainify | truncate 160 }}
+{{/* Keywords */}} {{ with .Params.seo.keywords }} <meta name="keywords"
+content="{{ delimit . ", " }}"> {{ else }} {{ with .Site.Params.keywords }}
+<meta name="keywords" content="{{ delimit . ", " }}"> {{ end }} {{ end }} {{/*
+Author */}} {{ if .Params.author }} {{ if reflect.IsMap .Params.author }} {{
+with .Params.author.name }}
+<meta name="author" content="{{ . }}" />
+{{ end }} {{ else }}
+<meta name="author" content="{{ .Params.author }}" />
+{{ end }} {{ else }} {{ with .Site.Params.author }}
+<meta name="author" content="{{ . }}" />
+{{ end }} {{ end }} {{/* Robots */}} {{ if .Params.draft }}
+<meta name="robots" content="noindex, nofollow" />
 {{ else }}
-  {{ $description = .Site.Params.description }}
-{{ end }}
-<meta name="description" content="{{ $description }}">
-
-{{/* Keywords */}}
-{{ with .Params.seo.keywords }}
-<meta name="keywords" content="{{ delimit . ", " }}">
-{{ else }}
-{{ with .Site.Params.keywords }}
-<meta name="keywords" content="{{ delimit . ", " }}">
-{{ end }}
-{{ end }}
-
-{{/* Author */}}
-{{ with .Params.author.name }}
-<meta name="author" content="{{ . }}">
-{{ else }}
-{{ with .Site.Params.author }}
-<meta name="author" content="{{ . }}">
-{{ end }}
-{{ end }}
-
-{{/* Robots */}}
-{{ if .Params.draft }}
-<meta name="robots" content="noindex, nofollow">
-{{ else }}
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow" />
 {{ end }}

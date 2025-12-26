@@ -4,9 +4,7 @@ date: 2025-01-01T08:00:00+07:00
 lastmod: 2025-01-01T08:00:00+07:00
 draft: false
 
-author:
-  id: "edward"
-  name: "Edward"
+author: "Edward"
 
 categories: ["JavaScript"]
 tags: ["hugo", "web-development", "portfolio"]

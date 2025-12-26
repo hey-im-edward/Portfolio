@@ -70,11 +70,17 @@
   
   {{/* Author */}}
   {{ with .Params.author }}
+  {{ $authorName := . }}
+  {{ $authorInitial := substr (string .) 0 1 }}
+  {{ if reflect.IsMap . }}
+    {{ $authorName = .name }}
+    {{ $authorInitial = substr .name 0 1 }}
+  {{ end }}
   <div class="article__author" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border);">
     <div style="display: flex; align-items: center; gap: var(--space-4);">
-      <div class="avatar avatar--lg">{{ substr .name 0 1 }}</div>
+      <div class="avatar avatar--lg">{{ $authorInitial }}</div>
       <div>
-        <div style="font-weight: var(--font-weight-semibold);">{{ .name }}</div>
+        <div style="font-weight: var(--font-weight-semibold);">{{ $authorName }}</div>
         <div style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Author</div>
       </div>
     </div>
