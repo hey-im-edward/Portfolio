@@ -1,65 +1,226 @@
 {{ define "main" }}
-<div class="container">
-  {{/* Section Header */}}
-  <header class="section__header" style="margin-bottom: var(--space-8);">
-    <h1>{{ .Title }}</h1>
-    {{ with .Content }}
-    <div class="prose">{{ . }}</div>
-    {{ end }}
-  </header>
-  
-  {{/* Posts Grid */}}
-  {{ $paginator := .Paginate .Pages }}
-  {{ if $paginator.Pages }}
-  <div class="grid grid--3">
-    {{ range $paginator.Pages }}
-    {{ partial "card.html" . }}
+<div class="list-page">
+  <div class="container">
+    {{/* Section Header */}}
+    <header class="page-header reveal">
+      <div class="page-icon-wrapper">
+        {{ if eq .Section "blog" }}
+        <svg
+          class="page-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+          />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" x2="8" y1="13" y2="13" />
+          <line x1="16" x2="8" y1="17" y2="17" />
+          <line x1="10" x2="8" y1="9" y2="9" />
+        </svg>
+        {{ else if eq .Section "projects" }}
+        <svg
+          class="page-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+          />
+        </svg>
+        {{ else }}
+        <svg
+          class="page-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
+          />
+          <path d="M18 14h-8" />
+          <path d="M15 18h-5" />
+          <path d="M10 6h8v4h-8V6Z" />
+        </svg>
+        {{ end }}
+      </div>
+      <h1 class="page-title gradient-text">{{ .Title }}</h1>
+      {{ with .Content }}
+      <div class="page-subtitle">{{ . | plainify }}</div>
+      {{ else }}
+      <p class="page-subtitle">
+        {{ if eq .Section "blog" }}Khám phá các bài viết về lập trình và công
+        nghệ {{ else if eq .Section "projects" }}Các dự án và sản phẩm của tôi
+        {{ else }}Danh sách nội dung{{ end }}
+      </p>
+      {{ end }}
+    </header>
+
+    {{/* Posts Grid */}} {{ $paginator := .Paginate .Pages }} {{ if
+    $paginator.Pages }}
+    <div class="posts-grid">
+      {{ range $paginator.Pages }} {{ partial "card.html" . }} {{ end }}
+    </div>
+
+    {{/* Pagination */}} {{ if gt $paginator.TotalPages 1 }}
+    <nav class="pagination glass-card-sm" aria-label="Pagination">
+      {{ if $paginator.HasPrev }}
+      <a
+        href="{{ $paginator.Prev.URL }}"
+        class="pagination__link"
+        aria-label="Previous page"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="15,18 9,12 15,6"></polyline>
+        </svg>
+      </a>
+      {{ else }}
+      <span
+        class="pagination__link pagination__link--disabled"
+        aria-disabled="true"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="15,18 9,12 15,6"></polyline>
+        </svg>
+      </span>
+      {{ end }} {{ range $paginator.Pagers }} {{ if eq . $paginator }}
+      <span
+        class="pagination__link pagination__link--active"
+        aria-current="page"
+        >{{ .PageNumber }}</span
+      >
+      {{ else }}
+      <a href="{{ .URL }}" class="pagination__link">{{ .PageNumber }}</a>
+      {{ end }} {{ end }} {{ if $paginator.HasNext }}
+      <a
+        href="{{ $paginator.Next.URL }}"
+        class="pagination__link"
+        aria-label="Next page"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9,18 15,12 9,6"></polyline>
+        </svg>
+      </a>
+      {{ else }}
+      <span
+        class="pagination__link pagination__link--disabled"
+        aria-disabled="true"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9,18 15,12 9,6"></polyline>
+        </svg>
+      </span>
+      {{ end }}
+    </nav>
+    {{ end }} {{ else }}
+    <p style="text-align: center; color: var(--color-text-muted)">
+      Chưa có bài viết nào.
+    </p>
     {{ end }}
   </div>
-  
-  {{/* Pagination */}}
-  {{ if gt $paginator.TotalPages 1 }}
-  <nav class="pagination" aria-label="Pagination">
-    {{ if $paginator.HasPrev }}
-    <a href="{{ $paginator.Prev.URL }}" class="pagination__link" aria-label="Previous page">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="15,18 9,12 15,6"></polyline>
-      </svg>
-    </a>
-    {{ else }}
-    <span class="pagination__link pagination__link--disabled" aria-disabled="true">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="15,18 9,12 15,6"></polyline>
-      </svg>
-    </span>
-    {{ end }}
-    
-    {{ range $paginator.Pagers }}
-    {{ if eq . $paginator }}
-    <span class="pagination__link pagination__link--active" aria-current="page">{{ .PageNumber }}</span>
-    {{ else }}
-    <a href="{{ .URL }}" class="pagination__link">{{ .PageNumber }}</a>
-    {{ end }}
-    {{ end }}
-    
-    {{ if $paginator.HasNext }}
-    <a href="{{ $paginator.Next.URL }}" class="pagination__link" aria-label="Next page">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="9,18 15,12 9,6"></polyline>
-      </svg>
-    </a>
-    {{ else }}
-    <span class="pagination__link pagination__link--disabled" aria-disabled="true">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="9,18 15,12 9,6"></polyline>
-      </svg>
-    </span>
-    {{ end }}
-  </nav>
-  {{ end }}
-  
-  {{ else }}
-  <p style="text-align: center; color: var(--color-text-muted);">Chưa có bài viết nào.</p>
-  {{ end }}
 </div>
+
+<style>
+  /* ===== List Page Layout ===== */
+  .list-page {
+    min-height: 100vh;
+    padding-top: 7rem;
+    padding-bottom: 5rem;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .posts-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ===== Pagination Glass ===== */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-12);
+    padding: var(--space-4);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pagination__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+  }
+
+  .pagination__link:hover {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--amber-500);
+  }
+
+  .pagination__link--active {
+    background: linear-gradient(to right, var(--amber-600), var(--amber-500));
+    color: white;
+    font-weight: var(--font-medium);
+  }
+
+  .pagination__link--disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+</style>
 {{ end }}

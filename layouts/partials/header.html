@@ -69,6 +69,15 @@
       </a>
     </div>
 
+    <!-- Search Button -->
+    <button class="search-btn glass-nav" onclick="window.openSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <kbd class="search-shortcut">Ctrl K</kbd>
+    </button>
+
     <!-- Theme Toggle -->
     <button class="theme-toggle glass-nav" id="theme-toggle" aria-label="Toggle theme">
       <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -286,7 +295,7 @@
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: var(--space-2);
+  margin-top: var(--space-3); /* V2.0: improved spacing */
   min-width: 12rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(24px);
@@ -511,5 +520,38 @@
 .mobile-nav-item svg {
   width: 20px;
   height: 20px;
+}
+
+/* ===== Search Button ===== */
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+}
+
+.search-btn svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gray-600);
+}
+
+[data-theme="dark"] .search-btn svg {
+  color: var(--gray-400);
+}
+
+.search-shortcut {
+  padding: var(--space-1) var(--space-2);
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-family: var(--font-code);
+  color: var(--gray-500);
+}
+
+[data-theme="dark"] .search-shortcut {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gray-400);
 }
 </style>

@@ -1,7 +1,12 @@
 import { motion } from 'motion/react';
 import { Heart, Zap } from 'lucide-react';
+import { DesignVariant } from '../App';
 
-export default function Footer() {
+interface FooterProps {
+  designVariant: DesignVariant;
+}
+
+export default function Footer({ designVariant }: FooterProps) {
   return (
     <footer className="relative py-12 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

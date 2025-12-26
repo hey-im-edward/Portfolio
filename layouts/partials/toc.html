@@ -1,0 +1,94 @@
+{{- /* Table of Contents Partial */}}
+{{- $headers := findRE "<h[2-4][^>]*id=\"[^\"]+\"[^>]*>.*?</h[2-4]>" .Content }}
+{{- if $headers }}
+<nav class="toc glass-card" aria-label="Table of Contents">
+  <h3 class="toc-title">
+    <span class="toc-indicator"></span>
+    Mục lục
+  </h3>
+  <ul class="toc-list">
+    {{- range $headers }}
+      {{- $level := substr . 2 1 }}
+      {{- $id := replaceRE ".*id=\"([^\"]+)\".*" "$1" . }}
+      {{- $text := replaceRE "<[^>]+>" "" . }}
+      <li class="toc-item toc-level-{{ $level }}">
+        <a href="#{{ $id }}" class="toc-link">
+          {{- if eq $level "3" }}
+          <svg class="toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+          {{- end }}
+          {{ $text }}
+        </a>
+      </li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end }}
+
+<style>
+.toc {
+  padding: var(--space-6);
+  background: var(--glass-bg-solid);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+}
+
+.toc-title {
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-4);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.toc-indicator {
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, var(--purple-600), var(--purple-400));
+  border-radius: var(--radius-full);
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-item {
+  margin-bottom: var(--space-2);
+}
+
+.toc-level-3 {
+  padding-left: var(--space-4);
+}
+
+.toc-level-4 {
+  padding-left: var(--space-8);
+}
+
+.toc-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.toc-link:hover {
+  color: var(--purple-600);
+  transform: translateX(4px);
+}
+
+[data-theme="dark"] .toc-link:hover {
+  color: var(--purple-400);
+}
+
+.toc-chevron {
+  width: 12px;
+  height: 12px;
+}
+</style>

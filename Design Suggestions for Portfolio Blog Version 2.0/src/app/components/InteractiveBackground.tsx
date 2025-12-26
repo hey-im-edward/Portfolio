@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
+import { DesignVariant } from '../App';
 
 interface InteractiveBackgroundProps {
   darkMode: boolean;
   mousePosition: { x: number; y: number };
+  designVariant: DesignVariant;
 }
 
-export default function InteractiveBackground({ darkMode, mousePosition }: InteractiveBackgroundProps) {
+export default function InteractiveBackground({ darkMode, mousePosition, designVariant }: InteractiveBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

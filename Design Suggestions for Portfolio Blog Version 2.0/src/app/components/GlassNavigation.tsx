@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Menu, X, Home, Briefcase, BookOpen, User, Mail, Zap, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { DesignVariant } from '../App';
 
 interface GlassNavigationProps {
   darkMode: boolean;
   currentPage: string;
   setCurrentPage: (page: string) => void;
+  designVariant: DesignVariant;
 }
 
-export default function GlassNavigation({ darkMode, currentPage, setCurrentPage }: GlassNavigationProps) {
+export default function GlassNavigation({ darkMode, currentPage, setCurrentPage, designVariant }: GlassNavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [blogDropdownOpen, setBlogDropdownOpen] = useState(false);
 

@@ -1,11 +1,14 @@
 import { motion } from 'motion/react';
 import { BookOpen, Calendar, Clock, Tag, Search } from 'lucide-react';
+import { DesignVariant } from '../../App';
 
 interface BlogPageProps {
   darkMode: boolean;
+  designVariant: DesignVariant;
+  setCurrentPage: (page: string) => void;
 }
 
-export default function BlogPage({ darkMode }: BlogPageProps) {
+export default function BlogPage({ darkMode, designVariant, setCurrentPage }: BlogPageProps) {
   const tags = ['Tất cả', 'hugo', 'portfolio', 'web-development'];
 
   return (
@@ -31,6 +34,28 @@ export default function BlogPage({ darkMode }: BlogPageProps) {
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Khám phá các bài viết về lập trình, công nghệ và kinh nghiệm thực tế.
           </p>
+          
+          {/* Quick Links */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              onClick={() => setCurrentPage('all-posts')}
+              className="px-6 py-2 bg-amber-500/10 backdrop-blur-xl border border-amber-500/30 text-amber-600 dark:text-amber-400 rounded-xl hover:bg-amber-500/20 transition-all font-medium"
+            >
+              Tất cả bài viết
+            </button>
+            <button
+              onClick={() => setCurrentPage('categories')}
+              className="px-6 py-2 bg-white/10 dark:bg-gray-900/30 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 rounded-xl hover:bg-amber-500/20 hover:border-amber-500/30 transition-all font-medium text-gray-700 dark:text-gray-300"
+            >
+              Danh mục
+            </button>
+            <button
+              onClick={() => setCurrentPage('tags')}
+              className="px-6 py-2 bg-white/10 dark:bg-gray-900/30 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 rounded-xl hover:bg-amber-500/20 hover:border-amber-500/30 transition-all font-medium text-gray-700 dark:text-gray-300"
+            >
+              Tags
+            </button>
+          </div>
         </motion.div>
 
         {/* Filter Tags */}
@@ -61,7 +86,10 @@ export default function BlogPage({ darkMode }: BlogPageProps) {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="bg-white/5 dark:bg-gray-900/20 backdrop-blur-2xl border border-white/10 dark:border-gray-700/20 rounded-3xl overflow-hidden shadow-2xl hover:shadow-amber-500/10 transition-all duration-500 hover:-translate-y-1">
+          <div 
+            onClick={() => setCurrentPage('single-post')}
+            className="cursor-pointer bg-white/5 dark:bg-gray-900/20 backdrop-blur-2xl border border-white/10 dark:border-gray-700/20 rounded-3xl overflow-hidden shadow-2xl hover:shadow-amber-500/10 transition-all duration-500 hover:-translate-y-1"
+          >
             {/* Thumbnail */}
             <div className="h-64 bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-white/5 dark:bg-gray-900/10 backdrop-blur-sm" />
@@ -77,7 +105,7 @@ export default function BlogPage({ darkMode }: BlogPageProps) {
               </div>
 
               {/* Title */}
-              <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white hover:text-amber-600 dark:hover:text-amber-400 transition-colors cursor-pointer">
+              <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
                 Welcome to My Portfolio Blog
               </h2>
 
@@ -103,6 +131,10 @@ export default function BlogPage({ darkMode }: BlogPageProps) {
                 {['hugo', 'web-development', 'portfolio'].map((tag) => (
                   <span
                     key={tag}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentPage('tags');
+                    }}
                     className="px-3 py-1 bg-white/10 dark:bg-gray-900/30 backdrop-blur-sm border border-white/20 dark:border-gray-700/30 text-xs rounded-lg text-gray-700 dark:text-gray-300 hover:bg-amber-500/20 hover:border-amber-500/30 transition-all cursor-pointer"
                   >
                     #{tag}
@@ -127,21 +159,27 @@ export default function BlogPage({ darkMode }: BlogPageProps) {
           className="grid md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto"
         >
           {/* Categories */}
-          <div className="bg-white/5 dark:bg-gray-900/20 backdrop-blur-2xl border border-white/10 dark:border-gray-700/20 rounded-2xl p-6 shadow-lg">
+          <div 
+            onClick={() => setCurrentPage('categories')}
+            className="cursor-pointer bg-white/5 dark:bg-gray-900/20 backdrop-blur-2xl border border-white/10 dark:border-gray-700/20 rounded-2xl p-6 shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1 transition-all"
+          >
             <h3 className="font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
               <Tag className="w-5 h-5 text-amber-500" />
               Danh mục
             </h3>
             <div className="space-y-2">
-              <button className="w-full text-left px-4 py-2 rounded-lg hover:bg-amber-500/20 transition-colors text-gray-700 dark:text-gray-300">
+              <div className="w-full text-left px-4 py-2 rounded-lg hover:bg-amber-500/20 transition-colors text-gray-700 dark:text-gray-300">
                 <span>JavaScript</span>
                 <span className="float-right text-amber-600 dark:text-amber-400">1</span>
-              </button>
+              </div>
             </div>
           </div>
 
           {/* Popular Tags */}
-          <div className="bg-white/5 dark:bg-gray-900/20 backdrop-blur-2xl border border-white/10 dark:border-gray-700/20 rounded-2xl p-6 shadow-lg">
+          <div 
+            onClick={() => setCurrentPage('tags')}
+            className="cursor-pointer bg-white/5 dark:bg-gray-900/20 backdrop-blur-2xl border border-white/10 dark:border-gray-700/20 rounded-2xl p-6 shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1 transition-all"
+          >
             <h3 className="font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
               <Search className="w-5 h-5 text-amber-500" />
               Tags phổ biến
