@@ -1,105 +1,240 @@
 {{ define "main" }}
-<article class="container container--narrow">
-  {{/* Article Header */}}
-  <header class="article__header">
-    {{/* Meta */}}
-    <div class="card__meta">
-      <time datetime="{{ .Date.Format "2006-01-02" }}">
-        {{ .Date.Format "02 thg 1, 2006" }}
-      </time>
-      {{ if .Params.reading_time }}
-      <span class="reading-time">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12,6 12,12 16,14"></polyline>
-        </svg>
-        {{ .ReadingTime }} phút đọc
-      </span>
-      {{ end }}
-    </div>
-    
-    {{/* Title */}}
-    <h1>{{ .Title }}</h1>
-    
-    {{/* Summary */}}
-    {{ with .Params.summary }}
-    <p class="article__summary">{{ . }}</p>
-    {{ end }}
-    
-    {{/* Tags */}}
-    {{ with .Params.tags }}
-    <div class="tags" style="margin-top: var(--space-4);">
-      {{ range . }}
-      <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
-      {{ end }}
-    </div>
-    {{ end }}
-    
-    {{/* Featured Image */}}
-    {{ with .Params.featured_image }}
-    <figure class="article__image">
-      {{ $image := $.Resources.GetMatch . }}
-      {{ if $image }}
-        {{ $webp := $image.Resize "1200x webp" }}
-        <img 
-          src="{{ $webp.RelPermalink }}" 
-          alt="{{ $.Title }}"
-          width="{{ $webp.Width }}"
-          height="{{ $webp.Height }}"
-          loading="eager"
-        >
-      {{ else }}
-        <img src="{{ . }}" alt="{{ $.Title }}" loading="eager">
-      {{ end }}
-    </figure>
-    {{ end }}
-  </header>
-  
-  {{/* Table of Contents */}}
-  {{ if and .Params.toc .TableOfContents }}
-  <nav class="toc" aria-label="Table of Contents">
-    <h2 class="toc__title">Mục lục</h2>
-    {{ .TableOfContents }}
-  </nav>
-  {{ end }}
-  
-  {{/* Content */}}
-  <div class="prose">
-    {{ .Content }}
-  </div>
-  
-  {{/* Author */}}
-  {{ with .Params.author }}
-  {{ $authorName := . }}
-  {{ $authorInitial := substr (string .) 0 1 }}
-  {{ if reflect.IsMap . }}
-    {{ $authorName = .name }}
-    {{ $authorInitial = substr .name 0 1 }}
-  {{ end }}
-  <div class="article__author" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border);">
-    <div style="display: flex; align-items: center; gap: var(--space-4);">
-      <div class="avatar avatar--lg">{{ $authorInitial }}</div>
-      <div>
-        <div style="font-weight: var(--font-weight-semibold);">{{ $authorName }}</div>
-        <div style="font-size: var(--font-size-sm); color: var(--color-text-muted);">Author</div>
+<article class="article-premium">
+  {{/* Hero Section */}}
+  <header class="article-hero">
+    <div class="container">
+      {{/* Meta */}}
+      <div class="hero-meta">
+        {{ with .Params.categories }}
+          {{ range first 1 . }}
+          <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}/" class="hero-category">{{ . }}</a>
+          {{ end }}
+        {{ end }}
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 02, 2006" }}</time>
+        <span class="separator">•</span>
+        <span>{{ .ReadingTime }} min read</span>
       </div>
+
+      {{/* Title - Massive Display Font */}}
+      <h1 class="hero-title">{{ .Title }}</h1>
+
+      {{/* Summary */}}
+      {{ with .Params.summary }}
+      <p class="hero-summary">{{ . }}</p>
+      {{ end }}
     </div>
+    
+    {{/* Background Glow for Hero */}}
+    <div class="hero-glow"></div>
+  </header>
+
+  {{/* Featured Image - Full Width Parallax-like */}}
+  {{ with .Params.featured_image }}
+  <div class="hero-image-container container">
+    {{ $image := $.Resources.GetMatch . }}
+    {{ if $image }}
+      {{ $webp := $image.Resize "1400x webp" }}
+      <img src="{{ $webp.RelPermalink }}" alt="{{ $.Title }}" class="hero-image" loading="eager">
+    {{ else }}
+      <img src="{{ . }}" alt="{{ $.Title }}" class="hero-image" loading="eager">
+    {{ end }}
   </div>
   {{ end }}
   
-  {{/* Related Posts */}}
-  {{ if .Site.Params.showRelatedPosts }}
-  {{ $related := .Site.RegularPages.Related . | first 3 }}
-  {{ with $related }}
-  <section style="margin-top: var(--space-12);">
-    <h2>Bài viết liên quan</h2>
-    <div class="grid grid--3">
-      {{ range . }}
-      {{ partial "card.html" . }}
+  {{/* Content Container - Glass Effect */}}
+  <div class="container container--narrow article-content-wrapper">
+    <div class="article-content-glass">
+      {{/* Table of Contents */}}
+      {{ if and .Params.toc .TableOfContents }}
+      <nav class="toc" aria-label="Table of Contents">
+        <h2 class="toc__title">Table of Contents</h2>
+        {{ .TableOfContents }}
+      </nav>
+      {{ end }}
+
+      {{/* Prose Content */}}
+      <div class="prose prose-lg">
+        {{ .Content }}
+      </div>
+
+      {{/* Tags */}}
+      {{ with .Params.tags }}
+      <div class="article-tags">
+        {{ range . }}
+        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="tag">#{{ . }}</a>
+        {{ end }}
+      </div>
       {{ end }}
     </div>
-  </section>
-  {{ end }}
-  {{ end }}
+
+    {{/* Author Section */}}
+    {{ with .Params.author }}
+      {{ $authorName := . }}
+      {{ $authorInitial := substr (string .) 0 1 }}
+      {{ if reflect.IsMap . }}
+        {{ $authorName = .name }}
+        {{ $authorInitial = substr .name 0 1 }}
+      {{ end }}
+      <div class="article-author">
+        <div class="avatar avatar--xl">{{ $authorInitial }}</div>
+        <div class="author-info">
+          <div class="author-name">{{ $authorName }}</div>
+          <div class="author-role">Author</div>
+        </div>
+      </div>
+    {{ end }}
+  </div>
 </article>
+
+<style>
+/* Article Premium Styles - Inline for Rapid Iteration */
+.article-premium {
+  padding-bottom: var(--space-24);
+}
+
+.article-hero {
+  position: relative;
+  padding-top: var(--space-32); /* Space for fixed header */
+  padding-bottom: var(--space-12);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+  margin-bottom: var(--space-6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero-category {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-accent);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-weight: var(--font-bold);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 6rem); /* Responsive Massive Font */
+  font-weight: 800; /* Extra Bold */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-6);
+  background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%); /* Silver gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-summary {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background: var(--color-accent);
+  filter: blur(120px);
+  opacity: 0.15;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-image-container {
+  margin-bottom: -4rem; /* Overlap content */
+  position: relative;
+  z-index: 3;
+}
+
+.hero-image {
+  width: 100%;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  border: 1px solid var(--glass-border);
+}
+
+.article-content-glass {
+  background: var(--glass-bg-solid); /* Darker glass for readability */
+  backdrop-filter: blur(var(--glass-blur));
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-xl);
+  margin-top: var(--space-12);
+}
+
+@media (min-width: 768px) {
+  .article-content-glass {
+    padding: var(--space-12) var(--space-10);
+  }
+}
+
+.prose {
+  font-size: var(--text-lg); /* Larger text for reading */
+  color: var(--color-text-light); /* Softer white */
+}
+
+.article-tags {
+  margin-top: var(--space-10);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 16px;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.tag:hover {
+  background: var(--color-accent);
+  color: white;
+}
+
+.article-author {
+  margin-top: var(--space-12);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.avatar--xl {
+  width: 64px;
+  height: 64px;
+  font-size: var(--text-2xl);
+  background: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+}
+</style>
 {{ end }}
