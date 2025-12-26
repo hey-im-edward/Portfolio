@@ -1,281 +1,447 @@
 {{ define "main" }}
+<!-- AboutPage - Converted from AboutPage.tsx -->
 <div class="about-page">
-  <div class="container container--narrow">
-    {{/* Profile Section */}}
-    <section class="about-hero">
-      <div class="about-hero__avatar">
-        {{ with .Site.Params.avatar }}
-        <img src="{{ . }}" alt="{{ $.Site.Params.author }}" />
-        {{ else }}
-        <div class="avatar-placeholder">
-          <span>{{ substr .Site.Params.author 0 1 }}</span>
-        </div>
-        {{ end }}
-      </div>
-
-      <h1 class="about-hero__name">
-        {{ .Site.Params.author | default "Edward" }}
-      </h1>
-      <p class="about-hero__tagline">Developer đam mê Java & JavaScript</p>
-
-      <div class="about-hero__social">
-        {{ with .Site.Params.github }}
-        <a
-          href="https://github.com/{{ . }}"
-          class="social-link"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-            />
-          </svg>
-          GitHub
-        </a>
-        {{ end }} {{ with .Site.Params.linkedin }}
-        <a
-          href="https://linkedin.com/in/{{ . }}"
-          class="social-link"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-            />
-          </svg>
-          LinkedIn
-        </a>
-        {{ end }}
-      </div>
-    </section>
-
-    {{/* Main Content */}}
-    <section class="about-content prose">{{ .Content }}</section>
-
-    {{/* Skills Section */}}
-    <section class="about-skills">
-      <h2>🛠️ Tech Stack</h2>
-
-      <div class="skills-grid">
-        <div class="skill-category">
-          <h3>Backend</h3>
-          <div class="skill-tags">
-            <span class="skill-tag skill-tag--java">Java</span>
-            <span class="skill-tag">Spring Boot</span>
-            <span class="skill-tag">RESTful APIs</span>
-            <span class="skill-tag">Maven</span>
-          </div>
-        </div>
-
-        <div class="skill-category">
-          <h3>Frontend</h3>
-          <div class="skill-tags">
-            <span class="skill-tag skill-tag--js">JavaScript</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Vue.js</span>
-            <span class="skill-tag">HTML/CSS</span>
-          </div>
-        </div>
-
-        <div class="skill-category">
-          <h3>DevOps & Tools</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">Docker</span>
-            <span class="skill-tag">GitHub Actions</span>
-            <span class="skill-tag">VS Code</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {{/* Contact CTA */}}
-    <section class="about-cta">
-      <h2>📫 Liên hệ</h2>
-      <p>Bạn muốn trao đổi về công nghệ hoặc hợp tác dự án?</p>
-      {{ with .Site.Params.github }}
-      <a
-        href="https://github.com/{{ . }}"
-        class="btn btn--primary"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-          />
+  <div class="container">
+    
+    <!-- Header -->
+    <header class="page-header reveal">
+      <div class="page-icon-wrapper">
+        <svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="5"/>
+          <path d="M20 21a8 8 0 0 0-16 0"/>
         </svg>
-        Kết nối qua GitHub
-      </a>
-      {{ end }}
-    </section>
+      </div>
+      <h1 class="page-title gradient-text">Về tôi</h1>
+      <p class="page-subtitle">
+        Developer đam mê công nghệ và chia sẻ kiến thức
+      </p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="about-content">
+      
+      <!-- Introduction -->
+      <section class="about-intro glass-card reveal">
+        <div class="intro-header">
+          <div class="intro-avatar">
+            <span class="intro-emoji">👋</span>
+          </div>
+          <div class="intro-info">
+            <h2 class="intro-title">Xin chào!</h2>
+            <p class="intro-subtitle">Mình là {{ .Site.Params.author | default "Edward" }}</p>
+          </div>
+        </div>
+        <div class="intro-content">
+          <p>
+            Tôi là một developer đam mê với công nghệ web, đặc biệt là Java và JavaScript. 
+            Blog này là nơi tôi chia sẻ những kiến thức, kinh nghiệm và dự án cá nhân.
+          </p>
+          <p>
+            Tôi tin rằng việc chia sẻ kiến thức không chỉ giúp người khác mà còn giúp bản thân 
+            củng cố và mở rộng hiểu biết của mình. Hy vọng blog này sẽ hữu ích cho bạn!
+          </p>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="about-skills glass-card reveal">
+        <h2 class="section-title-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          Kỹ năng
+        </h2>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Java</span>
+              <span class="skill-percent">90%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Spring Boot</span>
+              <span class="skill-percent">85%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-percent">88%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 88%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">React</span>
+              <span class="skill-percent">82%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 82%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">TypeScript</span>
+              <span class="skill-percent">80%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 80%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Node.js</span>
+              <span class="skill-percent">75%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 75%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interests -->
+      <section class="about-interests reveal">
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="interest-title">Lập trình</h3>
+          <p class="interest-desc">Full-stack development với Java và JavaScript</p>
+        </div>
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+              <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+              <line x1="6" x2="6" y1="2" y2="4"/>
+              <line x1="10" x2="10" y1="2" y2="4"/>
+              <line x1="14" x2="14" y1="2" y2="4"/>
+            </svg>
+          </div>
+          <h3 class="interest-title">Học hỏi</h3>
+          <p class="interest-desc">Luôn cập nhật công nghệ và best practices mới</p>
+        </div>
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
+          <h3 class="interest-title">Chia sẻ</h3>
+          <p class="interest-desc">Viết blog và đóng góp cho cộng đồng</p>
+        </div>
+      </section>
+
+      <!-- Tech Stack -->
+      <section class="about-techstack glass-card reveal">
+        <h2 class="section-title-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          Tech Stack
+        </h2>
+        <div class="tech-tags">
+          <span class="tech-tag">Java</span>
+          <span class="tech-tag">Spring Boot</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">MongoDB</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">Git</span>
+          <span class="tech-tag">Hugo</span>
+          <span class="tech-tag">Tailwind CSS</span>
+        </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <section class="about-cta glass-card-cta reveal">
+        <h2 class="cta-title">Muốn kết nối?</h2>
+        <p class="cta-desc">
+          Tôi luôn sẵn sàng trao đổi về công nghệ, dự án hoặc cơ hội hợp tác
+        </p>
+        <a href="{{ "contact/" | relURL }}" class="btn-primary">
+          Liên hệ với tôi
+        </a>
+      </section>
+
+    </div>
   </div>
 </div>
 
 <style>
-  /* About Page Specific Styles */
-  .about-page {
-    padding: var(--space-12) 0;
-  }
+/* ===== About Page Layout ===== */
+.about-page {
+  min-height: 100vh;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+}
 
-  .about-hero {
-    text-align: center;
-    padding: var(--space-8) 0;
-    margin-bottom: var(--space-12);
-    border-bottom: 1px solid var(--color-border);
-  }
+.about-content {
+  max-width: 56rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
 
-  .about-hero__avatar {
-    margin-bottom: var(--space-6);
-  }
+/* ===== Introduction ===== */
+.about-intro {
+  padding: var(--space-8);
+}
 
-  .about-hero__avatar img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--color-primary-500);
-  }
+.intro-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
 
-  .avatar-placeholder {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: linear-gradient(
-      135deg,
-      var(--color-primary-500),
-      var(--color-primary-400)
-    );
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    font-weight: var(--font-weight-bold);
-    margin: 0 auto;
-  }
+.intro-avatar {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-amber);
+}
 
-  .about-hero__name {
-    font-size: var(--font-size-4xl);
-    margin-bottom: var(--space-2);
-  }
+.intro-emoji {
+  font-size: var(--text-3xl);
+}
 
-  .about-hero__tagline {
-    font-size: var(--font-size-xl);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-  }
+.intro-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-1);
+}
 
-  .about-hero__social {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4);
-  }
+[data-theme="dark"] .intro-title {
+  color: white;
+}
 
-  .about-hero__social .social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
+.intro-subtitle {
+  color: var(--gray-600);
+  margin: 0;
+}
 
-  .about-hero__social .social-link:hover {
-    background: var(--color-primary-500);
-    border-color: var(--color-primary-500);
-    color: white;
-  }
+[data-theme="dark"] .intro-subtitle {
+  color: var(--gray-400);
+}
 
-  .about-content {
-    margin-bottom: var(--space-12);
-  }
+.intro-content p {
+  color: var(--gray-600);
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+}
 
-  .about-skills {
-    background: var(--color-surface);
-    padding: var(--space-8);
-    border-radius: var(--radius-xl);
-    margin-bottom: var(--space-12);
-  }
+[data-theme="dark"] .intro-content p {
+  color: var(--gray-400);
+}
 
-  .about-skills h2 {
-    margin-bottom: var(--space-6);
-  }
+.intro-content p:last-child {
+  margin-bottom: 0;
+}
 
-  .skills-grid {
-    display: grid;
-    gap: var(--space-6);
-  }
+/* ===== Section Title with Icon ===== */
+.section-title-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-6);
+}
 
-  .skill-category h3 {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--space-3);
-    color: var(--color-text-secondary);
-  }
+[data-theme="dark"] .section-title-icon {
+  color: white;
+}
 
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
+.section-title-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--amber-500);
+}
 
-  .skill-tag {
-    padding: var(--space-1-5) var(--space-3);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-sm);
-    color: var(--color-text-primary);
-  }
+/* ===== Skills ===== */
+.about-skills {
+  padding: var(--space-8);
+}
 
-  .skill-tag--java {
-    background: #f89820;
-    color: white;
-    border-color: transparent;
-  }
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
 
-  .skill-tag--js {
-    background: #f7df1e;
-    color: #323330;
-    border-color: transparent;
-  }
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
 
-  .about-cta {
-    text-align: center;
-    padding: var(--space-8);
-    background: linear-gradient(
-      135deg,
-      var(--color-primary-100),
-      var(--color-primary-50)
-    );
-    border-radius: var(--radius-xl);
-  }
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .about-cta h2 {
-    margin-bottom: var(--space-2);
-  }
+.skill-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--gray-700);
+}
 
-  .about-cta p {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-  }
+[data-theme="dark"] .skill-name {
+  color: var(--gray-300);
+}
 
-  [data-theme="dark"] .about-cta {
-    background: linear-gradient(
-      135deg,
-      var(--color-primary-900),
-      var(--color-primary-800)
-    );
-  }
+.skill-percent {
+  font-size: var(--text-sm);
+  color: var(--amber-600);
+}
 
-  [data-theme="dark"] .skill-tag {
-    background: var(--color-neutral-800);
+[data-theme="dark"] .skill-percent {
+  color: var(--amber-400);
+}
+
+/* ===== Interests ===== */
+.about-interests {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .about-interests {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.interest-card {
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.interest-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-4);
+}
+
+.interest-icon svg {
+  width: 32px;
+  height: 32px;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .interest-icon svg {
+  color: var(--amber-400);
+}
+
+.interest-title {
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-2);
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .interest-title {
+  color: white;
+}
+
+.interest-desc {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  margin: 0;
+}
+
+[data-theme="dark"] .interest-desc {
+  color: var(--gray-400);
+}
+
+/* ===== Tech Stack ===== */
+.about-techstack {
+  padding: var(--space-8);
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.tech-tag {
+  padding: var(--space-2) var(--space-4);
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--amber-700);
+}
+
+[data-theme="dark"] .tech-tag {
+  color: var(--amber-300);
+}
+
+/* ===== Contact CTA ===== */
+.glass-card-cta {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.cta-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-4);
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .cta-title {
+  color: white;
+}
+
+.cta-desc {
+  color: var(--gray-600);
+  margin-bottom: var(--space-6);
+}
+
+[data-theme="dark"] .cta-desc {
+  color: var(--gray-400);
+}
 </style>
 {{ end }}

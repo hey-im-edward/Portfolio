@@ -1,465 +1,515 @@
-<div class="container">
-  <nav class="nav-glass" aria-label="Main navigation">
-    {{/* Logo */}}
-    <a href="{{ "/" | relURL }}" class="nav-glass__logo">
-      <svg class="nav-glass__icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+{{- $currentPage := .Page.RelPermalink -}}
+{{- $isHome := .IsHome -}}
+
+<!-- Desktop Navigation -->
+<nav class="nav-desktop" aria-label="Main navigation">
+  <div class="container nav-container">
+    <!-- Logo -->
+    <a href="{{ "/" | relURL }}" class="nav-logo glass-nav" aria-label="Homepage">
+      <svg class="nav-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>
       </svg>
-      <span class="nav-glass__title">{{ .Site.Title | default "Portfolio" }}</span>
+      <span class="nav-logo-text">Portfolio - Java & JavaScript</span>
     </a>
-    
-    {{/* Desktop Navigation */}}
-    <div class="nav-glass__menu" id="nav-menu">
-      {{ range .Site.Menus.main }}
-        {{ if .HasChildren }}
-        {{/* Dropdown Menu */}}
-        <div class="nav-glass__dropdown">
-          <button class="nav-glass__link" aria-expanded="false" aria-haspopup="true">
-            {{ .Name }}
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-          <div class="nav-glass__dropdown-menu">
-            {{ range .Children }}
-            <a href="{{ .URL | relURL }}" class="nav-glass__dropdown-item">
-              {{ .Name }}
-            </a>
-            {{ end }}
-          </div>
+
+    <!-- Nav Items -->
+    <div class="nav-items glass-nav">
+      <!-- Home -->
+      <a href="{{ "/" | relURL }}" class="nav-item {{ if $isHome }}active{{ end }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
+      </a>
+
+      <!-- Projects -->
+      <a href="{{ "projects/" | relURL }}" class="nav-item {{ if eq .Section "projects" }}active{{ end }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+        <span>Projects</span>
+      </a>
+
+      <!-- Blog with Dropdown -->
+      <div class="nav-dropdown-wrapper">
+        <button class="nav-item {{ if eq .Section "blog" }}active{{ end }}" id="blog-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+          </svg>
+          <span>Blog</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <div class="dropdown" id="blog-dropdown" role="menu">
+          <a href="{{ "blog/" | relURL }}" class="dropdown-item" role="menuitem">All Posts</a>
+          <a href="{{ "categories/" | relURL }}" class="dropdown-item" role="menuitem">Categories</a>
+          <a href="{{ "tags/" | relURL }}" class="dropdown-item" role="menuitem">Tags</a>
         </div>
-        {{ else if not .Parent }}
-        {{/* Regular Link */}}
-        <a href="{{ .URL | relURL }}" class="nav-glass__link {{ if $.IsMenuCurrent "main" . }}nav-glass__link--active{{ end }}">
-          {{ .Name }}
-        </a>
-        {{ end }}
-      {{ end }}
-    </div>
-    
-    {{/* Theme Toggle - Desktop */}}
-    <div class="nav-glass__actions">
-      <button class="nav-glass__toggle" id="theme-toggle" aria-label="Toggle dark mode">
-        <svg class="theme-icon theme-icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </div>
+
+      <!-- About -->
+      <a href="{{ "about/" | relURL }}" class="nav-item {{ if eq .Section "about" }}active{{ end }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="5"/>
+          <path d="M20 21a8 8 0 0 0-16 0"/>
         </svg>
-        <svg class="theme-icon theme-icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+        <span>About</span>
+      </a>
+
+      <!-- Contact -->
+      <a href="{{ "contact/" | relURL }}" class="nav-item {{ if eq .Section "contact" }}active{{ end }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
         </svg>
-      </button>
+        <span>Contact</span>
+      </a>
     </div>
-    
-    {{/* Mobile Menu Toggle */}}
-    <button class="nav-glass__mobile-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <svg class="menu-icon menu-icon--open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle glass-nav" id="theme-toggle" aria-label="Toggle theme">
+      <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2"/>
+        <path d="M12 20v2"/>
+        <path d="m4.93 4.93 1.41 1.41"/>
+        <path d="m17.66 17.66 1.41 1.41"/>
+        <path d="M2 12h2"/>
+        <path d="M20 12h2"/>
+        <path d="m6.34 17.66-1.41 1.41"/>
+        <path d="m19.07 4.93-1.41 1.41"/>
       </svg>
-      <svg class="menu-icon menu-icon--close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
+      <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
       </svg>
     </button>
+  </div>
+</nav>
+
+<!-- Mobile Navigation -->
+<div class="nav-mobile">
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn glass-nav" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+    <svg class="menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="4" x2="20" y1="12" y2="12"/>
+      <line x1="4" x2="20" y1="6" y2="6"/>
+      <line x1="4" x2="20" y1="18" y2="18"/>
+    </svg>
+    <svg class="menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 6 6 18"/>
+      <path d="m6 6 12 12"/>
+    </svg>
+  </button>
+
+  <!-- Mobile Logo -->
+  <a href="{{ "/" | relURL }}" class="mobile-logo glass-nav">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>
+    </svg>
+  </a>
+
+  <!-- Mobile Theme Toggle -->
+  <button class="theme-toggle glass-nav" id="theme-toggle-mobile" aria-label="Toggle theme">
+    <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2"/><path d="M12 20v2"/>
+      <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+      <path d="M2 12h2"/><path d="M20 12h2"/>
+      <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+    </svg>
+    <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+<!-- Mobile Menu Panel -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav class="mobile-menu-nav">
+    <a href="{{ "/" | relURL }}" class="mobile-nav-item {{ if $isHome }}active{{ end }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="{{ "projects/" | relURL }}" class="mobile-nav-item {{ if eq .Section "projects" }}active{{ end }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+      </svg>
+      <span>Projects</span>
+    </a>
+    <a href="{{ "blog/" | relURL }}" class="mobile-nav-item {{ if eq .Section "blog" }}active{{ end }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+      </svg>
+      <span>Blog</span>
+    </a>
+    <a href="{{ "about/" | relURL }}" class="mobile-nav-item {{ if eq .Section "about" }}active{{ end }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="8" r="5"/>
+        <path d="M20 21a8 8 0 0 0-16 0"/>
+      </svg>
+      <span>About</span>
+    </a>
+    <a href="{{ "contact/" | relURL }}" class="mobile-nav-item {{ if eq .Section "contact" }}active{{ end }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect width="20" height="16" x="2" y="4" rx="2"/>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      </svg>
+      <span>Contact</span>
+    </a>
   </nav>
 </div>
 
-{{/* Mobile Menu Overlay */}}
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mobile-menu__content">
-    {{ range .Site.Menus.main }}
-      {{ if not .Parent }}
-      <a href="{{ .URL | relURL }}" class="mobile-menu__link">
-        {{ .Name }}
-      </a>
-      {{ end }}
-    {{ end }}
-  </div>
-</div>
-
-{{/* Mobile Theme Toggle */}}
-<button class="nav-glass__mobile-theme" id="mobile-theme-toggle" aria-label="Toggle dark mode">
-  <svg class="theme-icon theme-icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <circle cx="12" cy="12" r="5"></circle>
-    <line x1="12" y1="1" x2="12" y2="3"></line>
-    <line x1="12" y1="21" x2="12" y2="23"></line>
-  </svg>
-  <svg class="theme-icon theme-icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-  </svg>
-</button>
-
 <style>
-/* Glass Navigation */
-.nav-glass {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-6) 0;
-}
-
-.nav-glass__logo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  font-weight: var(--font-weight-semibold);
-  box-shadow: var(--shadow-lg);
-  transition: all var(--transition-base);
-}
-
-[data-theme="dark"] .nav-glass__logo {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
-}
-
-.nav-glass__logo:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-[data-theme="dark"] .nav-glass__logo:hover {
-  background: rgba(17, 24, 39, 0.4);
-}
-
-.nav-glass__icon {
-  color: var(--color-amber-600);
-}
-
-[data-theme="dark"] .nav-glass__icon {
-  color: var(--color-amber-400);
-}
-
-.nav-glass__title {
+/* ===== Navigation Layout ===== */
+.nav-desktop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
   display: none;
-}
-
-@media (min-width: 640px) {
-  .nav-glass__title {
-    display: inline;
-  }
-}
-
-/* Navigation Menu */
-.nav-glass__menu {
-  display: none;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-2xl);
-}
-
-[data-theme="dark"] .nav-glass__menu {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
 }
 
 @media (min-width: 768px) {
-  .nav-glass__menu {
-    display: flex;
+  .nav-desktop {
+    display: block;
   }
 }
 
-.nav-glass__link {
-  display: inline-flex;
+.nav-container {
+  display: flex;
   align-items: center;
-  gap: var(--space-1);
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+/* ===== Logo ===== */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-gray-700);
-  text-decoration: none;
-  border: none;
-  background: none;
+}
+
+.nav-logo-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .nav-logo-icon {
+  color: var(--amber-400);
+}
+
+.nav-logo-text {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .nav-logo-text {
+  color: white;
+}
+
+/* ===== Nav Items Container ===== */
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+/* ===== Nav Item ===== */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--gray-700);
+  transition: all var(--transition-normal);
+  background: transparent;
+  border: none;
   cursor: pointer;
-  transition: all var(--transition-base);
 }
 
-[data-theme="dark"] .nav-glass__link {
-  color: var(--color-gray-300);
+[data-theme="dark"] .nav-item {
+  color: var(--gray-300);
 }
 
-.nav-glass__link:hover,
-.nav-glass__link--active {
+.nav-item:hover,
+.nav-item.active {
   background: rgba(245, 158, 11, 0.2);
-  color: var(--color-amber-600);
+  color: var(--amber-600);
 }
 
-[data-theme="dark"] .nav-glass__link:hover,
-[data-theme="dark"] .nav-glass__link--active {
-  color: var(--color-amber-400);
+[data-theme="dark"] .nav-item:hover,
+[data-theme="dark"] .nav-item.active {
+  color: var(--amber-400);
 }
 
-/* Dropdown */
-.nav-glass__dropdown {
+.nav-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ===== Chevron ===== */
+.nav-chevron {
+  width: 12px;
+  height: 12px;
+  transition: transform var(--transition-fast);
+}
+
+.nav-dropdown-wrapper.open .nav-chevron {
+  transform: rotate(180deg);
+}
+
+/* ===== Dropdown ===== */
+.nav-dropdown-wrapper {
   position: relative;
 }
 
-.nav-glass__dropdown-menu {
+.dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
-  margin-top: var(--space-3);
-  min-width: 180px;
-  padding: var(--space-2);
+  right: 0;
+  margin-top: var(--space-2);
+  min-width: 12rem;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-2xl);
+  overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(8px);
+  transform: translateY(-10px);
   transition: all var(--transition-fast);
-  z-index: var(--z-dropdown);
 }
 
-[data-theme="dark"] .nav-glass__dropdown-menu {
+[data-theme="dark"] .dropdown {
   background: rgba(17, 24, 39, 0.3);
   border-color: rgba(55, 65, 81, 0.3);
 }
 
-.nav-glass__dropdown:hover .nav-glass__dropdown-menu,
-.nav-glass__dropdown:focus-within .nav-glass__dropdown-menu {
+.nav-dropdown-wrapper.open .dropdown,
+.dropdown.show {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-.nav-glass__dropdown-item {
+.dropdown-item {
   display: block;
+  width: 100%;
   padding: var(--space-2) var(--space-4);
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-700);
-  text-decoration: none;
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
+  text-align: left;
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  transition: background var(--transition-fast);
 }
 
-[data-theme="dark"] .nav-glass__dropdown-item {
-  color: var(--color-gray-300);
+[data-theme="dark"] .dropdown-item {
+  color: var(--gray-300);
 }
 
-.nav-glass__dropdown-item:hover {
+.dropdown-item:hover {
   background: rgba(245, 158, 11, 0.2);
-  color: var(--color-amber-600);
 }
 
-[data-theme="dark"] .nav-glass__dropdown-item:hover {
-  color: var(--color-amber-400);
-}
-
-/* Actions */
-.nav-glass__actions {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .nav-glass__actions {
-    display: flex;
-  }
-}
-
-.nav-glass__toggle {
+/* ===== Theme Toggle ===== */
+.theme-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  color: var(--color-amber-600);
-  transition: all var(--transition-base);
+  padding: 0;
 }
 
-[data-theme="dark"] .nav-glass__toggle {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
-  color: var(--color-amber-400);
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  color: var(--amber-600);
 }
 
-.nav-glass__toggle:hover {
-  background: rgba(245, 158, 11, 0.2);
+[data-theme="dark"] .theme-toggle svg {
+  color: var(--amber-400);
 }
 
-/* Mobile */
-.nav-glass__mobile-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  color: var(--color-amber-600);
-  box-shadow: var(--shadow-lg);
-}
-
-[data-theme="dark"] .nav-glass__mobile-toggle {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
-  color: var(--color-amber-400);
-}
-
-@media (min-width: 768px) {
-  .nav-glass__mobile-toggle {
-    display: none;
-  }
-}
-
-.menu-icon--close {
+.theme-icon-dark {
   display: none;
 }
 
-.nav-glass__mobile-toggle[aria-expanded="true"] .menu-icon--open {
+[data-theme="dark"] .theme-icon-light {
   display: none;
 }
 
-.nav-glass__mobile-toggle[aria-expanded="true"] .menu-icon--close {
+[data-theme="dark"] .theme-icon-dark {
   display: block;
 }
 
-/* Mobile Theme Toggle */
-.nav-glass__mobile-theme {
+/* ===== Mobile Navigation ===== */
+.nav-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: fixed;
   top: var(--space-6);
+  left: var(--space-6);
   right: var(--space-6);
-  z-index: var(--z-fixed);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  color: var(--color-amber-600);
-  box-shadow: var(--shadow-lg);
-}
-
-[data-theme="dark"] .nav-glass__mobile-theme {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
-  color: var(--color-amber-400);
+  z-index: var(--z-modal);
 }
 
 @media (min-width: 768px) {
-  .nav-glass__mobile-theme {
+  .nav-mobile {
     display: none;
   }
 }
 
-/* Theme Icons */
-.theme-icon--dark {
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+}
+
+.mobile-menu-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .mobile-menu-btn svg {
+  color: var(--amber-400);
+}
+
+.menu-icon-close {
   display: none;
 }
 
-[data-theme="dark"] .theme-icon--light {
+.mobile-menu-btn.open .menu-icon-open {
   display: none;
 }
 
-[data-theme="dark"] .theme-icon--dark {
+.mobile-menu-btn.open .menu-icon-close {
   display: block;
 }
 
-/* Mobile Menu */
-.mobile-menu {
+.mobile-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+.mobile-logo svg {
+  width: 20px;
+  height: 20px;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .mobile-logo svg {
+  color: var(--amber-400);
+}
+
+/* ===== Mobile Menu Overlay ===== */
+.mobile-menu-overlay {
   position: fixed;
   inset: 0;
-  z-index: var(--z-modal);
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-nav);
   opacity: 0;
   visibility: hidden;
-  transition: all var(--transition-base);
+  transition: all var(--transition-normal);
 }
 
-.mobile-menu.is-open {
+.mobile-menu-overlay.show {
   opacity: 1;
   visibility: visible;
 }
 
-.mobile-menu__content {
-  position: absolute;
+/* ===== Mobile Menu Panel ===== */
+.mobile-menu {
+  position: fixed;
   top: 0;
   left: 0;
-  width: 320px;
   height: 100%;
-  padding: 96px var(--space-8) var(--space-8);
+  width: 20rem;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(var(--glass-blur-xl));
-  -webkit-backdrop-filter: blur(var(--glass-blur-xl));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: var(--shadow-2xl);
+  z-index: var(--z-modal);
   transform: translateX(-100%);
-  transition: transform var(--transition-base);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-[data-theme="dark"] .mobile-menu__content {
+[data-theme="dark"] .mobile-menu {
   background: rgba(17, 24, 39, 0.4);
   border-color: rgba(55, 65, 81, 0.3);
 }
 
-.mobile-menu.is-open .mobile-menu__content {
+.mobile-menu.open {
   transform: translateX(0);
 }
 
-.mobile-menu__link {
+.mobile-menu-nav {
+  padding: var(--space-8);
+  padding-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mobile-nav-item {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-4);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-gray-700);
-  text-decoration: none;
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-xl);
-  transition: all var(--transition-fast);
+  font-weight: var(--font-medium);
+  color: var(--gray-700);
+  transition: all var(--transition-normal);
 }
 
-[data-theme="dark"] .mobile-menu__link {
-  color: var(--color-gray-300);
+[data-theme="dark"] .mobile-nav-item {
+  color: var(--gray-300);
 }
 
-.mobile-menu__link:hover {
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
   background: rgba(245, 158, 11, 0.2);
-  color: var(--color-amber-600);
+  color: var(--amber-600);
 }
 
-[data-theme="dark"] .mobile-menu__link:hover {
-  color: var(--color-amber-400);
+[data-theme="dark"] .mobile-nav-item:hover,
+[data-theme="dark"] .mobile-nav-item.active {
+  color: var(--amber-400);
+}
+
+.mobile-nav-item svg {
+  width: 20px;
+  height: 20px;
 }
 </style>

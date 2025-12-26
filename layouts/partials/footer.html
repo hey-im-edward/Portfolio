@@ -1,11 +1,118 @@
-<div class="container">
-  <footer class="footer">
-    <p class="footer__text">
-      © {{ now.Year }} {{ .Site.Title }}. 
-      Built with <a href="https://gohugo.io" class="footer__link" target="_blank" rel="noopener">Hugo</a>.
-      {{ with .Site.Params.github }}
-      <a href="https://github.com/{{ . }}" class="footer__link" target="_blank" rel="noopener">GitHub</a>
-      {{ end }}
-    </p>
-  </footer>
-</div>
+<!-- Footer - Converted from Footer.tsx -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-card glass-card-sm reveal">
+      <div class="footer-content">
+        <!-- Logo -->
+        <div class="footer-logo">
+          <svg class="footer-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>
+          </svg>
+          <span class="footer-logo-text">Portfolio - Java & JavaScript</span>
+        </div>
+        
+        <!-- Copyright -->
+        <p class="footer-copyright">
+          © {{ now.Year }} Portfolio - Java & JavaScript. Built with 
+          <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer" class="footer-link">Hugo</a>
+          • 
+          <a href="{{ .Site.Params.github | default "https://github.com" }}" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+        </p>
+
+        <!-- Made with love -->
+        <div class="footer-love">
+          <span>Made with</span>
+          <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+          <span>by {{ .Site.Params.author | default "Edward" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  position: relative;
+  padding: var(--space-12) 0;
+  margin-top: var(--space-20);
+}
+
+.footer-card {
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.footer-logo-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .footer-logo-icon {
+  color: var(--amber-400);
+}
+
+.footer-logo-text {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .footer-logo-text {
+  color: white;
+}
+
+.footer-copyright {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  margin: 0;
+}
+
+[data-theme="dark"] .footer-copyright {
+  color: var(--gray-400);
+}
+
+.footer-link {
+  color: var(--amber-600);
+  transition: opacity var(--transition-fast);
+}
+
+[data-theme="dark"] .footer-link {
+  color: var(--amber-400);
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.footer-love {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+}
+
+[data-theme="dark"] .footer-love {
+  color: var(--gray-400);
+}
+
+.heart-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--amber-500);
+}
+</style>

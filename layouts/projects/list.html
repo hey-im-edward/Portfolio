@@ -1,348 +1,413 @@
 {{ define "main" }}
+<!-- ProjectsPage - Converted from ProjectsPage.tsx -->
 <div class="projects-page">
   <div class="container">
-    {{/* Header */}}
-    <header class="page-header">
-      <h1 class="page-header__title">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"></path>
+    <!-- Header -->
+    <header class="page-header reveal">
+      <div class="page-icon-wrapper">
+        <svg
+          class="page-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
+          />
         </svg>
-        Projects
-      </h1>
-      <p class="page-header__desc">Các dự án tôi đã và đang thực hiện</p>
+      </div>
+      <h1 class="page-title gradient-text">Projects</h1>
+      <p class="page-subtitle">Các dự án tôi đã và đang thực hiện</p>
     </header>
-    
-    {{/* Featured Project */}}
-    {{ $featured := where .Pages "Params.featured" true | first 1 }}
-    {{ with $featured }}
-    <section class="featured-project">
-      {{ range . }}
-      <article class="project-card project-card--featured">
-        <div class="project-card__image">
-          {{ with .Params.featured_image }}
-          <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+
+    {{ $projects := where .Site.RegularPages "Section" "projects" }} {{ if
+    $projects }}
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+      {{ range $projects }}
+      <article class="project-card glass-card reveal">
+        <div class="project-thumbnail">
+          {{ with .Params.image }}
+          <img src="{{ . }}" alt="{{ $.Title }}" class="project-image" />
           {{ else }}
-          <div class="project-card__placeholder">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-              <line x1="8" y1="21" x2="16" y2="21"></line>
-              <line x1="12" y1="17" x2="12" y2="21"></line>
+          <div class="project-placeholder">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
+              />
             </svg>
           </div>
           {{ end }}
-          <span class="project-card__badge">⭐ Featured</span>
         </div>
-        <div class="project-card__content">
-          <div class="project-card__status project-card__status--{{ .Params.status | default "completed" }}">
-            {{ if eq .Params.status "in-progress" }}🚧 In Progress
-            {{ else if eq .Params.status "planned" }}📋 Planned
-            {{ else }}✅ Completed{{ end }}
-          </div>
-          <h2 class="project-card__title">
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-          </h2>
-          <p class="project-card__summary">{{ .Params.summary }}</p>
-          <div class="project-card__tech">
-            {{ range .Params.tech }}
-            <span class="tech-tag">{{ . }}</span>
+        <div class="project-content">
+          <h3 class="project-title">{{ .Title }}</h3>
+          <p class="project-desc">{{ .Summary | plainify | truncate 120 }}</p>
+          {{ with .Params.tech }}
+          <div class="project-tech">
+            {{ range . }}
+            <span class="glass-tag">{{ . }}</span>
             {{ end }}
           </div>
-          <div class="project-card__links">
-            {{ with .Params.github }}
-            <a href="{{ . }}" class="btn btn--secondary btn--sm" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-            {{ end }}
+          {{ end }}
+          <div class="project-links">
+            <a href="{{ .Permalink }}" class="btn-primary">Xem chi tiết</a>
             {{ with .Params.demo }}
-            <a href="{{ . }}" class="btn btn--primary btn--sm" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              Live Demo
-            </a>
+            <a
+              href="{{ . }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-glass"
+              >Demo</a
+            >
             {{ end }}
-            <a href="{{ .Permalink }}" class="btn btn--ghost btn--sm">
-              Read More →
-            </a>
           </div>
         </div>
       </article>
       {{ end }}
-    </section>
-    {{ end }}
-    
-    {{/* All Projects Grid */}}
-    {{ $projects := where .Pages "Params.featured" "ne" true }}
-    {{ if $projects }}
-    <section class="projects-grid-section">
-      <h2 class="section-title">All Projects</h2>
-      <div class="projects-grid">
-        {{ range $projects }}
-        <article class="project-card">
-          <div class="project-card__image project-card__image--small">
-            {{ with .Params.featured_image }}
-            <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
-            {{ else }}
-            <div class="project-card__placeholder">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-            </div>
-            {{ end }}
-          </div>
-          <div class="project-card__content">
-            <div class="project-card__status project-card__status--{{ .Params.status | default "completed" }}">
-              {{ if eq .Params.status "in-progress" }}🚧
-              {{ else if eq .Params.status "planned" }}📋
-              {{ else }}✅{{ end }}
-            </div>
-            <h3 class="project-card__title">
-              <a href="{{ .Permalink }}">{{ .Title }}</a>
-            </h3>
-            <p class="project-card__summary">{{ .Params.summary | truncate 80 }}</p>
-            <div class="project-card__tech">
-              {{ range first 3 .Params.tech }}
-              <span class="tech-tag tech-tag--sm">{{ . }}</span>
-              {{ end }}
-            </div>
-          </div>
-        </article>
-        {{ end }}
+    </div>
+    {{ else }}
+    <!-- Empty State -->
+    <div class="empty-state-card glass-card reveal">
+      <div class="empty-icon-wrapper">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
+          />
+        </svg>
       </div>
-    </section>
-    {{ end }}
-    
-    {{/* Empty State */}}
-    {{ if not .Pages }}
-    <div class="empty-state">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"></path>
-      </svg>
-      <h3>Chưa có dự án nào</h3>
-      <p>Tạo dự án đầu tiên với <code>hugo new projects/my-project.md</code></p>
+
+      <h2 class="empty-title">Chưa có dự án nào</h2>
+
+      <p class="empty-desc">
+        Tạo dự án đầu tiên với
+        <code class="code-inline">hugo new projects/my-project.md</code>
+      </p>
+
+      <div class="empty-instructions">
+        <p class="instruction-title">Hướng dẫn tạo dự án:</p>
+        <ol class="instruction-list">
+          <li>1. Chạy lệnh tạo file dự án mới</li>
+          <li>2. Thêm thông tin: title, description, tech stack, demo link</li>
+          <li>3. Cập nhật ảnh preview nếu có</li>
+          <li>4. Build lại site để xem kết quả</li>
+        </ol>
+      </div>
+
+      <div class="empty-cta">
+        <a
+          href="https://gohugo.io/getting-started/quick-start/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            width="20"
+            height="20"
+          >
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+          <span>Tạo dự án đầu tiên</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="info-cards reveal">
+      <div class="info-card glass-card-sm">
+        <h3 class="info-card-title">💡 Gợi ý nội dung</h3>
+        <p class="info-card-desc">
+          Showcase các dự án cá nhân, open source contributions, hoặc case
+          studies về các vấn đề kỹ thuật bạn đã giải quyết.
+        </p>
+      </div>
+
+      <div class="info-card glass-card-sm">
+        <h3 class="info-card-title">🎨 Tùy chỉnh</h3>
+        <p class="info-card-desc">
+          Thêm tech stack, demo links, source code, ảnh screenshots để làm nổi
+          bật dự án của bạn.
+        </p>
+      </div>
     </div>
     {{ end }}
   </div>
 </div>
 
 <style>
-/* Projects Page Styles */
-.projects-page {
-  padding: var(--space-8) 0 var(--space-16);
-}
-
-.page-header {
-  text-align: center;
-  padding: var(--space-8) 0 var(--space-12);
-}
-
-.page-header__title {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-size: var(--font-size-4xl);
-  margin-bottom: var(--space-4);
-}
-
-.page-header__title svg {
-  color: var(--color-primary-500);
-}
-
-.page-header__desc {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-}
-
-/* Featured Project */
-.featured-project {
-  margin-bottom: var(--space-12);
-}
-
-.project-card--featured {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .project-card--featured {
-    grid-template-columns: 1.2fr 1fr;
+  /* ===== Projects Page Layout ===== */
+  .projects-page {
+    min-height: 100vh;
+    padding-top: 8rem;
+    padding-bottom: 5rem;
   }
-}
 
-.project-card__image {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  background: linear-gradient(135deg, var(--color-neutral-200), var(--color-neutral-100));
-  overflow: hidden;
-}
+  /* ===== Projects Grid ===== */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--space-8);
+    max-width: 72rem;
+    margin: 0 auto;
+  }
 
-.project-card--featured .project-card__image {
-  aspect-ratio: auto;
-  min-height: 300px;
-}
+  @media (min-width: 768px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 
-.project-card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  @media (min-width: 1024px) {
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
 
-.project-card__placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  color: var(--color-neutral-400);
-  background: linear-gradient(135deg, var(--color-primary-100), var(--color-primary-50));
-}
+  /* ===== Project Card ===== */
+  .project-card {
+    overflow: hidden;
+    padding: 0;
+    transition: all var(--transition-normal);
+  }
 
-[data-theme="dark"] .project-card__placeholder {
-  background: linear-gradient(135deg, var(--color-primary-900), var(--color-primary-800));
-}
+  .project-card:hover {
+    transform: translateY(-4px);
+  }
 
-.project-card__badge {
-  position: absolute;
-  top: var(--space-3);
-  left: var(--space-3);
-  padding: var(--space-1) var(--space-3);
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  color: #78350f;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  border-radius: var(--radius-full);
-}
+  .project-thumbnail {
+    height: 12rem;
+    overflow: hidden;
+  }
 
-.project-card__content {
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-.project-card__status {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  margin-bottom: var(--space-3);
-}
+  .project-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(245, 158, 11, 0.2),
+      rgba(251, 146, 60, 0.2)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.project-card__status--completed { color: var(--color-success); }
-.project-card__status--in-progress { color: var(--color-warning); }
-.project-card__status--planned { color: var(--color-info); }
+  .project-placeholder svg {
+    width: 48px;
+    height: 48px;
+    color: rgba(245, 158, 11, 0.5);
+  }
 
-.project-card__title {
-  font-size: var(--font-size-2xl);
-  margin-bottom: var(--space-3);
-}
+  .project-content {
+    padding: var(--space-6);
+  }
 
-.project-card__title a {
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
+  .project-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-2);
+    color: var(--gray-900);
+  }
 
-.project-card__title a:hover {
-  color: var(--color-primary-500);
-}
+  [data-theme="dark"] .project-title {
+    color: white;
+  }
 
-.project-card__summary {
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--space-4);
-}
+  .project-desc {
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+    margin-bottom: var(--space-4);
+  }
 
-.project-card__tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
-}
+  [data-theme="dark"] .project-desc {
+    color: var(--gray-400);
+  }
 
-.tech-tag {
-  padding: var(--space-1) var(--space-3);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: var(--color-primary-100);
-  color: var(--color-primary-700);
-  border-radius: var(--radius-full);
-}
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
 
-[data-theme="dark"] .tech-tag {
-  background: var(--color-primary-900);
-  color: var(--color-primary-300);
-}
+  .project-links {
+    display: flex;
+    gap: var(--space-3);
+  }
 
-.tech-tag--sm {
-  padding: var(--space-0-5) var(--space-2);
-  font-size: var(--font-size-xs);
-}
+  .project-links .btn-primary,
+  .project-links .btn-glass {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+  }
 
-.project-card__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
+  /* ===== Empty State ===== */
+  .empty-state-card {
+    max-width: 42rem;
+    margin: 0 auto var(--space-12);
+    padding: var(--space-12);
+    text-align: center;
+  }
 
-/* Projects Grid */
-.projects-grid-section {
-  padding-top: var(--space-8);
-  border-top: 1px solid var(--color-border);
-}
+  .empty-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    background: rgba(245, 158, 11, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-6);
+  }
 
-.section-title {
-  font-size: var(--font-size-xl);
-  margin-bottom: var(--space-6);
-}
+  .empty-icon-wrapper svg {
+    width: 48px;
+    height: 48px;
+    color: var(--amber-600);
+  }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-6);
-}
+  [data-theme="dark"] .empty-icon-wrapper svg {
+    color: var(--amber-400);
+  }
 
-.projects-grid .project-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  transition: all var(--transition-base);
-}
+  .empty-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-4);
+    color: var(--gray-900);
+  }
 
-.projects-grid .project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-primary-200);
-}
+  [data-theme="dark"] .empty-title {
+    color: white;
+  }
 
-.project-card__image--small {
-  aspect-ratio: 16 / 9;
-}
+  .empty-desc {
+    color: var(--gray-600);
+    margin-bottom: var(--space-8);
+  }
 
-.projects-grid .project-card__content {
-  padding: var(--space-5);
-}
+  [data-theme="dark"] .empty-desc {
+    color: var(--gray-400);
+  }
 
-.projects-grid .project-card__title {
-  font-size: var(--font-size-lg);
-}
+  .code-inline {
+    padding: var(--space-1) var(--space-2);
+    background: rgba(17, 24, 39, 0.2);
+    border-radius: var(--radius-md);
+    font-family: var(--font-code);
+    font-size: var(--text-sm);
+    color: var(--amber-600);
+  }
 
-.projects-grid .project-card__summary {
-  font-size: var(--font-size-sm);
-  margin-bottom: var(--space-3);
-}
+  [data-theme="dark"] .code-inline {
+    background: rgba(17, 24, 39, 0.4);
+    color: var(--amber-400);
+  }
+
+  .empty-instructions {
+    padding: var(--space-6);
+    background: rgba(17, 24, 39, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: var(--radius-xl);
+    text-align: left;
+  }
+
+  [data-theme="dark"] .empty-instructions {
+    background: rgba(17, 24, 39, 0.4);
+  }
+
+  .instruction-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--gray-700);
+    margin-bottom: var(--space-2);
+  }
+
+  [data-theme="dark"] .instruction-title {
+    color: var(--gray-300);
+  }
+
+  .instruction-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+  }
+
+  [data-theme="dark"] .instruction-list {
+    color: var(--gray-400);
+  }
+
+  .empty-cta {
+    margin-top: var(--space-8);
+  }
+
+  /* ===== Info Cards ===== */
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--space-6);
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .info-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .info-card {
+    padding: var(--space-6);
+  }
+
+  .info-card-title {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-3);
+    color: var(--gray-900);
+  }
+
+  [data-theme="dark"] .info-card-title {
+    color: white;
+  }
+
+  .info-card-desc {
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+    margin: 0;
+  }
+
+  [data-theme="dark"] .info-card-desc {
+    color: var(--gray-400);
+  }
 </style>
 {{ end }}

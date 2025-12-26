@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode | default "vi" }}" {{ with .Site.Params.defaultTheme }}data-theme="{{ . }}"{{ end }}>
+<html lang="{{ .Site.Language.Lang | default "vi" }}" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,49 +8,51 @@
   {{/* Title */}}
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
   
-  {{/* SEO Meta */}}
+  {{/* SEO Meta Tags */}}
   {{ partial "head/seo.html" . }}
   
   {{/* Open Graph */}}
   {{ partial "head/opengraph.html" . }}
   
-  {{/* Fonts - Preload */}}
+  {{/* Preload fonts */}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
   
-  {{/* CSS */}}
+  {{/* CSS Bundle */}}
   {{ $variables := resources.Get "css/variables.css" }}
-  {{ $base := resources.Get "css/base.css" }}
   {{ $glass := resources.Get "css/glass.css" }}
+  {{ $animations := resources.Get "css/animations.css" }}
   {{ $layout := resources.Get "css/layout.css" }}
   {{ $components := resources.Get "css/components.css" }}
   {{ $home := resources.Get "css/home.css" }}
-  {{ $styles := slice $variables $base $glass $layout $components $home | resources.Concat "css/main.css" | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+  
+  {{ $css := slice $variables $glass $animations $layout $components $home | resources.Concat "css/bundle.css" }}
+  {{ if hugo.IsProduction }}
+    {{ $css = $css | minify | fingerprint }}
+  {{ end }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
   
   {{/* Favicon */}}
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
+  <link rel="alternate icon" href="{{ "favicon.ico" | relURL }}">
   
-  {{/* RSS */}}
-  {{ range .AlternativeOutputFormats -}}
-    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
-  {{ end -}}
+  {{/* RSS Feed */}}
+  {{ with .OutputFormats.Get "rss" -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+  {{- end }}
   
-  {{/* Canonical */}}
+  {{/* Canonical URL */}}
   <link rel="canonical" href="{{ .Permalink }}">
   
-  {{/* Theme Script - Inline to prevent flash */}}
+  {{/* Theme Script - Prevent flash */}}
   <script>
     (function() {
-      const saved = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = saved || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
+      const theme = localStorage.getItem('theme');
+      if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+      } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
     })();
   </script>
   
@@ -58,28 +60,22 @@
   {{ hugo.Generator }}
 </head>
 <body>
+  {{/* Skip Link */}}
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  
   {{/* Interactive Background */}}
   {{ partial "background.html" . }}
   
-  {{/* Skip Link */}}
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  {{/* Header */}}
+  {{ partial "header.html" . }}
   
-  <div class="page">
-    {{/* Header */}}
-    <header class="page__header">
-      {{ partial "header.html" . }}
-    </header>
-    
-    {{/* Main Content */}}
-    <main id="main-content" class="page__main" role="main">
-      {{ block "main" . }}{{ end }}
-    </main>
-    
-    {{/* Footer */}}
-    <footer class="page__footer">
-      {{ partial "footer.html" . }}
-    </footer>
-  </div>
+  {{/* Main Content */}}
+  <main id="main-content" class="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
+  
+  {{/* Footer */}}
+  {{ partial "footer.html" . }}
   
   {{/* Scripts */}}
   {{ partial "scripts.html" . }}

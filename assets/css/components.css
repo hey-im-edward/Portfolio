@@ -146,7 +146,7 @@
     display: grid;
     grid-template-columns: 200px 1fr;
   }
-  
+
   .card--horizontal .card__image {
     aspect-ratio: auto;
     height: 100%;
@@ -440,4 +440,82 @@
   justify-content: center;
   gap: var(--space-4);
   flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Page Header (Global)
+   ========================================================================== */
+
+.page-header {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.page-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-amber);
+  margin-bottom: var(--space-6);
+}
+
+.page-icon {
+  width: 32px;
+  height: 32px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-4);
+}
+
+.page-subtitle {
+  font-size: var(--text-xl);
+  color: var(--gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+[data-theme="dark"] .page-subtitle {
+  color: var(--gray-300);
+}
+
+/* ==========================================================================
+   Section Title with Icon (Global)
+   ========================================================================== */
+
+.section-title-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-6);
+}
+
+[data-theme="dark"] .section-title-icon {
+  color: white;
+}
+
+.section-title-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--amber-500);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Main Content Area
+   ========================================================================== */
+
+.main-content {
+  position: relative;
+  z-index: var(--z-content);
 }
