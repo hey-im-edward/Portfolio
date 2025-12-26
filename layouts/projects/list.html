@@ -28,7 +28,8 @@
       {{ range $projects }}
       <article class="project-card glass-card reveal">
         <div class="project-thumbnail">
-          {{ with .Params.image }}
+          {{ $bgImage := .Params.image | default .Params.featured_image }} {{
+          with $bgImage }}
           <img src="{{ . }}" alt="{{ $.Title }}" class="project-image" />
           {{ else }}
           <div class="project-placeholder">
