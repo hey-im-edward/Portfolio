@@ -1,0 +1,19 @@
+{{/* Skill Bar Partial - Converted from AboutPage.tsx */}} {{/* Parameters: name
+(string), level (int 0-100), delay (int, animation delay in 0.1s increments)
+*/}} {{ $name := .name }} {{ $level := .level }} {{ $delay := .delay | default 0
+}}
+
+<div class="skill-bar-item" data-skill-delay="{{ $delay }}">
+  <div class="skill-bar-header">
+    <span class="skill-bar-name">{{ $name }}</span>
+    <span class="skill-bar-level">{{ $level }}%</span>
+  </div>
+  <div class="skill-bar-track">
+    <div
+      class="skill-bar-fill"
+      style="--skill-level: {{ $level }}%; --skill-delay: {{ mul $delay 100 }}ms;"
+    >
+      <div class="skill-bar-shimmer"></div>
+    </div>
+  </div>
+</div>

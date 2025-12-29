@@ -1,0 +1,26 @@
+{{/* Experience Item Partial - Converted from AboutPage.tsx */}} {{/*
+Parameters: title, company, period, description, technologies */}} {{ $title :=
+.title }} {{ $company := .company }} {{ $period := .period }} {{ $description :=
+.description }} {{ $technologies := .technologies }}
+
+<div class="experience-item">
+  {{/* Timeline Dot */}}
+  <div class="experience-dot"></div>
+
+  {{/* Content */}}
+  <div class="experience-content glass-card-sm">
+    <div class="experience-header">
+      <div class="experience-info">
+        <h3 class="experience-title">{{ $title }}</h3>
+        <p class="experience-company">{{ $company }}</p>
+      </div>
+      <span class="experience-period glass-badge">{{ $period }}</span>
+    </div>
+    <p class="experience-description">{{ $description }}</p>
+    <div class="experience-technologies">
+      {{ range $technologies }}
+      <span class="experience-tech-tag">{{ . }}</span>
+      {{ end }}
+    </div>
+  </div>
+</div>

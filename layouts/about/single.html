@@ -1,0 +1,656 @@
+{{ define "main" }}
+{{/* About Page - Converted from AboutPage.tsx */}}
+<div class="about-page">
+  <div class="container">
+    
+    {{/* Header */}}
+    <header class="page-header reveal">
+      <div class="page-header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>
+        </svg>
+      </div>
+      <h1 class="page-title gradient-text">Về tôi</h1>
+      <p class="page-subtitle">Developer đam mê công nghệ và chia sẻ kiến thức</p>
+    </header>
+
+    {{/* Main Content */}}
+    <div class="about-content">
+      
+      {{/* Introduction */}}
+      <section class="about-section glass-card reveal">
+        <div class="about-intro-header">
+          <div class="about-avatar">
+            <span>👋</span>
+          </div>
+          <div class="about-intro-info">
+            <h2>Xin chào!</h2>
+            <p class="text-muted">Mình là {{ .Site.Params.author | default "Edward" }}</p>
+          </div>
+        </div>
+        <div class="about-intro-content">
+          {{ .Content }}
+          {{ if not .Content }}
+          <p>Tôi là một developer đam mê với công nghệ web, đặc biệt là Java và JavaScript. Blog này là nơi tôi chia sẻ những kiến thức, kinh nghiệm và dự án cá nhân.</p>
+          <p>Tôi tin rằng việc chia sẻ kiến thức không chỉ giúp người khác mà còn giúp bản thân củng cố và mở rộng hiểu biết của mình. Hy vọng blog này sẽ hữu ích cho bạn!</p>
+          {{ end }}
+        </div>
+      </section>
+
+      {{/* Skills */}}
+      <section class="about-section glass-card reveal">
+        <h2 class="section-heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+          Kỹ năng
+        </h2>
+        <div class="skills-list">
+          {{ range $index, $skill := .Site.Data.skills }}
+          {{ partial "skill-bar.html" (dict "name" $skill.name "level" $skill.level "delay" $index) }}
+          {{ end }}
+        </div>
+      </section>
+
+      {{/* Tech Stack */}}
+      <section class="about-section glass-card reveal">
+        <h2 class="section-heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>
+          </svg>
+          Tech Stack
+        </h2>
+        <div class="tech-stack-list">
+          {{ $techStack := slice "Java" "Spring Boot" "JavaScript" "TypeScript" "React" "Node.js" "PostgreSQL" "MongoDB" "Docker" "Git" "Hugo" "Tailwind CSS" }}
+          {{ range $techStack }}
+          <span class="tech-stack-tag">{{ . }}</span>
+          {{ end }}
+        </div>
+      </section>
+
+      {{/* Certificates */}}
+      <section class="about-section glass-card reveal">
+        <h2 class="section-heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+          Chứng chỉ
+        </h2>
+        <div class="certificates-grid">
+          {{ range .Site.Data.certificates }}
+          {{ partial "certificate-card.html" . }}
+          {{ end }}
+        </div>
+      </section>
+
+      {{/* CV/Resume Download */}}
+      <section class="about-section glass-card reveal cv-section">
+        <div class="cv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/>
+            <line x1="12" x2="12" y1="15" y2="3"/>
+          </svg>
+        </div>
+        <h2>Tải CV / Resume</h2>
+        <p class="cv-description">Tải xuống CV đầy đủ của tôi để xem chi tiết về kinh nghiệm, kỹ năng và dự án</p>
+        <div class="cv-buttons">
+          <a href="{{ "files/cv-resume.pdf" | relURL }}" class="btn-primary" download="CV-Edward.pdf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/>
+              <line x1="12" x2="12" y1="15" y2="3"/>
+            </svg>
+            <span>Tải PDF</span>
+          </a>
+          <a href="{{ "files/cv-resume.pdf" | relURL }}" class="btn-glass" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Xem online</span>
+          </a>
+        </div>
+      </section>
+
+      {{/* Experience */}}
+      <section class="about-section glass-card reveal">
+        <h2 class="section-heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          Kinh nghiệm
+        </h2>
+        <div class="experience-timeline">
+          {{ range .Site.Data.experiences }}
+          {{ partial "experience-item.html" . }}
+          {{ end }}
+        </div>
+      </section>
+
+      {{/* Interests */}}
+      <section class="interests-grid reveal">
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3>Lập trình</h3>
+          <p>Full-stack development với Java và JavaScript</p>
+        </div>
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 2v2"/><path d="M14 2v2"/>
+              <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/>
+              <path d="M6 2v2"/>
+            </svg>
+          </div>
+          <h3>Học hỏi</h3>
+          <p>Luôn cập nhật công nghệ và best practices mới</p>
+        </div>
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
+          <h3>Chia sẻ</h3>
+          <p>Viết blog và đóng góp cho cộng đồng</p>
+        </div>
+      </section>
+
+      {{/* Contact CTA */}}
+      <section class="contact-cta glass-card reveal">
+        <h2>Muốn kết nối?</h2>
+        <p>Tôi luôn sẵn sàng trao đổi về công nghệ, dự án hoặc cơ hội hợp tác</p>
+        <a href="{{ "contact/" | relURL }}" class="btn-primary"><span>Liên hệ với tôi</span></a>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<style>
+/* ===== About Page Styles ===== */
+.about-page {
+  min-height: 100vh;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+}
+
+.about-content {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.about-section {
+  padding: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .about-section {
+    padding: var(--space-8);
+  }
+}
+
+/* ===== Page Header ===== */
+.page-header {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.page-header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-amber);
+  margin-bottom: var(--space-6);
+}
+
+.page-header-icon svg {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.page-title {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: var(--text-5xl);
+  }
+}
+
+.page-subtitle {
+  font-size: var(--text-lg);
+  color: var(--gray-600);
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .page-subtitle {
+    font-size: var(--text-xl);
+  }
+}
+
+[data-theme="dark"] .page-subtitle {
+  color: var(--gray-300);
+}
+
+/* ===== Introduction ===== */
+.about-intro-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .about-intro-header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.about-avatar {
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-amber);
+  flex-shrink: 0;
+}
+
+.about-avatar span {
+  font-size: 2rem;
+}
+
+.about-intro-info {
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .about-intro-info {
+    text-align: left;
+  }
+}
+
+.about-intro-info h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-1);
+}
+
+[data-theme="dark"] .about-intro-info h2 {
+  color: white;
+}
+
+.about-intro-content p {
+  color: var(--gray-600);
+  line-height: 1.75;
+  margin-bottom: var(--space-4);
+}
+
+[data-theme="dark"] .about-intro-content p {
+  color: var(--gray-400);
+}
+
+.about-intro-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Section Heading with Icon ===== */
+.section-heading-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .section-heading-icon {
+    font-size: var(--text-2xl);
+  }
+}
+
+[data-theme="dark"] .section-heading-icon {
+  color: white;
+}
+
+.section-heading-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--amber-500);
+}
+
+/* ===== Skills List ===== */
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ===== Tech Stack ===== */
+.tech-stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .tech-stack-list {
+    gap: var(--space-3);
+  }
+}
+
+.tech-stack-tag {
+  padding: var(--space-2) var(--space-3);
+  background: linear-gradient(to right, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--amber-700);
+  transition: all var(--transition-fast);
+}
+
+@media (min-width: 768px) {
+  .tech-stack-tag {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+  }
+}
+
+[data-theme="dark"] .tech-stack-tag {
+  color: var(--amber-300);
+}
+
+.tech-stack-tag:hover {
+  background: linear-gradient(to right, rgba(245, 158, 11, 0.2), rgba(251, 146, 60, 0.2));
+  border-color: rgba(245, 158, 11, 0.3);
+  transform: scale(1.05);
+}
+
+/* ===== Certificates Grid ===== */
+.certificates-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .certificates-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+/* ===== CV Section ===== */
+.cv-section {
+  text-align: center;
+}
+
+.cv-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: 50%;
+  box-shadow: var(--shadow-amber);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .cv-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.cv-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .cv-icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.cv-section h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .cv-section h2 {
+    font-size: var(--text-2xl);
+  }
+}
+
+[data-theme="dark"] .cv-section h2 {
+  color: white;
+}
+
+.cv-description {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  margin-bottom: var(--space-6);
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .cv-description {
+    font-size: var(--text-base);
+  }
+}
+
+[data-theme="dark"] .cv-description {
+  color: var(--gray-400);
+}
+
+.cv-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .cv-buttons {
+    flex-direction: row;
+    gap: var(--space-4);
+  }
+}
+
+.cv-buttons .btn-primary,
+.cv-buttons .btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.cv-buttons svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ===== Experience Timeline ===== */
+.experience-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ===== Interests Grid ===== */
+.interests-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .interests-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+.interest-card {
+  text-align: center;
+  padding: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .interest-card {
+    padding: var(--space-6);
+  }
+}
+
+.interest-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+[data-theme="dark"] .interest-card:hover {
+  background: rgba(17, 24, 39, 0.3);
+}
+
+.interest-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 50%;
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .interest-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.interest-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--amber-600);
+}
+
+@media (min-width: 768px) {
+  .interest-icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+[data-theme="dark"] .interest-icon svg {
+  color: var(--amber-400);
+}
+
+.interest-card h3 {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+}
+
+[data-theme="dark"] .interest-card h3 {
+  color: white;
+}
+
+.interest-card p {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+}
+
+[data-theme="dark"] .interest-card p {
+  color: var(--gray-400);
+}
+
+/* ===== Contact CTA ===== */
+.contact-cta {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.contact-cta h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .contact-cta h2 {
+    font-size: var(--text-2xl);
+  }
+}
+
+[data-theme="dark"] .contact-cta h2 {
+  color: white;
+}
+
+.contact-cta p {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  margin-bottom: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .contact-cta p {
+    font-size: var(--text-base);
+  }
+}
+
+[data-theme="dark"] .contact-cta p {
+  color: var(--gray-400);
+}
+
+/* ===== Text Muted ===== */
+.text-muted {
+  color: var(--gray-600);
+}
+
+[data-theme="dark"] .text-muted {
+  color: var(--gray-400);
+}
+</style>
+{{ end }}

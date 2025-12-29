@@ -1,0 +1,19 @@
+# Experiences data - converted from AboutPage.tsx
+- title: Senior Full-Stack Developer
+  company: Tech Company
+  period: 2023 - Hiện tại
+  description: Phát triển và maintain microservices architecture với Spring Boot và React
+  technologies:
+    - Java
+    - Spring Boot
+    - React
+    - Docker
+- title: Full-Stack Developer
+  company: Startup XYZ
+  period: 2021 - 2023
+  description: Xây dựng web applications từ đầu, tham gia mọi giai đoạn từ design đến deployment
+  technologies:
+    - JavaScript
+    - Node.js
+    - PostgreSQL
+    - AWS

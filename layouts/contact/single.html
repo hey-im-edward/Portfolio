@@ -1,0 +1,423 @@
+{{ define "main" }}
+{{/* Contact Page - Converted from ContactPage.tsx */}}
+<div class="contact-page">
+  <div class="container">
+    
+    {{/* Header */}}
+    <header class="page-header reveal">
+      <div class="page-header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </div>
+      <h1 class="page-title gradient-text">Liên hệ</h1>
+      <p class="page-subtitle">Hãy kết nối với tôi qua các kênh dưới đây</p>
+    </header>
+
+    {{/* Main Content */}}
+    <div class="contact-content">
+      <div class="contact-grid">
+        
+        {{/* Contact Form */}}
+        <section class="contact-form-section glass-card reveal">
+          <h2 class="section-heading-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
+            </svg>
+            Gửi tin nhắn
+          </h2>
+
+          <form class="contact-form" action="#" method="POST" data-form="contact">
+            <div class="form-group">
+              <label for="contact-name">Tên của bạn</label>
+              <input 
+                type="text" 
+                id="contact-name" 
+                name="name" 
+                placeholder="Nguyễn Văn A" 
+                class="glass-input"
+                required
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email">Email</label>
+              <input 
+                type="email" 
+                id="contact-email" 
+                name="email" 
+                placeholder="email@example.com" 
+                class="glass-input"
+                required
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message">Tin nhắn</label>
+              <textarea 
+                id="contact-message" 
+                name="message" 
+                rows="5" 
+                placeholder="Nội dung tin nhắn..." 
+                class="glass-textarea"
+                required
+                aria-required="true"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary btn-full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
+              </svg>
+              <span>Gửi tin nhắn</span>
+            </button>
+          </form>
+        </section>
+
+        {{/* Social Links */}}
+        <section class="social-links-section reveal">
+          
+          {{/* GitHub */}}
+          <div class="social-card glass-card-sm">
+            <div class="social-card-content">
+              <div class="social-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                  <path d="M9 18c-4.51 2-5-2-7-2"/>
+                </svg>
+              </div>
+              <div class="social-info">
+                <h3>GitHub</h3>
+                <p>Follow và xem source code</p>
+              </div>
+              <a href="{{ .Site.Params.github | default "https://github.com" }}" target="_blank" rel="noopener noreferrer" class="social-action-btn">
+                Follow
+              </a>
+            </div>
+          </div>
+
+          {{/* LinkedIn */}}
+          <div class="social-card glass-card-sm">
+            <div class="social-card-content">
+              <div class="social-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
+                </svg>
+              </div>
+              <div class="social-info">
+                <h3>LinkedIn</h3>
+                <p>Kết nối chuyên nghiệp</p>
+              </div>
+              <a href="{{ .Site.Params.linkedin | default "https://linkedin.com" }}" target="_blank" rel="noopener noreferrer" class="social-action-btn">
+                Connect
+              </a>
+            </div>
+          </div>
+
+          {{/* Twitter */}}
+          <div class="social-card glass-card-sm">
+            <div class="social-card-content">
+              <div class="social-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                </svg>
+              </div>
+              <div class="social-info">
+                <h3>Twitter</h3>
+                <p>Updates và thoughts</p>
+              </div>
+              <a href="{{ .Site.Params.twitter | default "https://twitter.com" }}" target="_blank" rel="noopener noreferrer" class="social-action-btn">
+                Follow
+              </a>
+            </div>
+          </div>
+
+          {{/* Email Direct */}}
+          <div class="email-card">
+            <div class="email-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </div>
+            <h3>Email trực tiếp</h3>
+            <a href="mailto:{{ .Site.Params.email | default "contact@example.com" }}" class="email-link">
+              {{ .Site.Params.email | default "contact@example.com" }}
+            </a>
+          </div>
+
+        </section>
+      </div>
+
+      {{/* Info Card */}}
+      <section class="response-info glass-card reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+        </svg>
+        <h3>Phản hồi nhanh</h3>
+        <p>Tôi thường xuyên kiểm tra email và social media. Sẽ phản hồi trong vòng 24-48 giờ.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<style>
+/* ===== Contact Page Styles ===== */
+.contact-page {
+  min-height: 100vh;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+}
+
+.contact-content {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+/* ===== Contact Grid ===== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Contact Form Section ===== */
+.contact-form-section {
+  padding: var(--space-8);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-group label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--gray-700);
+}
+
+[data-theme="dark"] .form-group label {
+  color: var(--gray-300);
+}
+
+.btn-full {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.btn-full svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ===== Social Links Section ===== */
+.social-links-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ===== Social Card ===== */
+.social-card {
+  padding: var(--space-6);
+  transition: all var(--transition-normal);
+}
+
+.social-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-amber);
+}
+
+.social-card-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.social-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-xl);
+  flex-shrink: 0;
+}
+
+.social-icon-wrapper svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .social-icon-wrapper svg {
+  color: var(--amber-400);
+}
+
+.social-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.social-info h3 {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-1);
+}
+
+[data-theme="dark"] .social-info h3 {
+  color: white;
+}
+
+.social-info p {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+}
+
+[data-theme="dark"] .social-info p {
+  color: var(--gray-400);
+}
+
+.social-action-btn {
+  padding: var(--space-2) var(--space-4);
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--amber-600);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .social-action-btn {
+  color: var(--amber-400);
+}
+
+.social-action-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+/* ===== Email Card ===== */
+.email-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.email-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background: rgba(245, 158, 11, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 50%;
+  margin-bottom: var(--space-4);
+}
+
+.email-icon svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .email-icon svg {
+  color: var(--amber-400);
+}
+
+.email-card h3 {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+}
+
+[data-theme="dark"] .email-card h3 {
+  color: white;
+}
+
+.email-link {
+  color: var(--amber-600);
+  font-weight: var(--font-medium);
+  transition: text-decoration var(--transition-fast);
+}
+
+[data-theme="dark"] .email-link {
+  color: var(--amber-400);
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Response Info ===== */
+.response-info {
+  margin-top: var(--space-12);
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.response-info svg {
+  width: 3rem;
+  height: 3rem;
+  color: var(--amber-500);
+  margin: 0 auto var(--space-4);
+}
+
+.response-info h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-3);
+}
+
+[data-theme="dark"] .response-info h3 {
+  color: white;
+}
+
+.response-info p {
+  color: var(--gray-600);
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+[data-theme="dark"] .response-info p {
+  color: var(--gray-400);
+}
+</style>
+{{ end }}

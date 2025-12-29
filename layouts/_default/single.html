@@ -2,7 +2,7 @@
 <article class="single-post">
   <div class="container">
     {{/* Back Button */}}
-    <a href="{{ .Parent.RelPermalink | default "/" }}" class="back-button glass-btn">
+    <a href="{{ .Parent.RelPermalink | default "/" }}" class="back-button btn-glass">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
       </svg>
@@ -89,6 +89,9 @@
           </div>
         </section>
         {{ end }}
+
+        {{/* Comments Section */}}
+        {{ partial "comments.html" . }}
       </div>
 
       {{/* Sidebar - 4 columns */}}
@@ -120,13 +123,10 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  /* Glass styles from .btn-glass */
   margin-bottom: var(--space-8);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
-  background: var(--glass-bg-solid);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
   transition: all var(--transition-normal);
 }
 
@@ -173,9 +173,9 @@
 .post-category {
   display: inline-block;
   padding: var(--space-2) var(--space-4);
-  background: rgba(147, 51, 234, 0.1);
-  border: 1px solid rgba(147, 51, 234, 0.2);
-  color: var(--purple-600);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: var(--amber-600);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   border-radius: var(--radius-full);
@@ -183,7 +183,7 @@
 }
 
 [data-theme="dark"] .post-category {
-  color: var(--purple-400);
+  color: var(--amber-400);
 }
 
 .post-title {
@@ -235,13 +235,13 @@
 }
 
 .post-tag:hover {
-  background: rgba(147, 51, 234, 0.2);
-  border-color: rgba(147, 51, 234, 0.3);
-  color: var(--purple-600);
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--amber-600);
 }
 
 [data-theme="dark"] .post-tag:hover {
-  color: var(--purple-400);
+  color: var(--amber-400);
 }
 
 /* ===== Post Content ===== */
@@ -281,8 +281,8 @@
 }
 
 .prose code {
-  background: rgba(147, 51, 234, 0.1);
-  color: var(--purple-400);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--amber-400);
   padding: 2px 6px;
   border-radius: var(--radius-md);
   font-family: var(--font-code);
@@ -300,13 +300,13 @@
 .prose pre code {
   background: transparent;
   padding: 0;
-  color: var(--purple-400);
+  color: var(--amber-400);
 }
 
 /* ===== Callout Box ===== */
 .prose blockquote {
-  background: rgba(147, 51, 234, 0.1);
-  border: 1px solid rgba(147, 51, 234, 0.2);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   margin: var(--space-6) 0;
@@ -314,7 +314,7 @@
 
 .prose blockquote p {
   margin: 0;
-  color: var(--purple-400);
+  color: var(--amber-400);
 }
 
 /* ===== Sidebar ===== */
@@ -371,13 +371,13 @@
 
 .related-category {
   font-size: var(--text-xs);
-  color: var(--purple-600);
+  color: var(--amber-600);
   margin-bottom: var(--space-2);
   display: block;
 }
 
 [data-theme="dark"] .related-category {
-  color: var(--purple-400);
+  color: var(--amber-400);
 }
 
 .related-card-title {
@@ -395,5 +395,121 @@
   font-size: var(--text-xs);
   color: var(--color-text-light);
 }
+
+/* ===== Code Block Improvements ===== */
+.prose pre {
+  position: relative;
+  background: #1a1a2e !important;
+  padding: var(--space-6);
+  padding-top: var(--space-10);
+  border-radius: var(--radius-xl);
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+}
+
+.prose pre code {
+  background: transparent !important;
+  color: #e2e8f0 !important; /* Light gray for readability */
+  font-family: var(--font-code);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  padding: var(--space-2);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+.code-copy-btn:hover {
+  background: rgba(245, 158, 11, 0.3);
+  color: #fff;
+}
+
+.code-copy-btn.copied {
+  background: rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // ===== Code Copy Button =====
+  document.querySelectorAll('.prose pre').forEach(function(pre) {
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>';
+    
+    btn.addEventListener('click', function() {
+      const code = pre.querySelector('code');
+      if (code) {
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.classList.add('copied');
+          btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>';
+          setTimeout(function() {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>';
+          }, 2000);
+        });
+      }
+    });
+    
+    pre.appendChild(btn);
+  });
+
+  // ===== ToC Scroll Interactivity =====
+  document.querySelectorAll('.toc-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Update URL without scroll
+        history.pushState(null, null, '#' + targetId);
+      }
+    });
+  });
+
+  // ===== Highlight Active ToC Item =====
+  const headings = document.querySelectorAll('.prose h2[id], .prose h3[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+  
+  if (headings.length && tocLinks.length) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          tocLinks.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -80% 0px' });
+
+    headings.forEach(function(heading) {
+      observer.observe(heading);
+    });
+  }
+});
+</script>
 {{ end }}
+
+
+
+
+

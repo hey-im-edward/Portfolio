@@ -111,7 +111,7 @@
         </div>
         
         <!-- Decorative Glow -->
-        <div class="glow"></div>
+        <!-- Decorative Glow Removed -->
       </div>
       
     </div>
@@ -202,12 +202,12 @@
 
 /* ===== Hero Left ===== */
 .hero-card {
-  padding: var(--space-8);
+  padding: var(--space-5); /* Reduced from space-8 */
 }
 
 @media (min-width: 1024px) {
   .hero-card {
-    padding: var(--space-12);
+    padding: var(--space-8); /* Reduced from space-12 */
   }
 }
 
@@ -340,26 +340,28 @@
 /* ===== Post Card ===== */
 .post-card {
   transition: all var(--transition-normal);
+  cursor: pointer;
 }
 
 .post-card:hover {
   transform: translateY(-4px);
+  box-shadow: var(--shadow-lg), var(--shadow-amber-glow);
 }
 
 .post-image-placeholder {
   width: 100%;
-  height: 8rem;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 146, 60, 0.2));
-  border-radius: var(--radius-lg);
+  height: 5rem; /* Reduced from 8rem */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md); /* Reduced from lg */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3); /* Reduced from space-4 */
 }
 
 .post-placeholder-icon {
-  width: 48px;
-  height: 48px;
+  width: 32px; /* Reduced from 48px */
+  height: 32px;
   color: rgba(245, 158, 11, 0.5);
 }
 
@@ -506,3 +508,8 @@
 }
 </style>
 {{ end }}
+
+
+
+
+

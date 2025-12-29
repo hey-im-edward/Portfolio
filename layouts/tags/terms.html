@@ -1,0 +1,664 @@
+{{ define "main" }}
+<!-- Tags Page - Converted 1:1 from TagsPage.tsx V3 React -->
+<div class="tags-page">
+  <div class="container">
+    {{ $tags := .Data.Terms.ByCount }}
+    {{ $totalPosts := 0 }}
+    {{ $maxPosts := 0 }}
+    {{ range $tags }}
+      {{ $totalPosts = add $totalPosts .Count }}
+      {{ if gt .Count $maxPosts }}
+        {{ $maxPosts = .Count }}
+      {{ end }}
+    {{ end }}
+
+    <!-- Header -->
+    <header class="page-header reveal">
+      <div class="header-content">
+        <div class="header-left">
+          <div class="header-icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+              <line x1="4" y1="9" x2="20" y2="9"/>
+              <line x1="4" y1="15" x2="20" y2="15"/>
+              <line x1="10" y1="3" x2="8" y2="21"/>
+              <line x1="16" y1="3" x2="14" y2="21"/>
+            </svg>
+          </div>
+          <h1 class="page-title">
+            <span class="gradient-text">Tags</span>
+          </h1>
+          <p class="page-subtitle">{{ len $tags }} tags • {{ $totalPosts }} bài viết</p>
+        </div>
+
+        <a href="{{ "blog/" | relURL }}" class="btn-back glass-btn">
+          ← Quay lại
+        </a>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-container glass-card-sm">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" class="search-input" placeholder="Tìm kiếm tags..." id="tag-search" onkeyup="filterTags()">
+        </div>
+      </div>
+    </header>
+
+    <!-- Trending Tags -->
+    {{ if gt (len $tags) 0 }}
+    <section class="trending-section reveal">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
+        <h2>Trending Tags</h2>
+      </div>
+      <div class="trending-grid">
+        {{ range first 6 $tags }}
+        {{ $progress := 0 }}
+        {{ if gt $maxPosts 0 }}
+          {{ $progress = div (mul .Count 100) $maxPosts }}
+        {{ end }}
+        <a href="{{ .Page.Permalink }}" class="trending-card glass-card-cta">
+          <div class="trending-top">
+            <span class="trending-name">#{{ .Page.Title }}</span>
+            <div class="trending-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+              </svg>
+            </div>
+          </div>
+          <div class="trending-count">{{ .Count }} bài viết</div>
+          <div class="trending-progress">
+            <div class="progress-fill" style="--progress: {{ $progress }}%"></div>
+          </div>
+        </a>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+    <!-- Tag Cloud -->
+    <section class="cloud-section reveal">
+      <h2 class="section-title">Tag Cloud</h2>
+      <div class="tag-cloud glass-card">
+        {{ range $tags }}
+        {{ $size := "tag-sm" }}
+        {{ if ge .Count 10 }}{{ $size = "tag-xl" }}
+        {{ else if ge .Count 7 }}{{ $size = "tag-lg" }}
+        {{ else if ge .Count 4 }}{{ $size = "tag-md" }}
+        {{ end }}
+        <a href="{{ .Page.Permalink }}" class="cloud-tag {{ $size }}" data-tag="{{ lower .Page.Title }}">
+          #{{ .Page.Title }}
+        </a>
+        {{ end }}
+      </div>
+    </section>
+
+    <!-- All Tags List -->
+    <section class="all-tags-section reveal">
+      <h2 class="section-title">Tất cả Tags ({{ len $tags }})</h2>
+      <div class="tags-grid" id="tags-grid">
+        {{ range $tags }}
+        <a href="{{ .Page.Permalink }}" class="tag-item glass-card-sm" data-tag="{{ lower .Page.Title }}">
+          <div class="tag-info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+              <line x1="4" y1="9" x2="20" y2="9"/>
+              <line x1="4" y1="15" x2="20" y2="15"/>
+              <line x1="10" y1="3" x2="8" y2="21"/>
+              <line x1="16" y1="3" x2="14" y2="21"/>
+            </svg>
+            <span class="tag-name">{{ .Page.Title }}</span>
+          </div>
+          <span class="tag-count-badge">{{ .Count }}</span>
+        </a>
+        {{ end }}
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section glass-card-cta reveal">
+      <h3 class="stats-title">Tag Statistics</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value gradient-text">{{ len $tags }}</div>
+          <div class="stat-label">Total Tags</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value gradient-text">{{ $totalPosts }}</div>
+          <div class="stat-label">Total Posts</div>
+        </div>
+        <div class="stat-item">
+          {{ $trendingCount := 0 }}
+          {{ range first 6 $tags }}{{ $trendingCount = add $trendingCount 1 }}{{ end }}
+          <div class="stat-value gradient-text">{{ $trendingCount }}</div>
+          <div class="stat-label">Trending</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value gradient-text">{{ $maxPosts }}</div>
+          <div class="stat-label">Most Used</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+function filterTags() {
+  const search = document.getElementById('tag-search').value.toLowerCase();
+  const items = document.querySelectorAll('[data-tag]');
+  items.forEach(item => {
+    const tag = item.getAttribute('data-tag');
+    if (tag.includes(search)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+</script>
+
+<style>
+/* ===== Tags Page - V3 React 1:1 Conversion ===== */
+.tags-page {
+  min-height: 100vh;
+  padding-top: 8rem; /* pt-32 */
+  padding-bottom: 5rem; /* pb-20 */
+}
+
+/* ===== Header ===== */
+.page-header {
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.header-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2rem; /* mb-8 */
+}
+
+@media (max-width: 767px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem; /* p-3 */
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+  margin-bottom: 1.5rem; /* mb-6 */
+  width: fit-content;
+}
+
+.header-icon {
+  width: 32px; /* w-8 */
+  height: 32px; /* h-8 */
+  color: white;
+}
+
+.page-title {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 700;
+  margin-bottom: 0.75rem; /* mb-3 */
+}
+
+@media (min-width: 1024px) {
+  .page-title {
+    font-size: 3rem; /* lg:text-5xl */
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--amber-600), var(--orange-500, #f97316));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  font-size: 1.125rem; /* text-lg */
+  color: var(--gray-600);
+}
+
+[data-theme="dark"] .page-subtitle {
+  color: var(--gray-400);
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 0.75rem; /* rounded-xl */
+  color: var(--gray-700);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+[data-theme="dark"] .btn-back {
+  color: var(--gray-300);
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .btn-back:hover {
+  background: rgba(17, 24, 39, 0.4);
+}
+
+/* ===== Search Box ===== */
+.search-container {
+  padding: 1rem; /* p-4 */
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem; /* left-4 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px; /* w-5 */
+  height: 20px; /* h-5 */
+  color: var(--gray-400);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem; /* pl-12 pr-4 py-3 */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem; /* rounded-xl */
+  color: var(--gray-900);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+[data-theme="dark"] .search-input {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+  color: white;
+}
+
+.search-input::placeholder {
+  color: var(--gray-500);
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: var(--gray-400);
+}
+
+.search-input:focus {
+  border-color: rgba(245, 158, 11, 0.5); /* focus:border-amber-500/50 */
+}
+
+/* ===== Trending Tags ===== */
+.trending-section {
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-3 */
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.section-header svg {
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .section-header svg {
+  color: var(--amber-400);
+}
+
+.section-header h2 {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .section-header h2 {
+  color: white;
+}
+
+.trending-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem; /* gap-4 */
+}
+
+@media (min-width: 768px) {
+  .trending-grid {
+    grid-template-columns: repeat(2, 1fr); /* md:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .trending-grid {
+    grid-template-columns: repeat(3, 1fr); /* lg:grid-cols-3 */
+  }
+}
+
+.trending-card {
+  display: block;
+  padding: 0.75rem; /* p-6 */
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.trending-card:hover {
+  transform: translateY(-4px); /* hover:-translate-y-1 */
+  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
+}
+
+.trending-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.trending-name {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .trending-name {
+  color: var(--amber-400);
+}
+
+.trending-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(245, 158, 11, 0.2);
+  border-radius: 9999px; /* rounded-full */
+}
+
+.trending-badge svg {
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .trending-badge svg {
+  color: var(--amber-400);
+}
+
+.trending-count {
+  font-size: 0.875rem; /* text-sm */
+  color: var(--gray-600);
+  margin-bottom: 0.75rem; /* mb-3 */
+}
+
+[data-theme="dark"] .trending-count {
+  color: var(--gray-400);
+}
+
+.trending-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .trending-progress {
+  background: rgba(17, 24, 39, 0.3);
+}
+
+.progress-fill {
+  height: 100%;
+  width: var(--progress, 0%);
+  background: linear-gradient(to right, var(--amber-600), var(--amber-400));
+  border-radius: 9999px;
+  transition: width 1s ease-out;
+}
+
+/* ===== Tag Cloud ===== */
+.cloud-section {
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.section-title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+[data-theme="dark"] .section-title {
+  color: white;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem; /* gap-3 */
+  justify-content: center;
+  padding: 1rem; /* p-8 */
+}
+
+.cloud-tag {
+  display: inline-block;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem; /* rounded-lg */
+  color: var(--gray-700);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+[data-theme="dark"] .cloud-tag {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+  color: var(--gray-300);
+}
+
+.cloud-tag:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--amber-600);
+  transform: scale(1.1); /* hover:scale-110 */
+}
+
+[data-theme="dark"] .cloud-tag:hover {
+  color: var(--amber-400);
+}
+
+.tag-sm { font-size: 0.875rem; }
+.tag-md { font-size: 1rem; }
+.tag-lg { font-size: 1.125rem; }
+.tag-xl { font-size: 1.25rem; }
+
+/* ===== All Tags List ===== */
+.all-tags-section {
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.tags-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem; /* gap-3 */
+}
+
+@media (min-width: 768px) {
+  .tags-grid {
+    grid-template-columns: repeat(2, 1fr); /* md:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .tags-grid {
+    grid-template-columns: repeat(3, 1fr); /* lg:grid-cols-3 */
+  }
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem; /* p-4 */
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.tag-item:hover {
+  transform: translateY(-2px); /* hover:-translate-y-0.5 */
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .tag-item:hover {
+  background: rgba(17, 24, 39, 0.3);
+}
+
+.tag-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-3 */
+}
+
+.tag-info svg {
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .tag-info svg {
+  color: var(--amber-400);
+}
+
+.tag-name {
+  font-weight: 500; /* font-medium */
+  color: var(--gray-900);
+  transition: color 0.3s;
+}
+
+[data-theme="dark"] .tag-name {
+  color: white;
+}
+
+.tag-item:hover .tag-name {
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .tag-item:hover .tag-name {
+  color: var(--amber-400);
+}
+
+.tag-count-badge {
+  padding: 0.25rem 0.5rem; /* px-2 py-1 */
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 9999px; /* rounded-full */
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .tag-count-badge {
+  color: var(--amber-400);
+}
+
+/* ===== Stats Section ===== */
+.stats-section {
+  padding: 1rem; /* p-8 */
+  text-align: center;
+}
+
+.stats-title {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+[data-theme="dark"] .stats-title {
+  color: white;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* grid-cols-2 */
+  gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr); /* md:grid-cols-4 */
+  }
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.stat-label {
+  font-size: 0.875rem; /* text-sm */
+  color: var(--gray-600);
+}
+
+[data-theme="dark"] .stat-label {
+  color: var(--gray-400);
+}
+
+.glass-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .glass-btn {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
+}
+
+/* ===== Animations ===== */
+.reveal {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+{{ end }}

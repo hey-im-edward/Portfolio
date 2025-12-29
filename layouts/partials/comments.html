@@ -1,0 +1,175 @@
+{{/* Giscus Comments - Theme-Synced Implementation */}}
+
+{{ if and .Site.Params.giscus.enabled (not .Params.disableComments) }}
+<section class="comments-section">
+  <h2 class="comments-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    Bình luận
+  </h2>
+  
+  <div class="giscus"></div>
+  
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ .Site.Params.giscus.repo }}"
+    data-repo-id="{{ .Site.Params.giscus.repoId }}"
+    data-category="{{ .Site.Params.giscus.category }}"
+    data-category-id="{{ .Site.Params.giscus.categoryId }}"
+    data-mapping="{{ .Site.Params.giscus.mapping | default "pathname" }}"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="{{ .Site.Language.Lang | default "vi" }}"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+</section>
+
+<style>
+.comments-section {
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--glass-border);
+}
+
+.comments-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-6);
+  color: var(--color-text);
+}
+
+.comments-title svg {
+  color: var(--amber-500);
+}
+
+/* iOS 26 Liquid Glass Container */
+.giscus {
+  min-height: 200px;
+  position: relative;
+  padding: var(--space-4);
+  border-radius: var(--radius-2xl);
+  
+  /* Liquid Glass Effect */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  /* Dynamic border */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Light mode adjustments */
+[data-theme="light"] .giscus {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.giscus-frame {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-xl);
+}
+</style>
+
+<script>
+// Giscus Theme Sync - Using correct CSS URL format
+(function() {
+  const GISCUS_ORIGIN = 'https://giscus.app';
+  
+  // Get current site theme
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') || 
+           localStorage.getItem('theme') || 
+           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  
+  // Map site theme to Giscus theme CSS URL
+  function getGiscusThemeUrl() {
+    const theme = getCurrentTheme();
+    const giscusTheme = theme === 'light' ? 'light' : 'dark';
+    return `${GISCUS_ORIGIN}/themes/${giscusTheme}.css`;
+  }
+  
+  // Send theme to Giscus iframe using correct format
+  function setGiscusTheme() {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe || !iframe.contentWindow) return;
+    
+    iframe.contentWindow.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme: getGiscusThemeUrl()
+          }
+        }
+      },
+      GISCUS_ORIGIN
+    );
+  }
+  
+  // Set initial theme when iframe loads
+  function onGiscusLoad() {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.tagName === 'IFRAME' && node.classList.contains('giscus-frame')) {
+            node.addEventListener('load', function() {
+              // Set theme after iframe is fully loaded
+              setTimeout(setGiscusTheme, 100);
+            });
+          }
+        });
+      });
+    });
+    
+    const giscusContainer = document.querySelector('.giscus');
+    if (giscusContainer) {
+      observer.observe(giscusContainer, { childList: true });
+    }
+  }
+  
+  // Watch for theme toggle
+  function watchThemeChanges() {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.attributeName === 'data-theme') {
+          setGiscusTheme();
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+  }
+  
+  // Initialize
+  onGiscusLoad();
+  watchThemeChanges();
+})();
+</script>
+{{ end }}

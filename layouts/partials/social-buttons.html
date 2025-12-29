@@ -1,25 +1,33 @@
-{{- /* Social Action Buttons Partial */}}
-<div class="social-buttons">
+{{- /* Social Action Buttons Partial - With Working Like/Bookmark */}} {{
+$postId := .File.UniqueID | default .RelPermalink }}
+
+<div class="social-buttons" data-post-id="{{ $postId }}">
   <button class="social-btn" data-action="like" aria-label="Like">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path
         d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
       />
     </svg>
-    <span class="social-count">24</span>
+    <span class="social-count like-count">0</span>
   </button>
 
-  <button class="social-btn" data-action="comment" aria-label="Comments">
+  <button
+    class="social-btn"
+    data-action="comment"
+    aria-label="Comments"
+    onclick="scrollToComments()"
+  >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
     </svg>
-    <span class="social-count">5</span>
+    <span class="social-count">Bình luận</span>
   </button>
 
   <button class="social-btn" data-action="bookmark" aria-label="Bookmark">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
     </svg>
+    <span class="bookmark-text">Lưu</span>
   </button>
 
   <button
@@ -57,26 +65,27 @@
     border-radius: var(--radius-xl);
     cursor: pointer;
     transition: all var(--transition-normal);
+    color: var(--color-text);
   }
 
   .social-btn:hover {
-    background: rgba(147, 51, 234, 0.2);
-    border-color: rgba(147, 51, 234, 0.3);
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.3);
   }
 
   .social-btn svg {
     width: 20px;
     height: 20px;
     color: var(--color-text-muted);
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
   }
 
   .social-btn:hover svg {
-    color: var(--purple-600);
+    color: var(--amber-600);
   }
 
   [data-theme="dark"] .social-btn:hover svg {
-    color: var(--purple-400);
+    color: var(--amber-400);
   }
 
   .social-count {
@@ -84,13 +93,117 @@
     color: var(--color-text-muted);
   }
 
-  .social-btn.active svg {
-    fill: var(--purple-500);
-    color: var(--purple-500);
+  /* Active states */
+  .social-btn.liked svg {
+    fill: #ef4444;
+    color: #ef4444;
+    stroke: #ef4444;
+  }
+
+  .social-btn.bookmarked svg {
+    fill: var(--amber-500);
+    color: var(--amber-500);
+  }
+
+  .social-btn.bookmarked .bookmark-text {
+    color: var(--amber-500);
   }
 </style>
 
 <script>
+  (function () {
+    const container = document.querySelector(".social-buttons");
+    if (!container) return;
+
+    const postId = container.dataset.postId;
+    const STORAGE_KEY = "portfolio_social_data";
+
+    // Get stored data
+    function getData() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    // Save data
+    function saveData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Initialize buttons
+    const likeBtn = container.querySelector('[data-action="like"]');
+    const bookmarkBtn = container.querySelector('[data-action="bookmark"]');
+    const likeCount = container.querySelector(".like-count");
+
+    const data = getData();
+    const postData = data[postId] || {
+      liked: false,
+      bookmarked: false,
+      likes: 0,
+    };
+
+    // Update UI from stored state
+    if (postData.liked) {
+      likeBtn.classList.add("liked");
+    }
+    if (postData.bookmarked) {
+      bookmarkBtn.classList.add("bookmarked");
+      bookmarkBtn.querySelector(".bookmark-text").textContent = "Đã lưu";
+    }
+    likeCount.textContent = postData.likes || 0;
+
+    // Like button
+    likeBtn.addEventListener("click", function () {
+      const data = getData();
+      const postData = data[postId] || {
+        liked: false,
+        bookmarked: false,
+        likes: 0,
+      };
+
+      if (postData.liked) {
+        postData.liked = false;
+        postData.likes = Math.max(0, (postData.likes || 1) - 1);
+        likeBtn.classList.remove("liked");
+      } else {
+        postData.liked = true;
+        postData.likes = (postData.likes || 0) + 1;
+        likeBtn.classList.add("liked");
+      }
+
+      data[postId] = postData;
+      saveData(data);
+      likeCount.textContent = postData.likes;
+    });
+
+    // Bookmark button
+    bookmarkBtn.addEventListener("click", function () {
+      const data = getData();
+      const postData = data[postId] || {
+        liked: false,
+        bookmarked: false,
+        likes: 0,
+      };
+      const textEl = bookmarkBtn.querySelector(".bookmark-text");
+
+      if (postData.bookmarked) {
+        postData.bookmarked = false;
+        bookmarkBtn.classList.remove("bookmarked");
+        textEl.textContent = "Lưu";
+      } else {
+        postData.bookmarked = true;
+        bookmarkBtn.classList.add("bookmarked");
+        textEl.textContent = "Đã lưu";
+      }
+
+      data[postId] = postData;
+      saveData(data);
+    });
+  })();
+
+  // Share function
   function sharePost() {
     if (navigator.share) {
       navigator.share({
@@ -99,7 +212,17 @@
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      alert("Link đã được copy!");
+    }
+  }
+
+  // Scroll to comments
+  function scrollToComments() {
+    const comments = document.querySelector(
+      ".comments-section, .giscus-container"
+    );
+    if (comments) {
+      comments.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 </script>

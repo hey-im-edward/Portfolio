@@ -7,7 +7,7 @@
   {{- $authorBio = $author.bio | default "Developer đam mê Java & JavaScript" }}
 {{- end }}
 
-<div class="author-card">
+<div class="author-card glass-card-sm">
   <div class="author-avatar">
     <span class="author-emoji">👨‍💻</span>
   </div>
@@ -20,19 +20,14 @@
 
 <style>
 .author-card {
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(139, 92, 246, 0.1));
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid rgba(147, 51, 234, 0.2);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-6);
   text-align: center;
+  /* Glass effect handled by .glass-card-sm */
 }
 
 .author-avatar {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, var(--purple-600), var(--purple-500));
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
@@ -62,3 +57,8 @@
   display: block;
 }
 </style>
+
+
+
+
+

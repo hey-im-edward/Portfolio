@@ -1,36 +1,37 @@
 {{ define "main" }}
-<!-- ProjectsPage - Converted from ProjectsPage.tsx -->
+<!-- Projects Page - Converted 1:1 from ProjectsPage.tsx V3 React -->
 <div class="projects-page">
   <div class="container">
     <!-- Header -->
     <header class="page-header reveal">
-      <div class="page-icon-wrapper">
+      <div class="header-icon-wrapper">
         <svg
-          class="page-icon"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
+          class="header-icon"
         >
-          <path
-            d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
-          />
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
         </svg>
       </div>
-      <h1 class="page-title gradient-text">Projects</h1>
+      <h1 class="page-title">
+        <span class="gradient-text">Projects</span>
+      </h1>
       <p class="page-subtitle">Các dự án tôi đã và đang thực hiện</p>
     </header>
 
-    {{ $projects := where .Site.RegularPages "Section" "projects" }} {{ if
-    $projects }}
     <!-- Projects Grid -->
-    <div class="projects-grid">
+    {{ $projects := where .Site.RegularPages "Section" "projects" }} {{ if gt
+    (len $projects) 0 }}
+    <div class="projects-grid reveal">
       {{ range $projects }}
-      <article class="project-card glass-card reveal">
-        <div class="project-thumbnail">
-          {{ $bgImage := .Params.image | default .Params.featured_image }} {{
-          with $bgImage }}
-          <img src="{{ . }}" alt="{{ $.Title }}" class="project-image" />
+      <article class="project-card glass-card">
+        <!-- Project Image -->
+        <div class="project-image">
+          {{ if .Params.image }}
+          <img src="{{ .Params.image }}" alt="{{ .Title }}" />
           {{ else }}
           <div class="project-placeholder">
             <svg
@@ -38,34 +39,51 @@
               fill="none"
               stroke="currentColor"
               stroke-width="2"
+              width="48"
+              height="48"
             >
-              <path
-                d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
-              />
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
           </div>
           {{ end }}
         </div>
+
+        <!-- Project Info -->
         <div class="project-content">
           <h3 class="project-title">{{ .Title }}</h3>
           <p class="project-desc">{{ .Summary | plainify | truncate 120 }}</p>
+
+          <!-- Tech Stack -->
           {{ with .Params.tech }}
           <div class="project-tech">
             {{ range . }}
-            <span class="glass-tag">{{ . }}</span>
+            <span class="tech-badge">{{ . }}</span>
             {{ end }}
           </div>
           {{ end }}
+
+          <!-- Links -->
           <div class="project-links">
-            <a href="{{ .Permalink }}" class="btn-primary">Xem chi tiết</a>
+            <a href="{{ .Permalink }}" class="btn-primary-sm"> Chi tiết </a>
             {{ with .Params.demo }}
             <a
               href="{{ . }}"
               target="_blank"
               rel="noopener noreferrer"
-              class="btn-glass"
-              >Demo</a
+              class="btn-glass-sm"
             >
+              Demo
+            </a>
+            {{ end }} {{ with .Params.github }}
+            <a
+              href="{{ . }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-glass-sm"
+            >
+              GitHub
+            </a>
             {{ end }}
           </div>
         </div>
@@ -74,30 +92,30 @@
     </div>
     {{ else }}
     <!-- Empty State -->
-    <div class="empty-state-card glass-card reveal">
+    <div class="empty-state glass-card reveal">
       <div class="empty-icon-wrapper">
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
+          width="48"
+          height="48"
         >
-          <path
-            d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
-          />
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
         </svg>
       </div>
 
       <h2 class="empty-title">Chưa có dự án nào</h2>
 
       <p class="empty-desc">
-        Tạo dự án đầu tiên với
-        <code class="code-inline">hugo new projects/my-project.md</code>
+        Tạo dự án đầu tiên với <code>hugo new projects/my-project.md</code>
       </p>
 
-      <div class="empty-instructions">
-        <p class="instruction-title">Hướng dẫn tạo dự án:</p>
-        <ol class="instruction-list">
+      <div class="instructions-box">
+        <p class="instructions-title">Hướng dẫn tạo dự án:</p>
+        <ol class="instructions-list">
           <li>1. Chạy lệnh tạo file dự án mới</li>
           <li>2. Thêm thông tin: title, description, tech stack, demo link</li>
           <li>3. Cập nhật ảnh preview nếu có</li>
@@ -106,12 +124,7 @@
       </div>
 
       <div class="empty-cta">
-        <a
-          href="https://gohugo.io/getting-started/quick-start/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary"
-        >
+        <button class="btn-primary">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -124,47 +137,90 @@
             <path d="M12 5v14" />
           </svg>
           <span>Tạo dự án đầu tiên</span>
-        </a>
+        </button>
       </div>
     </div>
+    {{ end }}
 
     <!-- Info Cards -->
     <div class="info-cards reveal">
       <div class="info-card glass-card-sm">
-        <h3 class="info-card-title">💡 Gợi ý nội dung</h3>
-        <p class="info-card-desc">
+        <h3 class="info-title">💡 Gợi ý nội dung</h3>
+        <p class="info-desc">
           Showcase các dự án cá nhân, open source contributions, hoặc case
           studies về các vấn đề kỹ thuật bạn đã giải quyết.
         </p>
       </div>
-
       <div class="info-card glass-card-sm">
-        <h3 class="info-card-title">🎨 Tùy chỉnh</h3>
-        <p class="info-card-desc">
+        <h3 class="info-title">🎨 Tùy chỉnh</h3>
+        <p class="info-desc">
           Thêm tech stack, demo links, source code, ảnh screenshots để làm nổi
           bật dự án của bạn.
         </p>
       </div>
     </div>
-    {{ end }}
   </div>
 </div>
 
 <style>
-  /* ===== Projects Page Layout ===== */
+  /* ===== Projects Page - V3 React 1:1 Conversion ===== */
   .projects-page {
     min-height: 100vh;
     padding-top: 8rem;
     padding-bottom: 5rem;
   }
 
+  /* ===== Header ===== */
+  .page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .header-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+    margin-bottom: 1.5rem;
+  }
+
+  .header-icon {
+    width: 32px;
+    height: 32px;
+    color: white;
+  }
+
+  .page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .gradient-text {
+    background: linear-gradient(to right, var(--amber-600), var(--amber-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+  }
+
+  [data-theme="dark"] .page-subtitle {
+    color: var(--gray-300);
+  }
+
   /* ===== Projects Grid ===== */
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: var(--space-8);
-    max-width: 72rem;
-    margin: 0 auto;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
   }
 
   @media (min-width: 768px) {
@@ -182,23 +238,29 @@
   /* ===== Project Card ===== */
   .project-card {
     overflow: hidden;
-    padding: 0;
-    transition: all var(--transition-normal);
+    transition: all 0.3s;
   }
 
   .project-card:hover {
-    transform: translateY(-4px);
-  }
-
-  .project-thumbnail {
-    height: 12rem;
-    overflow: hidden;
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(245, 158, 11, 0.1);
   }
 
   .project-image {
     width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .project-image img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover .project-image img {
+    transform: scale(1.05);
   }
 
   .project-placeholder {
@@ -206,8 +268,8 @@
     height: 100%;
     background: linear-gradient(
       135deg,
-      rgba(245, 158, 11, 0.2),
-      rgba(251, 146, 60, 0.2)
+      rgba(245, 158, 11, 0.1),
+      rgba(251, 146, 60, 0.1)
     );
     display: flex;
     align-items: center;
@@ -215,20 +277,19 @@
   }
 
   .project-placeholder svg {
-    width: 48px;
-    height: 48px;
-    color: rgba(245, 158, 11, 0.5);
+    color: var(--amber-500);
+    opacity: 0.5;
   }
 
   .project-content {
-    padding: var(--space-6);
+    padding: 0.75rem;
   }
 
   .project-title {
-    font-size: var(--text-lg);
-    font-weight: var(--font-semibold);
-    margin-bottom: var(--space-2);
+    font-size: 1.25rem;
+    font-weight: 700;
     color: var(--gray-900);
+    margin-bottom: 0.5rem;
   }
 
   [data-theme="dark"] .project-title {
@@ -236,9 +297,10 @@
   }
 
   .project-desc {
-    font-size: var(--text-sm);
+    font-size: 0.875rem;
     color: var(--gray-600);
-    margin-bottom: var(--space-4);
+    margin-bottom: 1rem;
+    line-height: 1.6;
   }
 
   [data-theme="dark"] .project-desc {
@@ -248,26 +310,71 @@
   .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-4);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tech-badge {
+    padding: 0.25rem 0.75rem;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--amber-600);
+  }
+
+  [data-theme="dark"] .tech-badge {
+    color: var(--amber-400);
   }
 
   .project-links {
     display: flex;
-    gap: var(--space-3);
+    gap: 0.5rem;
   }
 
-  .project-links .btn-primary,
-  .project-links .btn-glass {
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
+  .btn-primary-sm {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to right, var(--amber-600), var(--amber-500));
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-primary-sm:hover {
+    box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+  }
+
+  .btn-glass-sm {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  [data-theme="dark"] .btn-glass-sm {
+    background: rgba(17, 24, 39, 0.3);
+    border-color: rgba(55, 65, 81, 0.3);
+    color: var(--gray-300);
+  }
+
+  .btn-glass-sm:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 
   /* ===== Empty State ===== */
-  .empty-state-card {
+  .empty-state {
     max-width: 42rem;
-    margin: 0 auto var(--space-12);
-    padding: var(--space-12);
+    margin: 0 auto 3rem;
+    padding: 3rem;
     text-align: center;
   }
 
@@ -278,16 +385,12 @@
     width: 96px;
     height: 96px;
     background: rgba(245, 158, 11, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(245, 158, 11, 0.2);
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-6);
+    border-radius: 9999px;
+    margin-bottom: 1.5rem;
   }
 
   .empty-icon-wrapper svg {
-    width: 48px;
-    height: 48px;
     color: var(--amber-600);
   }
 
@@ -296,10 +399,10 @@
   }
 
   .empty-title {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
-    margin-bottom: var(--space-4);
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--gray-900);
+    margin-bottom: 1rem;
   }
 
   [data-theme="dark"] .empty-title {
@@ -308,77 +411,76 @@
 
   .empty-desc {
     color: var(--gray-600);
-    margin-bottom: var(--space-8);
+    margin-bottom: 2rem;
   }
 
   [data-theme="dark"] .empty-desc {
     color: var(--gray-400);
   }
 
-  .code-inline {
-    padding: var(--space-1) var(--space-2);
+  .empty-desc code {
+    padding: 0.25rem 0.5rem;
     background: rgba(17, 24, 39, 0.2);
-    border-radius: var(--radius-md);
-    font-family: var(--font-code);
-    font-size: var(--text-sm);
+    border-radius: 0.25rem;
     color: var(--amber-600);
   }
 
-  [data-theme="dark"] .code-inline {
+  [data-theme="dark"] .empty-desc code {
     background: rgba(17, 24, 39, 0.4);
     color: var(--amber-400);
   }
 
-  .empty-instructions {
-    padding: var(--space-6);
+  .instructions-box {
+    padding: 0.75rem;
     background: rgba(17, 24, 39, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: var(--radius-xl);
+    border-radius: 0.75rem;
     text-align: left;
+    margin-bottom: 2rem;
   }
 
-  [data-theme="dark"] .empty-instructions {
+  [data-theme="dark"] .instructions-box {
     background: rgba(17, 24, 39, 0.4);
   }
 
-  .instruction-title {
-    font-size: var(--text-sm);
-    font-weight: var(--font-medium);
+  .instructions-title {
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--gray-700);
-    margin-bottom: var(--space-2);
+    margin-bottom: 0.5rem;
   }
 
-  [data-theme="dark"] .instruction-title {
+  [data-theme="dark"] .instructions-title {
     color: var(--gray-300);
   }
 
-  .instruction-list {
+  .instructions-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
+    gap: 0.5rem;
+  }
+
+  .instructions-list li {
+    font-size: 0.875rem;
     color: var(--gray-600);
   }
 
-  [data-theme="dark"] .instruction-list {
+  [data-theme="dark"] .instructions-list li {
     color: var(--gray-400);
   }
 
   .empty-cta {
-    margin-top: var(--space-8);
+    margin-top: 2rem;
   }
 
   /* ===== Info Cards ===== */
   .info-cards {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: var(--space-6);
-    max-width: 56rem;
-    margin: 0 auto;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
   }
 
   @media (min-width: 768px) {
@@ -388,27 +490,63 @@
   }
 
   .info-card {
-    padding: var(--space-6);
+    padding: 0.75rem;
   }
 
-  .info-card-title {
-    font-weight: var(--font-semibold);
-    margin-bottom: var(--space-3);
+  .info-title {
+    font-weight: 600;
     color: var(--gray-900);
+    margin-bottom: 0.75rem;
   }
 
-  [data-theme="dark"] .info-card-title {
+  [data-theme="dark"] .info-title {
     color: white;
   }
 
-  .info-card-desc {
-    font-size: var(--text-sm);
+  .info-desc {
+    font-size: 0.875rem;
     color: var(--gray-600);
-    margin: 0;
   }
 
-  [data-theme="dark"] .info-card-desc {
+  [data-theme="dark"] .info-desc {
     color: var(--gray-400);
+  }
+
+  /* ===== Button ===== */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(to right, var(--amber-600), var(--amber-500));
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Animations ===== */
+  .reveal {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
 {{ end }}

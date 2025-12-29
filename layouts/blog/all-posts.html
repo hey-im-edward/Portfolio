@@ -1,0 +1,473 @@
+{{ define "main" }}
+<!-- All Posts Page - Converted from Figma V3 Design -->
+<div class="all-posts-page">
+  <div class="container">
+    
+    <!-- Header -->
+    <header class="all-posts-header reveal">
+      <div class="all-posts-header-top">
+        <div>
+          <h1 class="all-posts-title gradient-text">Tất cả bài viết</h1>
+          {{ $allPosts := where .Site.RegularPages "Section" "blog" }}
+          {{ $realPosts := where $allPosts ".Params.layout" "!=" "all-posts" }}
+          <p class="all-posts-subtitle">{{ len $realPosts }} bài viết được xuất bản</p>
+        </div>
+        <a href="{{ "blog/" | relURL }}" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          Quay lại
+        </a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container glass-card-sm">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" class="search-input" placeholder="Tìm kiếm bài viết..." id="blog-search" />
+        </div>
+        <button class="filter-btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <line x1="4" x2="4" y1="21" y2="14"/>
+            <line x1="4" x2="4" y1="10" y2="3"/>
+            <line x1="12" x2="12" y1="21" y2="12"/>
+            <line x1="12" x2="12" y1="8" y2="3"/>
+            <line x1="20" x2="20" y1="21" y2="16"/>
+            <line x1="20" x2="20" y1="12" y2="3"/>
+            <line x1="1" x2="7" y1="14" y2="14"/>
+            <line x1="9" x2="15" y1="8" y2="8"/>
+            <line x1="17" x2="23" y1="16" y2="16"/>
+          </svg>
+          Lọc
+        </button>
+      </div>
+    </header>
+
+    <!-- Blog Posts Grid -->
+    <div class="blog-grid">
+      {{ $allPosts := where .Site.RegularPages "Section" "blog" }}
+      {{ $posts := where $allPosts ".Params.layout" "!=" "all-posts" }}
+      {{ range $posts }}
+      <article class="blog-card glass-card reveal">
+        <!-- Card Header with Icon -->
+        <div class="blog-card-header">
+          <svg class="blog-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+          </svg>
+        </div>
+
+        <!-- Card Content -->
+        <div class="blog-card-content">
+          <!-- Category Tag -->
+          {{ with .Params.categories }}
+          {{ range first 1 . }}
+          <span class="category-tag">{{ . }}</span>
+          {{ end }}
+          {{ end }}
+
+          <!-- Title -->
+          <h2 class="blog-card-title">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </h2>
+
+          <!-- Excerpt -->
+          <p class="blog-card-excerpt">{{ .Summary | plainify | truncate 100 }}</p>
+
+          <!-- Meta Info -->
+          <div class="blog-card-meta">
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                <line x1="16" x2="16" y1="2" y2="6"/>
+                <line x1="8" x2="8" y1="2" y2="6"/>
+                <line x1="3" x2="21" y1="10" y2="10"/>
+              </svg>
+              {{ .Date.Format "02/01/2006" }}
+            </span>
+            <span class="meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ .ReadingTime }} phút đọc
+            </span>
+          </div>
+
+          <!-- Tags -->
+          <div class="blog-card-tags">
+            {{ with .Params.tags }}
+            {{ range first 2 . }}
+            <a href="{{ "tags/" | relURL }}{{ . | urlize }}/" class="tag-link">#{{ . }}</a>
+            {{ end }}
+            {{ if gt (len .) 2 }}
+            <span class="tag-more">+{{ sub (len .) 2 }}</span>
+            {{ end }}
+            {{ end }}
+          </div>
+        </div>
+      </article>
+      {{ else }}
+      <div class="empty-state glass-card">
+        <p>Chưa có bài viết nào. Tạo bài viết đầu tiên!</p>
+      </div>
+      {{ end }}
+    </div>
+
+    <!-- Pagination -->
+    {{ $totalPosts := len (where .Site.RegularPages "Section" "blog") }}
+    {{ if gt $totalPosts 9 }}
+    <nav class="blog-pagination reveal" aria-label="Page navigation">
+      <a href="#" class="pagination-link">← Trước</a>
+      <div class="pagination-numbers">
+        <span class="pagination-num active">1</span>
+        <a href="#" class="pagination-num">2</a>
+        <a href="#" class="pagination-num">3</a>
+      </div>
+      <a href="#" class="pagination-link">Sau →</a>
+    </nav>
+    {{ end }}
+
+  </div>
+</div>
+
+<style>
+/* ===== All Posts Page Layout ===== */
+.all-posts-page {
+  min-height: 100vh;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+}
+
+/* ===== All Posts Header ===== */
+.all-posts-header {
+  margin-bottom: var(--space-10);
+}
+
+.all-posts-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-8);
+}
+
+.all-posts-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-2);
+}
+
+.all-posts-subtitle {
+  color: var(--gray-500);
+  font-size: var(--text-base);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--gray-500);
+  font-size: var(--text-sm);
+  transition: color var(--transition-fast);
+}
+
+.back-link:hover {
+  color: var(--amber-500);
+}
+
+/* ===== Search Container ===== */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+}
+
+.search-container:hover {
+  transform: none !important;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--gray-400);
+}
+
+.search-input {
+  width: 100%;
+  padding-left: var(--space-8);
+  background: transparent;
+  border: none;
+  font-size: var(--text-base);
+  color: var(--gray-700);
+  outline: none;
+}
+
+[data-theme="dark"] .search-input {
+  color: var(--gray-200);
+}
+
+.search-input::placeholder {
+  color: var(--gray-400);
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+/* ===== Blog Grid ===== */
+.blog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+@media (min-width: 640px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .blog-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== Blog Card ===== */
+.blog-card {
+  overflow: hidden;
+  padding: 0;
+  transition: all var(--transition-normal);
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+}
+
+.blog-card-header {
+  height: 12rem; /* h-48 from V3 React */
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(251, 146, 60, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-card-icon {
+  width: 48px; /* w-12 from V3 React */
+  height: 48px; /* h-12 from V3 React */
+  color: var(--amber-500);
+}
+
+.blog-card-content {
+  padding: var(--space-6); /* p-6 from V3 React */
+}
+
+/* ===== Category Tag ===== */
+.category-tag {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  background: rgba(245, 158, 11, 0.15);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--amber-600);
+  margin-bottom: var(--space-2);
+}
+
+[data-theme="dark"] .category-tag {
+  color: var(--amber-400);
+}
+
+/* ===== Card Title ===== */
+.blog-card-title {
+  font-size: var(--text-lg); /* text-lg from V3 React */
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-2);
+  line-height: 1.3;
+}
+
+.blog-card-title a {
+  color: var(--gray-900);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+[data-theme="dark"] .blog-card-title a {
+  color: white;
+}
+
+.blog-card-title a:hover {
+  color: var(--amber-500);
+}
+
+/* ===== Card Excerpt ===== */
+.blog-card-excerpt {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  margin-bottom: var(--space-3);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .blog-card-excerpt {
+  color: var(--gray-400);
+}
+
+/* ===== Card Meta ===== */
+.blog-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4); /* mb-4 from V3 React */
+  padding-bottom: var(--space-4); /* pb-4 from V3 React */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .blog-card-meta {
+  border-color: rgba(55, 65, 81, 0.2);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--gray-500);
+}
+
+/* ===== Card Tags ===== */
+.blog-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tag-link {
+  font-size: var(--text-xs);
+  color: var(--amber-600);
+  transition: color var(--transition-fast);
+}
+
+[data-theme="dark"] .tag-link {
+  color: var(--amber-400);
+}
+
+.tag-link:hover {
+  color: var(--amber-500);
+}
+
+.tag-more {
+  font-size: var(--text-xs);
+  color: var(--amber-500);
+  font-weight: var(--font-medium);
+}
+
+/* ===== Pagination ===== */
+.blog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.pagination-link {
+  color: var(--gray-500);
+  font-size: var(--text-sm);
+  transition: color var(--transition-fast);
+}
+
+.pagination-link:hover {
+  color: var(--amber-500);
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pagination-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .pagination-num {
+  color: var(--gray-400);
+}
+
+.pagination-num:hover {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--amber-500);
+}
+
+.pagination-num.active {
+  background: var(--amber-500);
+  color: white;
+}
+
+/* ===== Empty State ===== */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-12);
+  color: var(--gray-500);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('blog-search');
+  const blogCards = document.querySelectorAll('.blog-card');
+  
+  if (searchInput && blogCards.length > 0) {
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      
+      blogCards.forEach(card => {
+        const title = card.querySelector('.blog-card-title')?.textContent.toLowerCase() || '';
+        const excerpt = card.querySelector('.blog-card-excerpt')?.textContent.toLowerCase() || '';
+        const tags = card.querySelector('.blog-card-tags')?.textContent.toLowerCase() || '';
+        const category = card.querySelector('.category-tag')?.textContent.toLowerCase() || '';
+        
+        const matches = title.includes(query) || 
+                        excerpt.includes(query) || 
+                        tags.includes(query) ||
+                        category.includes(query);
+        
+        card.style.display = matches ? '' : 'none';
+      });
+    });
+  }
+});
+</script>
+{{ end }}

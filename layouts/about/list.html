@@ -1,30 +1,28 @@
 {{ define "main" }}
-<!-- AboutPage - Converted from AboutPage.tsx -->
+<!-- About Page - Converted 1:1 from AboutPage.tsx V3 React -->
 <div class="about-page">
   <div class="container">
     
     <!-- Header -->
     <header class="page-header reveal">
-      <div class="page-icon-wrapper">
-        <svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="8" r="5"/>
-          <path d="M20 21a8 8 0 0 0-16 0"/>
+      <div class="header-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
         </svg>
       </div>
-      <h1 class="page-title gradient-text">Về tôi</h1>
-      <p class="page-subtitle">
-        Developer đam mê công nghệ và chia sẻ kiến thức
-      </p>
+      <h1 class="page-title">
+        <span class="gradient-text">Về tôi</span>
+      </h1>
+      <p class="page-subtitle">Developer đam mê công nghệ và chia sẻ kiến thức</p>
     </header>
 
-    <!-- Main Content -->
-    <div class="about-content">
-      
+    <div class="content-wrapper">
       <!-- Introduction -->
-      <section class="about-intro glass-card reveal">
+      <section class="intro-card glass-card reveal">
         <div class="intro-header">
           <div class="intro-avatar">
-            <span class="intro-emoji">👋</span>
+            <span>👋</span>
           </div>
           <div class="intro-info">
             <h2 class="intro-title">Xin chào!</h2>
@@ -32,21 +30,15 @@
           </div>
         </div>
         <div class="intro-content">
-          <p>
-            Tôi là một developer đam mê với công nghệ web, đặc biệt là Java và JavaScript. 
-            Blog này là nơi tôi chia sẻ những kiến thức, kinh nghiệm và dự án cá nhân.
-          </p>
-          <p>
-            Tôi tin rằng việc chia sẻ kiến thức không chỉ giúp người khác mà còn giúp bản thân 
-            củng cố và mở rộng hiểu biết của mình. Hy vọng blog này sẽ hữu ích cho bạn!
-          </p>
+          <p>Tôi là một developer đam mê với công nghệ web, đặc biệt là Java và JavaScript. Blog này là nơi tôi chia sẻ những kiến thức, kinh nghiệm và dự án cá nhân.</p>
+          <p>Tôi tin rằng việc chia sẻ kiến thức không chỉ giúp người khác mà còn giúp bản thân củng cố và mở rộng hiểu biết của mình. Hy vọng blog này sẽ hữu ích cho bạn!</p>
         </div>
       </section>
 
       <!-- Skills -->
-      <section class="about-skills glass-card reveal">
-        <h2 class="section-title-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <section class="skills-card glass-card reveal">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
             <polyline points="16 18 22 12 16 6"/>
             <polyline points="8 6 2 12 8 18"/>
           </svg>
@@ -56,100 +48,52 @@
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Java</span>
-              <span class="skill-percent">90%</span>
+              <span class="skill-level">90%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 90%;"></div>
-            </div>
+            <div class="skill-bar"><div class="skill-progress" style="--level: 90%"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Spring Boot</span>
-              <span class="skill-percent">85%</span>
+              <span class="skill-level">85%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 85%;"></div>
-            </div>
+            <div class="skill-bar"><div class="skill-progress" style="--level: 85%"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">JavaScript</span>
-              <span class="skill-percent">88%</span>
+              <span class="skill-level">88%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 88%;"></div>
-            </div>
+            <div class="skill-bar"><div class="skill-progress" style="--level: 88%"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">React</span>
-              <span class="skill-percent">82%</span>
+              <span class="skill-level">82%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 82%;"></div>
-            </div>
+            <div class="skill-bar"><div class="skill-progress" style="--level: 82%"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">TypeScript</span>
-              <span class="skill-percent">80%</span>
+              <span class="skill-level">80%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 80%;"></div>
-            </div>
+            <div class="skill-bar"><div class="skill-progress" style="--level: 80%"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Node.js</span>
-              <span class="skill-percent">75%</span>
+              <span class="skill-level">75%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 75%;"></div>
-            </div>
+            <div class="skill-bar"><div class="skill-progress" style="--level: 75%"></div></div>
           </div>
-        </div>
-      </section>
-
-      <!-- Interests -->
-      <section class="about-interests reveal">
-        <div class="interest-card glass-card-sm">
-          <div class="interest-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="16 18 22 12 16 6"/>
-              <polyline points="8 6 2 12 8 18"/>
-            </svg>
-          </div>
-          <h3 class="interest-title">Lập trình</h3>
-          <p class="interest-desc">Full-stack development với Java và JavaScript</p>
-        </div>
-        <div class="interest-card glass-card-sm">
-          <div class="interest-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
-              <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
-              <line x1="6" x2="6" y1="2" y2="4"/>
-              <line x1="10" x2="10" y1="2" y2="4"/>
-              <line x1="14" x2="14" y1="2" y2="4"/>
-            </svg>
-          </div>
-          <h3 class="interest-title">Học hỏi</h3>
-          <p class="interest-desc">Luôn cập nhật công nghệ và best practices mới</p>
-        </div>
-        <div class="interest-card glass-card-sm">
-          <div class="interest-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-            </svg>
-          </div>
-          <h3 class="interest-title">Chia sẻ</h3>
-          <p class="interest-desc">Viết blog và đóng góp cho cộng đồng</p>
         </div>
       </section>
 
       <!-- Tech Stack -->
-      <section class="about-techstack glass-card reveal">
-        <h2 class="section-title-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <section class="tech-card glass-card reveal">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
           </svg>
           Tech Stack
@@ -170,278 +114,916 @@
         </div>
       </section>
 
-      <!-- Contact CTA -->
-      <section class="about-cta glass-card-cta reveal">
-        <h2 class="cta-title">Muốn kết nối?</h2>
-        <p class="cta-desc">
-          Tôi luôn sẵn sàng trao đổi về công nghệ, dự án hoặc cơ hội hợp tác
-        </p>
-        <a href="{{ "contact/" | relURL }}" class="btn-primary">
-          Liên hệ với tôi
-        </a>
+      <!-- Certificates -->
+      <section class="certs-card glass-card reveal">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+          Chứng chỉ
+        </h2>
+        <div class="certs-grid">
+          <div class="cert-item glass-card-sm">
+            <div class="cert-icon red">☕</div>
+            <h3 class="cert-name">Oracle Certified Professional</h3>
+            <p class="cert-issuer">Oracle</p>
+            <span class="cert-year">2024</span>
+          </div>
+          <div class="cert-item glass-card-sm">
+            <div class="cert-icon orange">☁️</div>
+            <h3 class="cert-name">AWS Solutions Architect</h3>
+            <p class="cert-issuer">Amazon Web Services</p>
+            <span class="cert-year">2023</span>
+          </div>
+          <div class="cert-item glass-card-sm">
+            <div class="cert-icon blue">⚛️</div>
+            <h3 class="cert-name">React Developer Certification</h3>
+            <p class="cert-issuer">Meta</p>
+            <span class="cert-year">2023</span>
+          </div>
+          <div class="cert-item glass-card-sm">
+            <div class="cert-icon cyan">🐳</div>
+            <h3 class="cert-name">Docker Certified Associate</h3>
+            <p class="cert-issuer">Docker</p>
+            <span class="cert-year">2024</span>
+          </div>
+        </div>
       </section>
 
+      <!-- CV Download -->
+      <section class="cv-card glass-card reveal">
+        <div class="cv-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" x2="12" y1="15" y2="3"/>
+          </svg>
+        </div>
+        <h2 class="cv-title">Tải CV / Resume</h2>
+        <p class="cv-desc">Tải xuống CV đầy đủ của tôi để xem chi tiết về kinh nghiệm, kỹ năng và dự án</p>
+        <div class="cv-buttons">
+          <a href="{{ "files/cv-resume.pdf" | relURL }}" class="btn-primary" download="CV-Edward.pdf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" x2="12" y1="15" y2="3"/>
+            </svg>
+            <span>Tải PDF</span>
+          </a>
+          <a href="{{ "files/cv-resume.pdf" | relURL }}" class="btn-glass" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Xem online</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="exp-card glass-card reveal">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          Kinh nghiệm
+        </h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card-sm">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-title">Senior Full-Stack Developer</h3>
+                  <p class="timeline-company">Tech Company</p>
+                </div>
+                <span class="timeline-period">2023 - Hiện tại</span>
+              </div>
+              <p class="timeline-desc">Phát triển và maintain microservices architecture với Spring Boot và React</p>
+              <div class="timeline-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>React</span>
+                <span>Docker</span>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card-sm">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-title">Full-Stack Developer</h3>
+                  <p class="timeline-company">Startup XYZ</p>
+                </div>
+                <span class="timeline-period">2021 - 2023</span>
+              </div>
+              <p class="timeline-desc">Xây dựng web applications từ đầu, tham gia mọi giai đoạn từ design đến deployment</p>
+              <div class="timeline-tech">
+                <span>JavaScript</span>
+                <span>Node.js</span>
+                <span>PostgreSQL</span>
+                <span>AWS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interests -->
+      <section class="interests-grid reveal">
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="interest-title">Lập trình</h3>
+          <p class="interest-desc">Full-stack development với Java và JavaScript</p>
+        </div>
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+              <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+              <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+              <line x1="6" x2="6" y1="2" y2="4"/>
+              <line x1="10" x2="10" y1="2" y2="4"/>
+              <line x1="14" x2="14" y1="2" y2="4"/>
+            </svg>
+          </div>
+          <h3 class="interest-title">Học hỏi</h3>
+          <p class="interest-desc">Luôn cập nhật công nghệ và best practices mới</p>
+        </div>
+        <div class="interest-card glass-card-sm">
+          <div class="interest-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
+          <h3 class="interest-title">Chia sẻ</h3>
+          <p class="interest-desc">Viết blog và đóng góp cho cộng đồng</p>
+        </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <section class="cta-card glass-card-cta reveal">
+        <h2 class="cta-title">Muốn kết nối?</h2>
+        <p class="cta-desc">Tôi luôn sẵn sàng trao đổi về công nghệ, dự án hoặc cơ hội hợp tác</p>
+        <a href="{{ "contact/" | relURL }}" class="btn-primary"><span>Liên hệ với tôi</span></a>
+      </section>
     </div>
+
   </div>
 </div>
 
 <style>
-/* ===== About Page Layout ===== */
+/* ===== About Page - V3 React 1:1 Conversion ===== */
 .about-page {
   min-height: 100vh;
   padding-top: 8rem;
   padding-bottom: 5rem;
 }
 
-.about-content {
-  max-width: 56rem;
+/* ===== Header ===== */
+.page-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.header-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+.header-icon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .page-title { font-size: 3rem; }
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--amber-600), var(--amber-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .page-subtitle { font-size: 1.25rem; }
+}
+
+[data-theme="dark"] .page-subtitle {
+  color: var(--gray-300);
+}
+
+/* ===== Content Wrapper ===== */
+.content-wrapper {
+  max-width: 64rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: 2rem;
 }
 
 /* ===== Introduction ===== */
-.about-intro {
-  padding: var(--space-8);
+.intro-card {
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .intro-card { padding: 1rem; }
 }
 
 .intro-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .intro-header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 }
 
 .intro-avatar {
   width: 80px;
   height: 80px;
   background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
-  border-radius: var(--radius-full);
+  border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-amber);
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+  flex-shrink: 0;
 }
 
-.intro-emoji {
-  font-size: var(--text-3xl);
+.intro-avatar span {
+  font-size: 2rem;
+}
+
+.intro-info {
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .intro-info { text-align: left; }
 }
 
 .intro-title {
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: var(--space-1);
 }
 
-[data-theme="dark"] .intro-title {
-  color: white;
-}
+[data-theme="dark"] .intro-title { color: white; }
 
 .intro-subtitle {
   color: var(--gray-600);
-  margin: 0;
 }
 
-[data-theme="dark"] .intro-subtitle {
-  color: var(--gray-400);
-}
+[data-theme="dark"] .intro-subtitle { color: var(--gray-400); }
 
 .intro-content p {
   color: var(--gray-600);
-  line-height: 1.7;
-  margin-bottom: var(--space-4);
+  line-height: 1.8;
+  margin-bottom: 1rem;
 }
 
-[data-theme="dark"] .intro-content p {
-  color: var(--gray-400);
-}
+[data-theme="dark"] .intro-content p { color: var(--gray-400); }
 
-.intro-content p:last-child {
-  margin-bottom: 0;
-}
+.intro-content p:last-child { margin-bottom: 0; }
 
-/* ===== Section Title with Icon ===== */
-.section-title-icon {
+/* ===== Section Title ===== */
+.section-title {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--gray-900);
-  margin-bottom: var(--space-6);
+  margin-bottom: 1.5rem;
 }
 
-[data-theme="dark"] .section-title-icon {
-  color: white;
+@media (min-width: 768px) {
+  .section-title { font-size: 1.5rem; }
 }
 
-.section-title-icon svg {
-  width: 24px;
-  height: 24px;
+[data-theme="dark"] .section-title { color: white; }
+
+.section-title svg {
   color: var(--amber-500);
 }
 
 /* ===== Skills ===== */
-.about-skills {
-  padding: var(--space-8);
+.skills-card {
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .skills-card { padding: 1rem; }
 }
 
 .skills-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 1rem;
 }
 
-.skill-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
+.skill-item {}
 
 .skill-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .skill-name {
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--gray-700);
 }
 
-[data-theme="dark"] .skill-name {
-  color: var(--gray-300);
-}
+[data-theme="dark"] .skill-name { color: var(--gray-300); }
 
-.skill-percent {
-  font-size: var(--text-sm);
+.skill-level {
+  font-size: 0.875rem;
   color: var(--amber-600);
 }
 
-[data-theme="dark"] .skill-percent {
-  color: var(--amber-400);
+[data-theme="dark"] .skill-level { color: var(--amber-400); }
+
+.skill-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
 }
 
-/* ===== Interests ===== */
-.about-interests {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: var(--space-6);
+[data-theme="dark"] .skill-bar {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.2);
+}
+
+.skill-progress {
+  height: 100%;
+  width: var(--level);
+  background: linear-gradient(to right, var(--amber-500), var(--amber-400), var(--orange-400, #fb923c));
+  border-radius: 9999px;
+  animation: skillLoad 1s ease-out;
+}
+
+@keyframes skillLoad {
+  from { width: 0; }
+  to { width: var(--level); }
+}
+
+/* ===== Tech Stack ===== */
+.tech-card {
+  padding: 0.75rem;
 }
 
 @media (min-width: 768px) {
-  .about-interests {
-    grid-template-columns: repeat(3, 1fr);
+  .tech-card { padding: 1rem; }
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .tech-tags { gap: 0.75rem; }
+}
+
+.tech-tag {
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--amber-700);
+  transition: all 0.3s;
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  .tech-tag {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
 }
 
-.interest-card {
+[data-theme="dark"] .tech-tag { color: var(--amber-300); }
+
+.tech-tag:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 146, 60, 0.2));
+  border-color: rgba(245, 158, 11, 0.3);
+  transform: scale(1.05);
+}
+
+/* ===== Certificates ===== */
+.certs-card {
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .certs-card { padding: 1rem; }
+}
+
+.certs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .certs-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+
+.cert-item {
+  padding: 1.25rem;
+  transition: all 0.3s;
+}
+
+@media (min-width: 768px) {
+  .cert-item { padding: 0.75rem; }
+}
+
+.cert-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.1);
+}
+
+.cert-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .cert-icon { width: 56px; height: 56px; font-size: 1.75rem; }
+}
+
+.cert-icon.red { background: linear-gradient(135deg, #ef4444, #f97316); }
+.cert-icon.orange { background: linear-gradient(135deg, #f97316, #f59e0b); }
+.cert-icon.blue { background: linear-gradient(135deg, #3b82f6, #06b6d4); }
+.cert-icon.cyan { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+
+.cert-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 0.25rem;
+  transition: color 0.3s;
+}
+
+@media (min-width: 768px) {
+  .cert-name { font-size: 1.125rem; }
+}
+
+[data-theme="dark"] .cert-name { color: white; }
+
+.cert-item:hover .cert-name { color: var(--amber-600); }
+[data-theme="dark"] .cert-item:hover .cert-name { color: var(--amber-400); }
+
+.cert-issuer {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .cert-issuer { color: var(--gray-400); }
+
+.cert-year {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .cert-year { color: var(--amber-400); }
+
+/* ===== CV Download ===== */
+.cv-card {
+  padding: 0.75rem;
   text-align: center;
-  padding: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .cv-card { padding: 1rem; }
+}
+
+.cv-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+}
+
+@media (min-width: 768px) {
+  .cv-icon-wrapper { width: 64px; height: 64px; }
+}
+
+.cv-icon-wrapper svg {
+  color: white;
+}
+
+.cv-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .cv-title { font-size: 1.5rem; }
+}
+
+[data-theme="dark"] .cv-title { color: white; }
+
+.cv-desc {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .cv-desc { font-size: 1rem; }
+}
+
+[data-theme="dark"] .cv-desc { color: var(--gray-400); }
+
+.cv-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .cv-buttons { flex-direction: row; gap: 1rem; }
+}
+
+/* ===== Experience ===== */
+.exp-card {
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .exp-card { padding: 1rem; }
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgba(245, 158, 11, 0.3);
+}
+
+@media (min-width: 768px) {
+  .timeline-item { padding-left: 2rem; }
+}
+
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-dot {
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, var(--amber-600), var(--amber-500));
+  border-radius: 9999px;
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.5);
+}
+
+.timeline-content {
+  padding: 1.25rem;
+  transition: all 0.3s;
+}
+
+@media (min-width: 768px) {
+  .timeline-content { padding: 0.75rem; }
+}
+
+.timeline-content:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .timeline-content:hover {
+  background: rgba(17, 24, 39, 0.3);
+}
+
+.timeline-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .timeline-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+.timeline-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-title { font-size: 1.125rem; }
+}
+
+[data-theme="dark"] .timeline-title { color: white; }
+
+.timeline-company {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--amber-600);
+}
+
+@media (min-width: 768px) {
+  .timeline-company { font-size: 1rem; }
+}
+
+[data-theme="dark"] .timeline-company { color: var(--amber-400); }
+
+.timeline-period {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  color: var(--amber-600);
+  align-self: flex-start;
+}
+
+@media (min-width: 768px) {
+  .timeline-period { font-size: 0.875rem; }
+}
+
+[data-theme="dark"] .timeline-period { color: var(--amber-400); }
+
+.timeline-desc {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-desc { font-size: 1rem; }
+}
+
+[data-theme="dark"] .timeline-desc { color: var(--gray-400); }
+
+.timeline-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeline-tech span {
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--gray-700);
+}
+
+[data-theme="dark"] .timeline-tech span {
+  background: rgba(17, 24, 39, 0.3);
+  color: var(--gray-300);
+}
+
+/* ===== Interests ===== */
+.interests-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .interests-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+}
+
+.interest-card {
+  padding: 1.25rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+@media (min-width: 768px) {
+  .interest-card { padding: 0.75rem; }
+}
+
+.interest-card:hover {
+  transform: translateY(-4px);
 }
 
 .interest-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   background: rgba(245, 158, 11, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: var(--radius-full);
-  margin-bottom: var(--space-4);
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .interest-icon { width: 64px; height: 64px; }
 }
 
 .interest-icon svg {
-  width: 32px;
-  height: 32px;
   color: var(--amber-600);
 }
 
-[data-theme="dark"] .interest-icon svg {
-  color: var(--amber-400);
-}
+[data-theme="dark"] .interest-icon svg { color: var(--amber-400); }
 
 .interest-title {
-  font-weight: var(--font-semibold);
-  margin-bottom: var(--space-2);
+  font-weight: 600;
   color: var(--gray-900);
+  margin-bottom: 0.5rem;
 }
 
-[data-theme="dark"] .interest-title {
-  color: white;
-}
+[data-theme="dark"] .interest-title { color: white; }
 
 .interest-desc {
-  font-size: var(--text-sm);
+  font-size: 0.875rem;
   color: var(--gray-600);
-  margin: 0;
 }
 
-[data-theme="dark"] .interest-desc {
-  color: var(--gray-400);
-}
+[data-theme="dark"] .interest-desc { color: var(--gray-400); }
 
-/* ===== Tech Stack ===== */
-.about-techstack {
-  padding: var(--space-8);
-}
-
-.tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.tech-tag {
-  padding: var(--space-2) var(--space-4);
-  background: rgba(245, 158, 11, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--amber-700);
-}
-
-[data-theme="dark"] .tech-tag {
-  color: var(--amber-300);
-}
-
-/* ===== Contact CTA ===== */
-.glass-card-cta {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: var(--radius-3xl);
-  padding: var(--space-8);
+/* ===== CTA ===== */
+.cta-card {
+  padding: 0.75rem;
   text-align: center;
 }
 
-.cta-title {
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  margin-bottom: var(--space-4);
-  color: var(--gray-900);
+@media (min-width: 768px) {
+  .cta-card { padding: 1rem; }
 }
 
-[data-theme="dark"] .cta-title {
+.cta-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .cta-title { font-size: 1.5rem; }
+}
+
+[data-theme="dark"] .cta-title { color: white; }
+
+.cta-desc {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .cta-desc { font-size: 1rem; }
+}
+
+[data-theme="dark"] .cta-desc { color: var(--gray-400); }
+
+/* ===== Buttons ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(to right, var(--amber-600), var(--amber-500));
+  color: white;
+  font-weight: 500;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.3);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+@media (min-width: 768px) {
+  .btn-primary { padding: 1rem 2rem; }
+}
+
+.btn-primary:hover {
+  box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--gray-900);
+  font-weight: 500;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+@media (min-width: 768px) {
+  .btn-glass { padding: 1rem 2rem; }
+}
+
+[data-theme="dark"] .btn-glass {
+  background: rgba(17, 24, 39, 0.3);
+  border-color: rgba(55, 65, 81, 0.3);
   color: white;
 }
 
-.cta-desc {
-  color: var(--gray-600);
-  margin-bottom: var(--space-6);
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-[data-theme="dark"] .cta-desc {
-  color: var(--gray-400);
+[data-theme="dark"] .btn-glass:hover {
+  background: rgba(17, 24, 39, 0.4);
+}
+
+/* ===== Animations ===== */
+.reveal {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 {{ end }}

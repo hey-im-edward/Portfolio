@@ -1,0 +1,46 @@
+<svg style="display: none;">
+  <defs>
+    <!-- Liquid Displacement Filter -->
+    <filter id="liquidFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="turbulence" baseFrequency="0.01 0.02" numOctaves="3" result="turbulence" seed="5" />
+      <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="15" xChannelSelector="R" yChannelSelector="G" />
+      <feGaussianBlur stdDeviation="0.5" />
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+
+    <!-- Water Droplet Refraction -->
+    <filter id="refractionFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
+      <!-- Create a height map from noise -->
+      <feColorMatrix in="noise" type="luminanceToAlpha" result="alphaMap"/>
+      
+      <!-- Lighting to create the "surface" look -->
+      <feDiffuseLighting in="alphaMap" lighting-color="#ffffff" surfaceScale="2" result="lighting">
+        <feDistantLight azimuth="45" elevation="60" />
+      </feDiffuseLighting>
+      
+      <!-- Specular for the shiny glass look -->
+      <feSpecularLighting in="alphaMap" surfaceScale="2" specularConstant="1" specularExponent="20" lighting-color="#ffffff" result="specular">
+        <fePointLight x="-5000" y="-10000" z="20000" />
+      </feSpecularLighting>
+      
+      <feComposite in="specular" in2="SourceAlpha" operator="in" result="specularCombined"/>
+      
+      <!-- Combine lighting with original -->
+      <feComposite in="lighting" in2="SourceGraphic" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litGraphic"/>
+      
+      <!-- Add specular on top -->
+      <feComposite in="specularCombined" in2="litGraphic" operator="over" />
+    </filter>
+
+    <!-- Chromatic Aberration (Simulated) -->
+    <filter id="chromaticFilter">
+      <feOffset in="SourceGraphic" dx="-1" dy="0" result="left"/>
+      <feOffset in="SourceGraphic" dx="1" dy="0" result="right"/>
+      <feMerge>
+        <feMergeNode in="left" />
+        <feMergeNode in="right" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

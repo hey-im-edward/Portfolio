@@ -1,10 +1,10 @@
 {{ define "main" }}
-<!-- BlogPage - Converted from BlogPage.tsx -->
-<div class="blog-page">
+<!-- Blog Landing Page - Converted from Figma V3 Design -->
+<div class="blog-landing-page">
   <div class="container">
     
     <!-- Header -->
-    <header class="page-header reveal">
+    <header class="blog-landing-header reveal">
       <div class="page-icon-wrapper">
         <svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
@@ -14,155 +14,162 @@
       <p class="page-subtitle">
         Khám phá các bài viết về lập trình, công nghệ và kinh nghiệm thực tế.
       </p>
+
+      <!-- Quick Links -->
+      <div class="quick-links">
+        {{ $totalPosts := len (where .Site.RegularPages "Section" "blog") }}
+        <a href="{{ "blog/all/" | relURL }}" class="quick-link-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+          </svg>
+          Tất cả bài viết
+        </a>
+        <a href="{{ "categories/" | relURL }}" class="quick-link-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          Danh mục
+        </a>
+        <a href="{{ "tags/" | relURL }}" class="quick-link-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <line x1="4" y1="9" x2="20" y2="9"/>
+            <line x1="4" y1="15" x2="20" y2="15"/>
+            <line x1="10" y1="3" x2="8" y2="21"/>
+            <line x1="16" y1="3" x2="14" y2="21"/>
+          </svg>
+          Tags
+        </a>
+      </div>
     </header>
 
     <!-- Filter Tags -->
     <div class="filter-tags reveal">
-      <a href="{{ .Permalink }}" class="filter-tag active">Tất cả</a>
+      <a href="{{ "blog/all/" | relURL }}" class="filter-tag active">Tất cả</a>
       {{ range .Site.Taxonomies.tags }}
       <a href="{{ .Page.Permalink }}" class="filter-tag">{{ .Page.Title }}</a>
       {{ end }}
     </div>
 
-    <!-- Blog Posts -->
-    <div class="blog-posts">
-      {{ $paginator := .Paginate (where .Site.RegularPages "Section" "blog") }}
-      {{ range $paginator.Pages }}
-      <article class="blog-post-card glass-card reveal">
-        <!-- Thumbnail -->
-        <div class="post-thumbnail">
-          <div class="post-thumbnail-overlay"></div>
-          <svg class="post-thumbnail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-          </svg>
-        </div>
+    <!-- Main Content Grid -->
+    <div class="blog-landing-grid">
+      <!-- Featured Post -->
+      <div class="featured-post-section">
+        {{ $posts := where .Site.RegularPages "Section" "blog" }}
+        {{ with index $posts 0 }}
+        <article class="featured-post-card glass-card reveal">
+          <!-- Post Thumbnail -->
+          <div class="featured-thumbnail">
+            <svg class="featured-thumbnail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+            </svg>
+          </div>
 
-        <div class="post-content">
-          <!-- Category -->
-          {{ with .Params.categories }}
-          <div class="post-category">
+          <div class="featured-content">
+            <!-- Category Tag -->
+            {{ with .Params.categories }}
             {{ range first 1 . }}
-            <span class="glass-tag">{{ . }}</span>
+            <span class="category-tag">{{ . }}</span>
             {{ end }}
-          </div>
-          {{ end }}
-
-          <!-- Title -->
-          <h2 class="post-title-lg">{{ .Title }}</h2>
-
-          <!-- Excerpt -->
-          <p class="post-excerpt-lg">{{ .Summary | plainify | truncate 160 }}</p>
-
-          <!-- Info -->
-          <div class="post-info">
-            <span class="post-info-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-                <line x1="16" x2="16" y1="2" y2="6"/>
-                <line x1="8" x2="8" y1="2" y2="6"/>
-                <line x1="3" x2="21" y1="10" y2="10"/>
-              </svg>
-              {{ .Date.Format "02/01/2006" }}
-            </span>
-            <span class="post-info-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ .ReadingTime }} phút đọc
-            </span>
-          </div>
-
-          <!-- Tags -->
-          <div class="post-tags-list">
-            {{ range .Params.tags }}
-            <a href="{{ "tags/" | relURL }}{{ . | urlize }}/" class="post-tag-item">#{{ . }}</a>
             {{ end }}
-          </div>
 
-          <!-- CTA -->
-          <a href="{{ .Permalink }}" class="btn-primary btn-full">
-            Đọc bài viết
-          </a>
-        </div>
-      </article>
-      {{ else }}
-      <div class="empty-state glass-card">
-        <p>Chưa có bài viết nào. Tạo bài viết đầu tiên!</p>
+            <!-- Title -->
+            <h2 class="featured-title">{{ .Title }}</h2>
+
+            <!-- Excerpt -->
+            <p class="featured-excerpt">{{ .Summary | plainify | truncate 200 }}</p>
+
+            <!-- Meta Info -->
+            <div class="featured-meta">
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+                {{ .Date.Format "02/01/2006" }}
+              </span>
+              <span class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                {{ .ReadingTime }} phút đọc
+              </span>
+            </div>
+
+            <!-- Tags -->
+            <div class="featured-tags">
+              {{ range .Params.tags }}
+              <a href="{{ "tags/" | relURL }}{{ . | urlize }}/" class="tag-link">#{{ . }}</a>
+              {{ end }}
+            </div>
+
+            <!-- CTA Button -->
+            <a href="{{ .Permalink }}" class="btn-primary btn-full">
+              Đọc bài viết
+            </a>
+          </div>
+        </article>
+        {{ end }}
       </div>
-      {{ end }}
+
+      <!-- Sidebar -->
+      <div class="blog-sidebar reveal">
+        <!-- Categories -->
+        <aside class="sidebar-card glass-card-sm">
+          <h3 class="sidebar-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <line x1="7" x2="7.01" y1="7" y2="7"/>
+            </svg>
+            Danh mục
+          </h3>
+          <div class="sidebar-list">
+            {{ range .Site.Taxonomies.categories }}
+            <a href="{{ .Page.Permalink }}" class="sidebar-list-item">
+              <span>{{ .Page.Title }}</span>
+              <span class="sidebar-count">{{ .Count }}</span>
+            </a>
+            {{ else }}
+            <p class="text-muted">Chưa có danh mục</p>
+            {{ end }}
+          </div>
+        </aside>
+
+        <!-- Popular Tags -->
+        <aside class="sidebar-card glass-card-sm">
+          <h3 class="sidebar-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+            Tags phổ biến
+          </h3>
+          <div class="sidebar-tags">
+            {{ range .Site.Taxonomies.tags }}
+            <a href="{{ .Page.Permalink }}" class="glass-tag">{{ .Page.Title }}</a>
+            {{ end }}
+          </div>
+        </aside>
+      </div>
     </div>
-
-    <!-- Sidebar -->
-    <div class="blog-sidebar reveal">
-      <!-- Categories -->
-      <aside class="sidebar-card glass-card-sm">
-        <h3 class="sidebar-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-            <line x1="7" x2="7.01" y1="7" y2="7"/>
-          </svg>
-          Danh mục
-        </h3>
-        <div class="sidebar-list">
-          {{ range .Site.Taxonomies.categories }}
-          <a href="{{ .Page.Permalink }}" class="sidebar-list-item">
-            <span>{{ .Page.Title }}</span>
-            <span class="sidebar-count">{{ .Count }}</span>
-          </a>
-          {{ else }}
-          <p class="text-muted">Chưa có danh mục</p>
-          {{ end }}
-        </div>
-      </aside>
-
-      <!-- Popular Tags -->
-      <aside class="sidebar-card glass-card-sm">
-        <h3 class="sidebar-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.3-4.3"/>
-          </svg>
-          Tags phổ biến
-        </h3>
-        <div class="sidebar-tags">
-          {{ range .Site.Taxonomies.tags }}
-          <a href="{{ .Page.Permalink }}" class="glass-tag">{{ .Page.Title }}</a>
-          {{ end }}
-        </div>
-      </aside>
-    </div>
-
-    <!-- Pagination -->
-    {{ if gt $paginator.TotalPages 1 }}
-    <nav class="pagination reveal" aria-label="Page navigation">
-      {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}" class="btn-glass">&larr; Trước</a>
-      {{ end }}
-      <span class="pagination-info">
-        Trang {{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}
-      </span>
-      {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}" class="btn-glass">Tiếp &rarr;</a>
-      {{ end }}
-    </nav>
-    {{ end }}
 
   </div>
 </div>
 
 <style>
-/* ===== Blog Page Layout ===== */
-.blog-page {
+/* ===== Blog Landing Page Layout ===== */
+.blog-landing-page {
   min-height: 100vh;
   padding-top: 8rem;
   padding-bottom: 5rem;
 }
 
 /* ===== Page Header ===== */
-.page-header {
+.blog-landing-header {
   text-align: center;
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-12);
 }
 
 .page-icon-wrapper {
@@ -200,7 +207,108 @@
   color: var(--gray-300);
 }
 
-/* ===== Filter Tags ===== */
+/* ===== Quick Links ===== */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+/* ===== Quick Link Buttons - iOS 26 Liquid Glass ===== */
+.quick-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-6);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-xl);
+  font-weight: var(--font-medium);
+  color: var(--gray-700);
+  transition: all var(--transition-normal);
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="dark"] .quick-link-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--gray-300);
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.quick-link-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: var(--amber-600);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.08),
+    0 0 15px rgba(245, 158, 11, 0.1);
+}
+
+[data-theme="dark"] .quick-link-btn:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--amber-400);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.25),
+    0 0 18px rgba(245, 158, 11, 0.12);
+}
+
+.quick-link-primary {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.15) 0%,
+    rgba(251, 191, 36, 0.1) 50%,
+    rgba(245, 158, 11, 0.12) 100%
+  );
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--amber-600);
+}
+
+[data-theme="dark"] .quick-link-primary {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    rgba(251, 191, 36, 0.06) 50%,
+    rgba(245, 158, 11, 0.08) 100%
+  );
+  border-color: rgba(245, 158, 11, 0.25);
+  color: var(--amber-400);
+}
+
+.quick-link-primary:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.2) 0%,
+    rgba(251, 191, 36, 0.15) 50%,
+    rgba(245, 158, 11, 0.18) 100%
+  );
+}
+
+[data-theme="dark"] .quick-link-primary:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.15) 0%,
+    rgba(251, 191, 36, 0.1) 50%,
+    rgba(245, 158, 11, 0.12) 100%
+  );
+}/* ===== Filter Tags - iOS 26 Liquid Glass ===== */
 .filter-tags {
   display: flex;
   flex-wrap: wrap;
@@ -211,198 +319,195 @@
 
 .filter-tag {
   padding: var(--space-2) var(--space-6);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-full);
   font-weight: var(--font-medium);
   color: var(--gray-700);
   transition: all var(--transition-normal);
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 [data-theme="dark"] .filter-tag {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--gray-300);
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .filter-tag:hover,
 .filter-tag.active {
-  background: rgba(245, 158, 11, 0.2);
-  border-color: rgba(245, 158, 11, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.2) 0%,
+    rgba(251, 191, 36, 0.15) 50%,
+    rgba(245, 158, 11, 0.18) 100%
+  );
+  border-color: rgba(245, 158, 11, 0.35);
   color: var(--amber-600);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 0 10px rgba(245, 158, 11, 0.1);
 }
 
 [data-theme="dark"] .filter-tag:hover,
 [data-theme="dark"] .filter-tag.active {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.15) 0%,
+    rgba(251, 191, 36, 0.1) 50%,
+    rgba(245, 158, 11, 0.12) 100%
+  );
+  border-color: rgba(245, 158, 11, 0.3);
   color: var(--amber-400);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.25),
+    0 0 12px rgba(245, 158, 11, 0.12);
 }
 
-/* ===== Blog Posts ===== */
-.blog-posts {
-  max-width: 56rem;
-  margin: 0 auto var(--space-12);
+/* ===== Blog Landing Grid ===== */
+.blog-landing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  max-width: 64rem;
+  margin: 0 auto;
 }
 
-.blog-post-card {
+@media (min-width: 1024px) {
+  .blog-landing-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* ===== Featured Post Card ===== */
+.featured-post-card {
   overflow: hidden;
-  margin-bottom: var(--space-8);
-  transition: all var(--transition-slow);
+  padding: 0;
 }
 
-.blog-post-card:hover {
-  transform: translateY(-4px);
-}
-
-/* ===== Post Thumbnail ===== */
-.post-thumbnail {
-  height: 16rem;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 146, 60, 0.2));
+.featured-thumbnail {
+  height: 14rem;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(251, 146, 60, 0.2));
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
-.post-thumbnail-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+.featured-thumbnail-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--amber-500);
 }
 
-[data-theme="dark"] .post-thumbnail-overlay {
-  background: rgba(17, 24, 39, 0.1);
+.featured-content {
+  padding: var(--space-6);
 }
 
-.post-thumbnail-icon {
-  width: 80px;
-  height: 80px;
-  color: rgba(245, 158, 11, 0.5);
-  position: relative;
-  z-index: 1;
-}
-
-/* ===== Post Content ===== */
-.post-content {
-  padding: var(--space-8);
-}
-
-.post-category {
-  margin-bottom: var(--space-4);
-}
-
-.post-title-lg {
-  font-size: var(--text-3xl);
-  font-weight: var(--font-bold);
-  margin-bottom: var(--space-4);
-  color: var(--gray-900);
-  transition: color var(--transition-fast);
-}
-
-[data-theme="dark"] .post-title-lg {
-  color: white;
-}
-
-.post-title-lg:hover {
+.category-tag {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  background: rgba(245, 158, 11, 0.15);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
   color: var(--amber-600);
+  margin-bottom: var(--space-3);
 }
 
-[data-theme="dark"] .post-title-lg:hover {
+[data-theme="dark"] .category-tag {
   color: var(--amber-400);
 }
 
-.post-excerpt-lg {
+.featured-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-3);
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .featured-title {
+  color: white;
+}
+
+.featured-excerpt {
+  font-size: var(--text-base);
   color: var(--gray-600);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
   line-height: 1.6;
 }
 
-[data-theme="dark"] .post-excerpt-lg {
+[data-theme="dark"] .featured-excerpt {
   color: var(--gray-400);
 }
 
-/* ===== Post Info ===== */
-.post-info {
+.featured-meta {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-6);
-  font-size: var(--text-sm);
-  color: var(--gray-500);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-6);
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-[data-theme="dark"] .post-info {
-  color: var(--gray-400);
+[data-theme="dark"] .featured-meta {
   border-color: rgba(55, 65, 81, 0.2);
 }
 
-.post-info-item {
+.meta-item {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--gray-500);
 }
 
-.post-info-item svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* ===== Post Tags ===== */
-.post-tags-list {
+.featured-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
 }
 
-.post-tag-item {
-  padding: var(--space-1) var(--space-3);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-xs);
-  color: var(--gray-700);
-  transition: all var(--transition-fast);
+.tag-link {
+  font-size: var(--text-sm);
+  color: var(--amber-600);
+  transition: color var(--transition-fast);
 }
 
-[data-theme="dark"] .post-tag-item {
-  background: rgba(17, 24, 39, 0.3);
-  border-color: rgba(55, 65, 81, 0.3);
-  color: var(--gray-300);
+[data-theme="dark"] .tag-link {
+  color: var(--amber-400);
 }
 
-.post-tag-item:hover {
-  background: rgba(245, 158, 11, 0.2);
-  border-color: rgba(245, 158, 11, 0.3);
+.tag-link:hover {
+  color: var(--amber-500);
 }
 
-/* ===== Full Width Button ===== */
 .btn-full {
   width: 100%;
 }
 
-/* ===== Blog Sidebar ===== */
+/* ===== Sidebar ===== */
 .blog-sidebar {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--space-6);
-  max-width: 56rem;
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .blog-sidebar {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .sidebar-card {
@@ -463,26 +568,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-}
-
-/* ===== Pagination ===== */
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-4);
-  margin-top: var(--space-12);
-}
-
-.pagination-info {
-  color: var(--gray-500);
-}
-
-/* ===== Empty State ===== */
-.empty-state {
-  text-align: center;
-  padding: var(--space-12);
-  color: var(--gray-500);
 }
 </style>
 {{ end }}

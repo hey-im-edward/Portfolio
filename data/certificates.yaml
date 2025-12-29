@@ -1,0 +1,21 @@
+# Certificates data - converted from AboutPage.tsx
+- name: Oracle Certified Professional
+  issuer: Oracle
+  year: "2024"
+  icon: coffee
+  gradient: from-red-500 to-orange-500
+- name: AWS Solutions Architect
+  issuer: Amazon Web Services
+  year: "2023"
+  icon: cloud
+  gradient: from-orange-500 to-amber-500
+- name: React Developer Certification
+  issuer: Meta
+  year: "2023"
+  icon: cpu
+  gradient: from-blue-500 to-cyan-500
+- name: Docker Certified Associate
+  issuer: Docker
+  year: "2024"
+  icon: container
+  gradient: from-cyan-500 to-blue-500

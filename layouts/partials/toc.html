@@ -1,94 +1,176 @@
-{{- /* Table of Contents Partial */}}
-{{- $headers := findRE "<h[2-4][^>]*id=\"[^\"]+\"[^>]*>.*?</h[2-4]>" .Content }}
-{{- if $headers }}
-<nav class="toc glass-card" aria-label="Table of Contents">
+{{- /* Table of Contents - Using Hugo's Built-in */}} {{- if .TableOfContents }}
+<nav class="toc glass-card" aria-label="Mục lục">
   <h3 class="toc-title">
     <span class="toc-indicator"></span>
     Mục lục
   </h3>
-  <ul class="toc-list">
-    {{- range $headers }}
-      {{- $level := substr . 2 1 }}
-      {{- $id := replaceRE ".*id=\"([^\"]+)\".*" "$1" . }}
-      {{- $text := replaceRE "<[^>]+>" "" . }}
-      <li class="toc-item toc-level-{{ $level }}">
-        <a href="#{{ $id }}" class="toc-link">
-          {{- if eq $level "3" }}
-          <svg class="toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m9 18 6-6-6-6"/>
-          </svg>
-          {{- end }}
-          {{ $text }}
-        </a>
-      </li>
-    {{- end }}
-  </ul>
+  <div class="toc-content">{{ .TableOfContents }}</div>
 </nav>
 {{- end }}
 
 <style>
-.toc {
-  padding: var(--space-6);
-  background: var(--glass-bg-solid);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-2xl);
-}
+  .toc {
+    padding: var(--space-6);
+    /* Inherits from .glass-card */
+  }
 
-.toc-title {
-  font-weight: var(--font-bold);
-  margin-bottom: var(--space-4);
-  color: var(--color-text);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
+  .toc-title {
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
 
-.toc-indicator {
-  width: 4px;
-  height: 20px;
-  background: linear-gradient(to bottom, var(--purple-600), var(--purple-400));
-  border-radius: var(--radius-full);
-}
+  .toc-indicator {
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--amber-600), var(--amber-400));
+    border-radius: var(--radius-full);
+  }
 
-.toc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  .toc-content nav > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-.toc-item {
-  margin-bottom: var(--space-2);
-}
+  .toc-content li {
+    margin-bottom: var(--space-2);
+  }
 
-.toc-level-3 {
-  padding-left: var(--space-4);
-}
+  .toc-content ul ul {
+    padding-left: var(--space-4);
+    margin-top: var(--space-2);
+  }
 
-.toc-level-4 {
-  padding-left: var(--space-8);
-}
+  .toc-content a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
 
-.toc-link {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  transition: all var(--transition-fast);
-}
+  .toc-content a:hover {
+    color: var(--amber-600);
+    transform: translateX(4px);
+  }
 
-.toc-link:hover {
-  color: var(--purple-600);
-  transform: translateX(4px);
-}
+  [data-theme="dark"] .toc-content a:hover {
+    color: var(--amber-400);
+  }
 
-[data-theme="dark"] .toc-link:hover {
-  color: var(--purple-400);
-}
+  .toc-content a.active {
+    color: var(--amber-600);
+    font-weight: var(--font-medium);
+  }
 
-.toc-chevron {
-  width: 12px;
-  height: 12px;
-}
+  [data-theme="dark"] .toc-content a.active {
+    color: var(--amber-400);
+  }
+
+  .toc-content ul ul a::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
 </style>
+
+<script>
+  (function () {
+    const tocLinks = document.querySelectorAll(".toc-content a");
+    if (!tocLinks.length) return;
+
+    // Header height (fixed header + padding)
+    const HEADER_OFFSET = 100;
+
+    // Flag to prevent scroll listener from overriding click
+    let isScrollingFromClick = false;
+
+    // Collect headings
+    const headingMap = [];
+    tocLinks.forEach(function (link) {
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        const heading = document.getElementById(href.substring(1));
+        if (heading) {
+          headingMap.push({ link: link, element: heading });
+        }
+      }
+    });
+
+    // Set active link
+    function setActive(link) {
+      tocLinks.forEach(function (l) {
+        l.classList.remove("active");
+      });
+      if (link) link.classList.add("active");
+    }
+
+    // Click handler
+    tocLinks.forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const href = this.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+
+        const target = document.getElementById(href.substring(1));
+        if (!target) return;
+
+        // Set active immediately
+        setActive(this);
+
+        // Block scroll listener temporarily
+        isScrollingFromClick = true;
+
+        // Scroll to target
+        const targetTop =
+          target.getBoundingClientRect().top +
+          window.pageYOffset -
+          HEADER_OFFSET;
+        window.scrollTo({
+          top: targetTop,
+          behavior: "smooth",
+        });
+
+        // Update URL
+        history.pushState(null, "", href);
+
+        // Re-enable scroll listener after scroll completes
+        setTimeout(function () {
+          isScrollingFromClick = false;
+        }, 1000);
+      });
+    });
+
+    // Scroll listener for active highlighting
+    function onScroll() {
+      if (isScrollingFromClick) return;
+
+      const scrollPos = window.pageYOffset + HEADER_OFFSET + 50;
+
+      let activeLink = null;
+      for (let i = 0; i < headingMap.length; i++) {
+        if (headingMap[i].element.offsetTop <= scrollPos) {
+          activeLink = headingMap[i].link;
+        } else {
+          break;
+        }
+      }
+
+      setActive(activeLink);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

@@ -46,13 +46,15 @@ summaryLength = 70
   showTableOfContents = true
   showRelatedPosts = true
   
-  # Comments (Giscus)
+  # Comments (Giscus) - https://giscus.app/
   [params.giscus]
-    enabled = false
-    repo = ""
-    repoId = ""
-    category = ""
-    categoryId = ""
+    enabled = true
+    repo = "hey-im-edward/Portfolio"
+    repoId = "R_kgDOQuwdsA"
+    category = "Announcements"
+    categoryId = "DIC_kwDOQuwdsM4C0Rk1"
+    mapping = "pathname"
+    theme = "preferred_color_scheme"
 
 # Markup settings
 [markup]
