@@ -31,7 +31,7 @@
         <!-- Project Image -->
         <div class="project-image">
           {{ if .Params.image }}
-          <img src="{{ .Params.image }}" alt="{{ .Title }}" />
+          <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" />
           {{ else }}
           <div class="project-placeholder">
             <svg
@@ -239,6 +239,9 @@
   .project-card {
     overflow: hidden;
     transition: all 0.3s;
+    padding: 0; /* Override glass-card padding for edge-to-edge image */
+    display: flex;
+    flex-direction: column;
   }
 
   .project-card:hover {
@@ -250,6 +253,7 @@
     width: 100%;
     height: 200px;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   .project-image img {
@@ -266,11 +270,8 @@
   .project-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      135deg,
-      rgba(245, 158, 11, 0.1),
-      rgba(251, 146, 60, 0.1)
-    );
+    background: transparent;
+    border-bottom: 1px solid rgba(245, 158, 11, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -282,7 +283,10 @@
   }
 
   .project-content {
-    padding: 0.75rem;
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .project-title {

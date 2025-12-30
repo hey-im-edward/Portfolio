@@ -5,82 +5,102 @@ draft: false
 author: "Edward"
 categories: ["Java"]
 tags: ["java", "basic", "variables"]
-summary: "Tìm hiểu về biến và các kiểu dữ liệu cơ bản trong Java - ngôn ngữ lập trình phổ biến nhất thế giới."
-description: "Hướng dẫn chi tiết về biến và kiểu dữ liệu trong Java cho người mới bắt đầu."
+image: "images/blog/java-variables.png"
+summary: "Từ nguyên thủy đến đối tượng: Hiểu sâu về cách Java quản lý bộ nhớ (Stack vs Heap)."
+description: "Cốt lõi của Java: Phân biệt Primitive vs Reference types, Stack vs Heap và những chiếc hộp trong nhà kho bộ nhớ."
 ---
 
-## Giới thiệu
+## Biến: Những chiếc hộp thần kỳ
 
-Java là một trong những ngôn ngữ lập trình phổ biến nhất thế giới. Trong bài viết này, chúng ta sẽ tìm hiểu về **biến** và **kiểu dữ liệu** - những khái niệm cơ bản nhất khi học Java.
+Trong lập trình, **Biến (Variable)** giống như những chiếc hộp dùng để đựng dữ liệu.
 
-## Biến là gì?
+Tưởng tượng bộ nhớ máy tính là một **Nhà Kho Khổng Lồ**:
 
-**Biến** (variable) là vùng nhớ dùng để lưu trữ dữ liệu. Mỗi biến có:
+1. Bạn cần lưu số tuổi? Bạn lấy một cái hộp nhỏ, viết nhãn "Tuổi", bỏ số `25` vào.
+2. Bạn cần lưu tên người dùng? Bạn lấy một hòm thư, viết nhãn "Tên", bỏ chữ `"Edward"` vào.
 
-- **Tên biến**: định danh để truy cập
-- **Kiểu dữ liệu**: xác định loại dữ liệu lưu trữ
-- **Giá trị**: dữ liệu thực tế
+Trong Java, mỗi chiếc hộp này đều phải được quy định kích thước và loại đồ vật được chứa ngay từ đầu. Đó gọi là **Kiểu Dữ Liệu**.
+
+## Bộ nhớ Java: Stack & Heap
+
+Đây là phần quan trọng nhất để trở thành Java Master. Java chia nhà kho thành 2 khu vực chính:
+
+* **Stack (Ngăn kệ nhỏ)**: Chứa các hộp nhỏ, nhẹ, truy xuất cực nhanh. Dành cho các **Kiểu nguyên thủy (Primitives)**.
+* **Heap (Kho chứa lớn)**: Chứa các vật thể cồng kềnh, phức tạp. Dành cho **Đối tượng (Objects)**.
+
+Dưới đây là mô hình bộ nhớ khi bạn chạy đoạn code sau:
 
 ```java
-// Cú pháp khai báo biến
-kiểuDữLiệu tênBiến = giáTrị;
-
-// Ví dụ
-int tuoi = 25;
-String ten = "Edward";
-double diemTB = 8.5;
+int age = 20; 
+String name = "Edward";
 ```
 
-## Kiểu dữ liệu nguyên thủy (Primitive Types)
+{{< mermaid >}}
+graph TD
+    subgraph Stack ["STACK MEMORY (Ngăn kệ)"]
+        Note1["Biến 'age' <br/> Giá trị: 20"]
+        Note2["Biến 'name' <br/> Giá trị: 0x123 (Địa chỉ)"]
+    end
 
-Java có **8 kiểu dữ liệu nguyên thủy**:
+    subgraph Heap ["HEAP MEMORY (Kho lớn)"]
+        Obj1["String Object <br/> 'Edward'"]
+    end
+    
+    Note2 -->|Trỏ tới| Obj1
+    
+    style Stack fill:#f1f5f9,stroke:#475569
+    style Heap fill:#dbeafe,stroke:#3b82f6
+    style Note1 fill:#fff,stroke:#333
+    style Note2 fill:#fff,stroke:#333
+    style Obj1 fill:#fcd34d,stroke:#b45309
+{{< /mermaid >}}
 
-| Kiểu | Kích thước | Phạm vi | Ví dụ |
-|------|------------|---------|-------|
-| `byte` | 1 byte | -128 đến 127 | `byte b = 100;` |
-| `short` | 2 bytes | -32,768 đến 32,767 | `short s = 1000;` |
-| `int` | 4 bytes | -2³¹ đến 2³¹-1 | `int i = 100000;` |
-| `long` | 8 bytes | -2⁶³ đến 2⁶³-1 | `long l = 100000L;` |
-| `float` | 4 bytes | ~7 chữ số thập phân | `float f = 3.14f;` |
-| `double` | 8 bytes | ~15 chữ số thập phân | `double d = 3.14159;` |
-| `char` | 2 bytes | Ký tự Unicode | `char c = 'A';` |
-| `boolean` | 1 bit | true/false | `boolean b = true;` |
+## 1. Kiểu Nguyên Thủy (Primitives) - "Hộp chứa đồ thật"
 
-## Kiểu dữ liệu tham chiếu
+Java có **8 kiểu nguyên thủy**. Chúng sống hoàn toàn trên **Stack**. Khi bạn gán `a = b`, nó sẽ copy miếng giá trị đó sang hộp mới (Copy giá trị).
 
-Ngoài kiểu nguyên thủy, Java còn có **kiểu tham chiếu** (Reference Types):
+| Kiểu | Kích thước | Dùng để chứa | Ví dụ |
+|------|------------|--------------|-------|
+| `boolean` | 1 bit | Đúng/Sai | `true`, `false` |
+| `char` | 2 bytes | Một ký tự | `'A'`, `'9'`, `'&'` |
+| `byte` | 1 byte | Số nguyên rất nhỏ | `-128` đến `127` |
+| `short` | 2 bytes | Số nguyên nhỏ | `32,000` |
+| `int` | 4 bytes | Số nguyên (Mặc định) | `100`, `2025` |
+| `long` | 8 bytes | Số nguyên khổng lồ | `9,000,000,000L` |
+| `float` | 4 bytes | Số thực | `3.14f` |
+| `double` | 8 bytes | Số thực (Mặc định) | `3.14159` |
+
+> **Mẹo:** 99% trường hợp bạn sẽ dùng `int` cho số nguyên, `double` cho số thực, và `boolean` cho logic.
+
+## 2. Kiểu Tham Chiếu (Reference Types) - "Tờ giấy chỉ đường"
+
+Các kiểu như `String`, `Array`, hay `Class` do người dùng tự định nghĩa đều là **Kiểu Tham Chiếu**.
+
+Vì chúng quá lớn (một đoạn văn dài, một danh sách 1000 sinh viên), chúng không thể nhét vừa cái kệ Stack.
+
+* Dữ liệu thật nằm ở **Heap**.
+* Trên **Stack** chỉ lưu một "tờ giấy chỉ đường" (địa chỉ bộ nhớ) trỏ tới nơi chứa dữ liệu đó.
+
+Ví dụ sự khác biệt:
 
 ```java
-// String - chuỗi ký tự
-String message = "Hello World!";
+// Primitive: Copy giá trị
+int a = 10;
+int b = a; // b copy số 10 của a
+b = 20;    // a vẫn là 10. Các hộp độc lập.
 
-// Array - mảng
-int[] numbers = {1, 2, 3, 4, 5};
-
-// Object - đối tượng
-Object obj = new Object();
-```
-
-## Quy tắc đặt tên biến
-
-1. Bắt đầu bằng chữ cái, `_` hoặc `$`
-2. Không được dùng từ khóa Java
-3. Phân biệt chữ hoa/thường
-4. Nên dùng **camelCase**
-
-```java
-// ✅ Đúng
-int studentAge;
-String firstName;
-double _salary;
-
-// ❌ Sai
-int 1stNumber;  // Bắt đầu bằng số
-String class;   // Từ khóa Java
+// Reference: Copy địa chỉ
+int[] arr1 = {1, 2, 3};
+int[] arr2 = arr1; // arr2 copy "tờ giấy chỉ đường" của arr1
+arr2[0] = 99;      // arr1[0] cũng thành 99! Vì cả 2 cùng chỉ vào 1 nơi.
 ```
 
 ## Tổng kết
 
-Biến và kiểu dữ liệu là nền tảng của mọi chương trình Java. Hiểu rõ chúng sẽ giúp bạn viết code hiệu quả và tránh lỗi.
+* **Biến** là nơi lưu trữ data.
+* **Primitive** (nguyên thủy) lưu giá trị trực tiếp trên Stack. Nhanh, gọn.
+* **Reference** (tham chiếu) lưu địa chỉ trỏ tới Heap. Mạnh mẽ, linh hoạt.
 
-**Bài tiếp theo:** Java OOP - Classes & Objects
+Hiểu rõ Stack và Heap sẽ cứu bạn khỏi hàng tá lỗi "NullPointerException" sau này!
+
+**Bài tiếp theo:** [Java OOP - Classes & Objects](../java-oop-classes-objects)

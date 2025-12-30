@@ -5,154 +5,111 @@ draft: false
 author: "Edward"
 categories: ["Java"]
 tags: ["java", "collections", "list", "map", "set"]
-summary: "Tổng quan về Java Collections Framework - công cụ quản lý dữ liệu mạnh mẽ."
-description: "Hướng dẫn sử dụng List, Set, Map và các collections khác trong Java."
+image: "images/blog/java-collections.png"
+summary: "List, Set, Map là gì? Giải thích Collections Framework bằng ví dụ Logistics dễ hiểu."
+description: "Phân biệt ArrayList, LinkedList, HashMap qua hình ảnh: Dãy hộp thư, Đoàn tàu và Tủ đồ cá nhân."
 ---
 
-## Collections Framework là gì?
+## 1. Vấn đề của mảng (Array)
 
-**Java Collections Framework** là tập hợp các interface và class để lưu trữ, thao tác với nhóm đối tượng.
+Hãy tưởng tượng bạn có một **cái khay đựng trứng (Array)**.
 
-## Hierarchy của Collections
+* Nó có 10 lỗ. Bạn chỉ để được tối đa 10 quả trứng.
+* Nếu bạn muốn để 11 quả? Không được, phải mua khay mới to hơn.
+* Nếu bạn chỉ để 2 quả? 8 lỗ còn lại bị phí phạm.
 
-```
-Collection
-├── List (có thứ tự, cho phép duplicate)
-│   ├── ArrayList
-│   ├── LinkedList
-│   └── Vector
-├── Set (không duplicate)
-│   ├── HashSet
-│   ├── LinkedHashSet
-│   └── TreeSet
-└── Queue (FIFO)
-    ├── LinkedList
-    └── PriorityQueue
+Đó là lý do **Java Collections Framework** ra đời. Nó là một bộ "thùng chứa" thông minh, co giãn tùy ý.
 
-Map (key-value pairs)
-├── HashMap
-├── LinkedHashMap
-└── TreeMap
-```
+## 2. Collections Framework: Trung Tâm Logistics
 
-## 1. List - Danh sách có thứ tự
+Hãy coi chương trình của bạn là một trạm trung chuyển hàng hóa. Chúng ta có 3 loại cấu trúc chính:
 
-### ArrayList
+{{< mermaid >}}
+classDiagram
+    class Collection {
+        add()
+        remove()
+        size()
+    }
+    class List
+    class Set
+    class Map
 
-```java
-import java.util.ArrayList;
-import java.util.List;
+    List --|> Collection
+    Set --|> Collection
+    
+    ArrayList ..|> List
+    LinkedList ..|> List
+    HashSet ..|> Set
+    HashMap ..|> Map
+{{< /mermaid >}}
 
-List<String> fruits = new ArrayList<>();
+### A. List (Danh sách) - "Đoàn tàu & Hộp thư"
 
-// Thêm phần tử
-fruits.add("Táo");
-fruits.add("Cam");
-fruits.add("Xoài");
+**List** chứa các phần tử theo thứ tự, giống như danh sách học sinh.
 
-// Truy cập
-String first = fruits.get(0);  // "Táo"
+#### ArrayList: "Dãy hộp thư"
 
-// Duyệt
-for (String fruit : fruits) {
-    System.out.println(fruit);
-}
+* **Đặc điểm**: Các ô nhớ nằm liền kề nhau như một dãy hộp thư được đánh số (0, 1, 2...).
+* **Ưu điểm**: Truy cập cực nhanh. Muốn lấy thư ở hộp số 99? Bùm! Có ngay.
+* **Nhược điểm**: Chèn/Xóa chậm. Nếu bạn chèn một hộp mới vào giữa, bạn phải đẩy lùi tất cả hộp phía sau đi.
 
-// Kích thước
-int size = fruits.size();  // 3
+#### LinkedList: "Đoàn tàu hỏa"
 
-// Xóa
-fruits.remove("Cam");
-```
-
-### LinkedList
+* **Đặc điểm**: Mỗi toa tàu (Node) móc nối với toa kế tiếp. Các toa có thể nằm rải rác.
+* **Ưu điểm**: Thêm/Bớt toa cực nhanh. Chỉ cần tháo móc nối và gắn toa mới vào.
+* **Nhược điểm**: Truy cập chậm. Muốn tìm toa số 99? Phải đi bộ từ đầu tàu qua 98 toa trước đó.
 
 ```java
-import java.util.LinkedList;
+// ArrayList nhanh khi đọc
+List<String> userList = new ArrayList<>();
+userList.add("Edward");
 
-LinkedList<Integer> numbers = new LinkedList<>();
-numbers.addFirst(1);  // Thêm đầu
-numbers.addLast(3);   // Thêm cuối
-numbers.add(1, 2);    // Thêm vào vị trí 1
+// LinkedList nhanh khi thêm/xóa đầu đuôi
+List<String> history = new LinkedList<>();
+history.add(0, "New Action");
 ```
 
-## 2. Set - Không cho phép trùng lặp
+### B. Set (Tập hợp) - "Túi thần kỳ"
 
-### HashSet
+**Set** giống như một cái túi. Bạn bỏ đồ vào đó, nó sẽ lộn xộn, không có thứ tự.
+
+* **Đặc điểm**: **KHÔNG** chấp nhận hàng trùng lặp. Nếu bạn bỏ 2 quả táo giống hệt nhau vào, nó chỉ giữ lại 1.
+* **Dùng khi nào?**: Khi bạn muốn list danh sách email khách hàng (không được trùng).
 
 ```java
-import java.util.HashSet;
-import java.util.Set;
-
-Set<String> colors = new HashSet<>();
-colors.add("Đỏ");
-colors.add("Xanh");
-colors.add("Đỏ");  // Không thêm được (đã tồn tại)
-
-System.out.println(colors.size());  // 2
+Set<String> emails = new HashSet<>();
+emails.add("a@gmail.com");
+emails.add("a@gmail.com"); // Bị loại bỏ
+System.out.println(emails.size()); // 1
 ```
 
-### TreeSet (sắp xếp tự động)
+### C. Map (Bản đồ) - "Tủ đồ cá nhân"
+
+**Map** không thuộc `Collection` interface nhưng là một phần quan trọng. Nó hoạt động theo cặp **Key - Value**.
+
+* Ví dụ: Tủ đồ ở siêu thị. Chìa khóa số 10 (Key) mở tủ chứa ba lô của bạn (Value).
 
 ```java
-import java.util.TreeSet;
+Map<String, Integer> scoreBoard = new HashMap<>(); // Key là Tên, Value là Điểm
 
-TreeSet<Integer> sortedNumbers = new TreeSet<>();
-sortedNumbers.add(5);
-sortedNumbers.add(1);
-sortedNumbers.add(3);
+scoreBoard.put("Minh", 95);
+scoreBoard.put("Lan", 88);
 
-// In ra: 1, 3, 5 (đã sắp xếp)
-for (int n : sortedNumbers) {
-    System.out.println(n);
-}
+// Lấy điểm của Minh (Truy cập theo Key)
+int diem = scoreBoard.get("Minh"); // 95
 ```
 
-## 3. Map - Cặp key-value
+## Tổng kết: Chọn mặt gửi vàng
 
-### HashMap
+Bạn đang phân vân không biết dùng cái nào? Hãy nhớ bảng này:
 
-```java
-import java.util.HashMap;
-import java.util.Map;
+| Nhu cầu | Chọn Class | Tại sao? |
+| :--- | :--- | :--- |
+| **Truy cập nhanh** (theo index) | `ArrayList` | Nhanh như điện (O(1)) |
+| **Thêm/Xóa nhiều** (ở đầu/giữa) | `LinkedList` | Nối toa tàu cực lẹ |
+| **Không trùng lặp** | `HashSet` | Chống duplicate tự động |
+| **Cần sắp xếp** | `TreeSet` / `TreeMap` | Tự động sort A-Z |
+| **Tra cứu theo Key** | `HashMap` | Tìm kiếm siêu tốc |
 
-Map<String, Integer> scores = new HashMap<>();
-
-// Thêm
-scores.put("Minh", 85);
-scores.put("Lan", 92);
-scores.put("Nam", 78);
-
-// Truy cập
-int minhScore = scores.get("Minh");  // 85
-
-// Kiểm tra key
-if (scores.containsKey("Lan")) {
-    System.out.println("Điểm của Lan: " + scores.get("Lan"));
-}
-
-// Duyệt
-for (Map.Entry<String, Integer> entry : scores.entrySet()) {
-    System.out.println(entry.getKey() + ": " + entry.getValue());
-}
-```
-
-## So sánh các Collections
-
-| Collection | Thứ tự | Duplicate | Null | Thread-safe |
-|------------|--------|-----------|------|-------------|
-| ArrayList | ✅ | ✅ | ✅ | ❌ |
-| LinkedList | ✅ | ✅ | ✅ | ❌ |
-| HashSet | ❌ | ❌ | ✅ (1) | ❌ |
-| TreeSet | ✅ (sorted) | ❌ | ❌ | ❌ |
-| HashMap | ❌ | Keys: ❌ | ✅ | ❌ |
-| TreeMap | ✅ (sorted) | Keys: ❌ | ❌ | ❌ |
-
-## Tổng kết
-
-- Dùng **ArrayList** khi cần truy cập nhanh theo index
-- Dùng **LinkedList** khi thường xuyên thêm/xóa
-- Dùng **HashSet** khi cần tập hợp không trùng lặp
-- Dùng **HashMap** khi cần mapping key-value
-
-**Bài tiếp theo:** JavaScript Fundamentals
+**Bài tiếp theo:** [JavaScript Fundamentals](../javascript-fundamentals)

@@ -52,12 +52,18 @@
       {{ $posts := where $allPosts ".Params.layout" "!=" "all-posts" }}
       {{ range $posts }}
       <article class="blog-card glass-card reveal">
-        <!-- Card Header with Icon -->
+        <!-- Card Header with Icon or Image -->
+        {{ if .Params.image }}
+        <div class="blog-card-image-wrapper">
+          <img src="{{ .Params.image | absURL }}" alt="{{ .Title }}" class="blog-card-img" loading="lazy">
+        </div>
+        {{ else }}
         <div class="blog-card-header">
           <svg class="blog-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
           </svg>
         </div>
+        {{ end }}
 
         <!-- Card Content -->
         <div class="blog-card-content">
@@ -275,6 +281,22 @@
   width: 48px; /* w-12 from V3 React */
   height: 48px; /* h-12 from V3 React */
   color: var(--amber-500);
+}
+
+.blog-card-image-wrapper {
+  height: 12rem;
+  overflow: hidden;
+}
+
+.blog-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-card-img {
+  transform: scale(1.05);
 }
 
 .blog-card-content {

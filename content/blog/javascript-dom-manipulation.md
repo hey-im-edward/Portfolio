@@ -5,250 +5,170 @@ draft: false
 author: "Edward"
 categories: ["JavaScript"]
 tags: ["javascript", "dom", "web"]
-summary: "Học cách thao tác với DOM để tạo trang web tương tác."
-description: "Hướng dẫn thao tác DOM với JavaScript - tạo web động và tương tác."
+image: "images/blog/js-dom.png"
+summary: "Học cách thao tác với DOM để tạo trang web tương tác: Chọn phần tử, sửa đổi nội dung và xử lý sự kiện."
+description: "Hướng dẫn chi tiết về DOM Tree, các phương thức querySelector, textContent, style và cách lắng nghe sự kiện click, input."
 ---
 
 ## DOM là gì?
 
-**DOM** (Document Object Model) là cấu trúc cây đại diện cho trang HTML. JavaScript sử dụng DOM để thao tác với các phần tử trên trang.
+**DOM** (Document Object Model) là bảng kế hoạch chi tiết của trang web.
 
-## Chọn phần tử (Selecting Elements)
+Hãy tưởng tượng trang web của bạn giống như một **ngôi nhà**.
+
+* **HTML**: Là bản thiết kế, quy định đâu là cửa sổ, đâu là phòng khách.
+* **DOM**: Là giao diện giúp bạn có thể tương tác với ngôi nhà đó: mở cửa sổ, bật đèn, sơn lại tường.
+* **JavaScript**: Là người thợ dùng DOM để thực hiện các thay đổi đó.
+
+Nếu không có DOM, JavaScript sẽ không biết cái nút bấm nằm ở đâu, hay đoạn văn bản nội dung là gì.
+
+Dưới đây là cấu trúc cây (Tree Structure) của một trang web đơn giản trong DOM:
+
+{{< mermaid >}}
+graph TD
+    Doc[Document] --> HTML[html]
+    HTML --> Head[head]
+    HTML --> Body[body]
+    Head --> Meta[meta]
+    Head --> Title[title]
+    Body --> Header[header]
+    Body --> Main[main]
+    Header --> H1[h1]
+    Main --> P[p]
+    Main --> Button[button]
+
+    style Doc fill:#1e293b,stroke:#3b82f6,stroke-width:2px
+    style HTML fill:#334155,stroke:#64748b,stroke-width:1px
+    style Body fill:#334155,stroke:#64748b,stroke-width:1px
+{{< /mermaid >}}
+
+## 1. Truy tìm kho báu: Chọn phần tử (Selecting)
+
+Để thay đổi một phần tử, trước hết bạn phải tìm ra nó. JavaScript cung cấp "chiếc la bàn" `document` để làm việc này.
 
 ### Các phương thức phổ biến
 
-```javascript
-// Theo ID (trả về 1 element)
-const header = document.getElementById("header");
-
-// Theo class (trả về HTMLCollection)
-const cards = document.getElementsByClassName("card");
-
-// Theo tag (trả về HTMLCollection)
-const paragraphs = document.getElementsByTagName("p");
-
-// CSS Selector (trả về element đầu tiên)
-const firstBtn = document.querySelector(".btn");
-
-// CSS Selector (trả về tất cả - NodeList)
-const allBtns = document.querySelectorAll(".btn");
-```
-
-### querySelector vs getElementById
+* **`getElementById('id')`**: Nhanh nhất, chính xác nhất, dùng khi bạn biết rõ ID "hàng độc" của phần tử.
+* **`querySelector('.class' / '#id' / 'tag')`**: Đa năng "cân tất". Chọn phần tử đầu tiên nó tìm thấy thỏa mãn điều kiện CSS.
+* **`querySelectorAll('.class')`**: Giống như trên, nhưng chọn **TẤT CẢ** các phần tử thỏa mãn và trả về một danh sách.
 
 ```javascript
-// querySelector linh hoạt hơn
-const element = document.querySelector("#id");
-const element = document.querySelector(".class");
-const element = document.querySelector("div.container > p:first-child");
+// Tìm cái nút có ID là "login-btn"
+const loginButton = document.getElementById("login-btn");
+
+// Tìm thẻ h1 đầu tiên trong bài viết
+const title = document.querySelector("article h1");
+
+// Tìm tất cả các thẻ hình ảnh trong gallery
+const allImages = document.querySelectorAll(".gallery img");
 ```
 
-## Thao tác nội dung
+## 2. Phù phép: Thay đổi nội dung & Giao diện
 
-### textContent vs innerHTML
+Sau khi đã "tóm" được phần tử, giờ là lúc bạn thể hiện quyền lực của mình.
+
+### Thay đổi nội dung (Text)
+
+* **`textContent`**: Chỉ lấy nội dung chữ thuần túy (An toàn, khuyên dùng).
+* **`innerHTML`**: Lấy cả mã HTML bên trong (Mạnh mẽ nhưng cẩn thận lỗi bảo mật XSS).
 
 ```javascript
-const div = document.querySelector("#content");
+const message = document.querySelector("#welcome-msg");
 
-// textContent - chỉ text, an toàn
-div.textContent = "Hello World";
-div.textContent = "<b>Bold</b>";  // Hiển thị: <b>Bold</b>
+// Đổi nội dung thành: Xin chào Edward
+message.textContent = "Xin chào Edward";
 
-// innerHTML - parse HTML, cẩn thận XSS
-div.innerHTML = "<b>Bold</b>";    // Hiển thị: Bold (in đậm)
+// Chèn thêm thẻ in đậm
+message.innerHTML = "Xin chào <b>Edward</b>"; 
 ```
 
-### Thay đổi attributes
+### Thay đổi giao diện (Style & Class)
 
-```javascript
-const img = document.querySelector("img");
+Thay vì viết CSS trực tiếp vào JavaScript (khó quản lý), hãy dùng `classList` để thêm/bớt các class đã định nghĩa sẵn trong CSS.
 
-// Đọc attribute
-const src = img.getAttribute("src");
-
-// Gán attribute
-img.setAttribute("alt", "Mô tả hình ảnh");
-
-// Thuộc tính trực tiếp
-img.src = "new-image.jpg";
-img.alt = "New description";
-
-// Data attributes
-const card = document.querySelector(".card");
-card.dataset.id = "123";  // data-id="123"
-const id = card.dataset.id;
+```css
+/* Trong file CSS */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
 ```
-
-## Thao tác CSS
-
-### Style trực tiếp
 
 ```javascript
 const box = document.querySelector(".box");
 
-// Gán style
-box.style.backgroundColor = "red";
-box.style.padding = "20px";
-box.style.borderRadius = "8px";
-
-// Lưu ý: CSS property dùng camelCase
-// background-color -> backgroundColor
-```
-
-### Class manipulation
-
-```javascript
-const element = document.querySelector(".card");
-
 // Thêm class
-element.classList.add("active");
-element.classList.add("visible", "animated");
+box.classList.add("highlight");
 
 // Xóa class
-element.classList.remove("hidden");
+box.classList.remove("hidden");
 
-// Toggle class
-element.classList.toggle("dark-mode");
-
-// Kiểm tra class
-if (element.classList.contains("active")) {
-    console.log("Element is active!");
-}
+// Bật/Tắt class (nếu có thì xóa, chưa có thì thêm)
+box.classList.toggle("active");
 ```
 
-## Tạo và xóa phần tử
+## 3. Lắng nghe: Xử lý sự kiện (Event Handling)
 
-### Tạo phần tử mới
+Trang web sẽ rất nhàm chán nếu không phản hồi lại người dùng. `addEventListener` giống như việc bạn dặn người giúp việc: *"Này, khi nào có chuông cửa (click), hãy ra mở cửa nhé."*
 
-```javascript
-// Tạo element
-const newDiv = document.createElement("div");
-newDiv.className = "card";
-newDiv.textContent = "New Card";
-
-// Thêm vào DOM
-const container = document.querySelector(".container");
-container.appendChild(newDiv);
-
-// Thêm vào vị trí cụ thể
-container.insertBefore(newDiv, container.firstChild);
-
-// insertAdjacentHTML (nhanh hơn)
-container.insertAdjacentHTML("beforeend", `
-    <div class="card">
-        <h3>Title</h3>
-        <p>Content</p>
-    </div>
-`);
-```
-
-### Xóa phần tử
+Cú pháp: `element.addEventListener(loại_sự_kiện, hành_động)`
 
 ```javascript
-const element = document.querySelector(".to-remove");
+const button = document.querySelector("#submit-btn");
 
-// Cách mới (khuyến khích)
-element.remove();
-
-// Cách cũ
-element.parentNode.removeChild(element);
-```
-
-## Event Handling
-
-### addEventListener
-
-```javascript
-const button = document.querySelector("#myBtn");
-
-// Click event
-button.addEventListener("click", function(event) {
-    console.log("Button clicked!");
-    console.log(event.target);  // Phần tử được click
-});
-
-// Arrow function
-button.addEventListener("click", (e) => {
-    e.preventDefault();  // Ngăn hành vi mặc định
-    console.log("Clicked!");
+button.addEventListener("click", function() {
+    alert("Bạn đã bấm nút thành công!");
+    button.textContent = "Đã gửi!";
+    button.classList.add("disabled");
 });
 ```
 
-### Các event phổ biến
+### Các sự kiện phổ biến
+
+* **Mouse**: `click` (bấm chuột), `mouseenter` (di chuột vào).
+* **Keyboard**: `keydown` (bấm phím xuống), `keyup` (nhả phím ra).
+* **Form**: `submit` (gửi form), `input` (gõ chữ vào ô input).
+
+## Ví dụ: Todo List Đơn Giản
+
+Hãy kết hợp mọi thứ lại để làm tính năng thêm công việc:
+
+1. Lắng nghe sự kiện `click` vào nút Thêm.
+2. Lấy nội dung từ ô Input.
+3. Tạo một thẻ `<li>` mới và chèn vào danh sách `<ul>`.
 
 ```javascript
-// Mouse events
-element.addEventListener("click", handler);
-element.addEventListener("dblclick", handler);
-element.addEventListener("mouseenter", handler);
-element.addEventListener("mouseleave", handler);
-
-// Keyboard events
-document.addEventListener("keydown", (e) => {
-    console.log(e.key);     // "Enter", "a", "Escape"
-    console.log(e.keyCode); // 13, 65, 27
-});
-
-// Form events
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    // Handle form data
-});
-
-input.addEventListener("input", (e) => {
-    console.log(e.target.value);
-});
-```
-
-### Event Delegation
-
-```javascript
-// Thay vì gán event cho từng button
-const container = document.querySelector(".button-container");
-
-container.addEventListener("click", (e) => {
-    if (e.target.matches(".btn")) {
-        console.log("Button clicked:", e.target.textContent);
-    }
-});
-```
-
-## Ví dụ thực tế: Todo List
-
-```javascript
-const form = document.querySelector("#todo-form");
+const addBtn = document.querySelector("#add-btn");
 const input = document.querySelector("#todo-input");
 const list = document.querySelector("#todo-list");
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
+addBtn.addEventListener("click", () => {
+    // 1. Lấy giá trị nhập vào
+    const text = input.value;
     
-    const text = input.value.trim();
-    if (!text) return;
+    // Nếu rỗng thì không làm gì cả
+    if (text === "") return;
     
-    const li = document.createElement("li");
-    li.innerHTML = `
-        <span>${text}</span>
-        <button class="delete-btn">Xóa</button>
-    `;
+    // 2. Tạo phần tử li mới
+    const newItem = document.createElement("li");
+    newItem.textContent = text;
     
-    list.appendChild(li);
+    // 3. Thêm vào danh sách
+    list.appendChild(newItem);
+    
+    // 4. Xóa nội dung trong ô input
     input.value = "";
-});
-
-// Event delegation for delete buttons
-list.addEventListener("click", (e) => {
-    if (e.target.matches(".delete-btn")) {
-        e.target.parentElement.remove();
-    }
 });
 ```
 
 ## Tổng kết
 
-- Dùng `querySelector`/`querySelectorAll` để chọn phần tử
-- Dùng `classList` để thao tác class
-- Dùng `addEventListener` để xử lý event
-- Dùng Event Delegation cho dynamic elements
+Để trờ thành một "thợ xây web" giỏi, bạn cần thành thạo 3 kỹ năng DOM cơ bản:
 
-**Bài tiếp theo:** JavaScript Async/Await
+1. **Chọn đúng**: Dùng `querySelector` để tìm phần tử cần sửa.
+2. **Sửa đúng**: Dùng `textContent` và `classList` để cập nhật hiển thị.
+3. **Nghe đúng**: Dùng `addEventListener` để phản hồi hành động của người dùng.
+
+Ở bài tiếp theo, chúng ta sẽ đi sâu vào **Async/Await** (nếu bạn chưa đọc) hoặc tìm hiểu về **Node.js** - đưa JavaScript ra khỏi trình duyệt!
+
+**Bài tiếp theo:** [JavaScript Node.js Introduction](../javascript-nodejs-introduction)

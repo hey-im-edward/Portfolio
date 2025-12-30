@@ -5,294 +5,210 @@ draft: false
 author: "Edward"
 categories: ["JavaScript"]
 tags: ["javascript", "react", "frontend"]
-summary: "Giới thiệu React - thư viện JavaScript phổ biến nhất để xây dựng UI."
-description: "Học React cơ bản: Components, Props, State và Hooks."
+image: "images/blog/js-react.png"
+summary: "Giới thiệu React - thư viện JavaScript phổ biến nhất để xây dựng UI với tư duy Component-based."
+description: "Học React cơ bản: Hiểu sâu về Components, Props, State và Hooks thông qua ví dụ thực tế."
 ---
 
 ## React là gì?
 
-**React** là thư viện JavaScript do Facebook phát triển để xây dựng giao diện người dùng (UI). React sử dụng **component-based architecture**.
+**React** là một thư viện JavaScript mã nguồn mở được phát triển bởi Facebook, dùng để xây dựng giao diện người dùng (User Interfaces - UI). Điểm khác biệt lớn nhất của React so với cách viết HTML/JS truyền thống là tư duy **Component-based** (dựa trên các thành phần).
+
+Thay vì viết một trang web HTML khổng lồ, React khuyến khích bạn chia nhỏ giao diện thành các phần nhỏ độc lập gọi là **Components**. Giống như trò chơi LEGO, bạn xây dựng từng khối gạch nhỏ (Component) rồi ghép chúng lại thành một công trình lớn (Website).
+
+Dưới đây là minh họa cấu trúc của một ứng dụng React đơn giản:
+
+{{< mermaid >}}
+graph TD
+    App[App Component] --> Header[Header Component]
+    App --> Main[Main Content Component]
+    App --> Footer[Footer Component]
+    Main --> Sidebar[Sidebar]
+    Main --> Article[Article List]
+    Article --> Item1[Article Item 1]
+    Article --> Item2[Article Item 2]
+
+    style App fill:#1e293b,stroke:#3b82f6,stroke-width:2px
+    style Header fill:#1e293b,stroke:#64748b,stroke-width:1px
+    style Main fill:#1e293b,stroke:#64748b,stroke-width:1px
+    style Footer fill:#1e293b,stroke:#64748b,stroke-width:1px
+{{< /mermaid >}}
+
+### Tại sao lại dùng React?
+
+* **Tái sử dụng (Reusability)**: Bạn viết Component `Button` một lần và dùng nó ở mọi nơi.
+* **Dễ bảo trì**: Code được quản lý cục bộ trong từng Component, sửa chỗ này không lo hỏng chỗ khác.
+* **Hiệu năng cao**: React sử dụng Virtual DOM để tối ưu hóa việc cập nhật giao diện, giúp web chạy mượt mà hơn.
 
 ## Tạo React App
 
-```bash
-# Với Create React App
-npx create-react-app my-app
-cd my-app
-npm start
+Để bắt đầu, chúng ta cần một công cụ để tạo dự án. Trước đây `create-react-app` rất phổ biến, nhưng hiện nay **Vite** là lựa chọn được ưa chuộng hơn nhờ tốc độ vượt trội.
 
-# Hoặc với Vite (nhanh hơn)
+```bash
+# Tạo project với Vite (Khuyên dùng)
 npm create vite@latest my-app -- --template react
 cd my-app
 npm install
 npm run dev
 ```
 
-## Components
+Sau khi chạy lệnh trên, bạn sẽ có một server development (thường là `http://localhost:5173`) để xem kết quả ngay lập tức khi code.
 
-### Function Component (khuyến khích)
+## Components: Khối gạch của React
+
+Trong React, có hai cách để tạo component: **Function Component** và **Class Component**. Hiện tại, **Function Component** là chuẩn mực mới và được sử dụng trong hầu hết các dự án hiện đại.
+
+### Function Component
+
+Hãy tưởng tượng Component giống như một hàm JavaScript bình thường. Nó nhận đầu vào (gọi là Props) và trả về cái bạn muốn hiển thị lên màn hình (JSX).
 
 ```jsx
+// Đây là một Function Component đơn giản
 function Welcome() {
     return (
-        <div>
+        <div className="welcome-card">
             <h1>Xin chào!</h1>
             <p>Đây là component đầu tiên của tôi.</p>
         </div>
     );
 }
-
-export default Welcome;
 ```
 
-### Arrow Function Component
+Bạn cũng có thể dùng cú pháp Arrow Function cho ngắn gọn:
 
 ```jsx
-const Welcome = () => {
-    return (
-        <div>
-            <h1>Xin chào!</h1>
-        </div>
-    );
-};
-
-export default Welcome;
-```
-
-## JSX
-
-**JSX** là extension của JavaScript cho phép viết HTML trong JS:
-
-```jsx
-const element = <h1>Hello, World!</h1>;
-
-// JSX với JavaScript expressions
-const name = "Edward";
-const greeting = <h1>Xin chào, {name}!</h1>;
-
-// Điều kiện
-const isLoggedIn = true;
-const message = isLoggedIn ? <p>Chào mừng!</p> : <p>Vui lòng đăng nhập</p>;
-
-// Render list
-const items = ["Táo", "Cam", "Xoài"];
-const list = (
-    <ul>
-        {items.map((item, index) => (
-            <li key={index}>{item}</li>
-        ))}
-    </ul>
+const Welcome = () => (
+    <div>
+        <h1>Xin chào!</h1>
+    </div>
 );
 ```
 
-## Props
+### JSX: HTML trong lòng JavaScript
 
-**Props** là cách truyền dữ liệu từ component cha sang con:
+Bạn có thấy đoạn code trên trông giống HTML nhưng lại nằm trong file JavaScript không? Đó là **JSX** (JavaScript XML).
+
+JSX cho phép bạn viết cấu trúc UI một cách trực quan ngay trong logic của code. Tuy nhiên, vì nó bản chất là JavaScript, bạn có thể chèn các biểu thức logic vào bằng cặp ngoặc nhọn `{}`.
 
 ```jsx
-// Component con
-function Greeting({ name, age }) {
-    return (
-        <div>
-            <h2>Xin chào, {name}!</h2>
-            <p>Bạn {age} tuổi.</p>
-        </div>
-    );
-}
+const user = {
+    name: "Edward",
+    avatarUrl: "https://example.com/avatar.jpg"
+};
 
-// Component cha
-function App() {
-    return (
-        <div>
-            <Greeting name="Edward" age={25} />
-            <Greeting name="Minh" age={22} />
-        </div>
-    );
-}
+// Chèn biến vào JSX
+const profile = (
+    <div className="profile">
+        <img src={user.avatarUrl} alt="Avatar" />
+        {/* Gọi biến user.name */}
+        <h3>Xin chào, {user.name}!</h3> 
+    </div>
+);
 ```
 
-### Children Props
+## Props: Giao tiếp giữa cha và con
+
+**Props** (viết tắt của Properties) là cách các Component nói chuyện với nhau. Dữ liệu trong React chảy một chiều: từ Cha xuống Con.
+
+Hãy nghĩ Props giống như **tham số của hàm**. Cha truyền tham số, con nhận và hiển thị.
 
 ```jsx
-function Card({ title, children }) {
+// Component Con: Nhận props 'name' và 'role'
+function UserCard({ name, role }) {
     return (
         <div className="card">
-            <h3>{title}</h3>
-            <div className="card-body">
-                {children}
-            </div>
+            <h2>{name}</h2>
+            <p className="role">{role}</p>
         </div>
     );
 }
 
+// Component Cha: Truyền dữ liệu vào
 function App() {
     return (
-        <Card title="Thông tin">
-            <p>Đây là nội dung bên trong card.</p>
-            <button>Click me</button>
-        </Card>
+        <div>
+            {/* Tái sử dụng UserCard với dữ liệu khác nhau */}
+            <UserCard name="Edward" role="Developer" />
+            <UserCard name="Minh" role="Designer" />
+        </div>
     );
 }
 ```
 
-## State với useState
+**Lưu ý quan trọng**: Props là **read-only** (chỉ đọc). Component con không được phép thay đổi Props mà nó nhận được.
 
-**State** là dữ liệu thay đổi theo thời gian, khi thay đổi sẽ re-render component:
+## State: Bộ nhớ của Component
+
+Nếu Props là dữ liệu từ bên ngoài truyền vào, thì **State** là dữ liệu nội bộ của chính Component đó. State là thứ giúp Component "ghi nhớ" và phản ứng với tương tác của người dùng.
+
+Khi State thay đổi, React sẽ tự động cập nhật (re-render) lại Component đó để giao diện khớp với dữ liệu mới.
+
+Chúng ta dùng Hook `useState` để khai báo State:
 
 ```jsx
 import { useState } from 'react';
 
 function Counter() {
+    // Khai báo state 'count' giá trị ban đầu là 0
+    // 'setCount' là hàm dùng để cập nhật giá trị này
     const [count, setCount] = useState(0);
-    
-    const increment = () => {
-        setCount(count + 1);
-    };
-    
-    const decrement = () => {
-        setCount(count - 1);
-    };
     
     return (
         <div>
-            <h2>Đếm: {count}</h2>
-            <button onClick={increment}>+</button>
-            <button onClick={decrement}>-</button>
+            <p>Bạn đã bấm {count} lần</p>
+            {/* Khi bấm nút, gọi setCount để tăng giá trị */}
+            <button onClick={() => setCount(count + 1)}>
+                Bấm vào tôi
+            </button>
         </div>
     );
 }
 ```
 
-### State với Object
+### Khi nào dùng Props? Khi nào dùng State?
 
-```jsx
-function Form() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: ""
-    });
-    
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-    
-    return (
-        <form>
-            <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Tên"
-            />
-            <input
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-            />
-        </form>
-    );
-}
-```
+* **Props**: Dùng để cấu hình Component (như `src` của thẻ `img`, hay `text` của nút bấm). Dữ liệu này không đổi trong vòng đời Component.
+* **State**: Dùng cho dữ liệu sẽ thay đổi theo thời gian (như số đếm, nội dung form, trạng thái đóng/mở menu).
 
-## useEffect Hook
+## useEffect: Xử lý tác vụ phụ (Side Effects)
 
-Xử lý side effects: fetch data, subscriptions, DOM manipulation:
+Trong lập trình UI, đôi khi chúng ta cần làm những việc không liên quan trực tiếp đến việc hiển thị, như:
+
+* Lấy dữ liệu từ API (Fetch data).
+* Đăng ký sự kiện (Event listener).
+* Thay đổi tiêu đề trang (Document title).
+
+Những việc này gọi là **Side Effects**. `useEffect` là nơi an toàn để thực hiện chúng.
 
 ```jsx
 import { useState, useEffect } from 'react';
 
 function UserProfile({ userId }) {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    
+
+    // useEffect chạy SAU KHI component đã render xong
     useEffect(() => {
-        const fetchUser = async () => {
-            setLoading(true);
-            const response = await fetch(`/api/users/${userId}`);
-            const data = await response.json();
-            setUser(data);
-            setLoading(false);
-        };
-        
-        fetchUser();
-    }, [userId]); // Dependency array - chạy lại khi userId thay đổi
-    
-    if (loading) return <p>Đang tải...</p>;
-    if (!user) return <p>Không tìm thấy user</p>;
-    
-    return (
-        <div>
-            <h2>{user.name}</h2>
-            <p>{user.email}</p>
-        </div>
-    );
-}
-```
-
-## Event Handling
-
-```jsx
-function Button() {
-    const handleClick = (e) => {
-        console.log("Button clicked!");
-        console.log(e.target);
-    };
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Form submitted!");
-    };
-    
-    return (
-        <div>
-            <button onClick={handleClick}>Click me</button>
+        // Giả lập lấy dữ liệu từ server
+        fetch(`https://api.example.com/users/${userId}`)
+            .then(res => res.json())
+            .then(data => setUser(data));
             
-            <form onSubmit={handleSubmit}>
-                <input type="text" />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    );
-}
-```
+    }, [userId]); // Dependency Array: Chỉ chạy lại nếu userId thay đổi
 
-## Conditional Rendering
+    if (!user) return <p>Đang tải...</p>;
 
-```jsx
-function Dashboard({ user }) {
-    // Kiểm tra null
-    if (!user) {
-        return <p>Vui lòng đăng nhập</p>;
-    }
-    
-    return (
-        <div>
-            <h1>Xin chào, {user.name}</h1>
-            
-            {/* Ternary */}
-            {user.isAdmin ? <AdminPanel /> : <UserPanel />}
-            
-            {/* && operator */}
-            {user.notifications.length > 0 && (
-                <NotificationBadge count={user.notifications.length} />
-            )}
-        </div>
-    );
+    return <h1>Tên người dùng: {user.name}</h1>;
 }
 ```
 
 ## Tổng kết
 
-React concepts cốt lõi:
+React không quá khó nếu bạn nắm vững các khái niệm cốt lõi:
 
-- **Components**: UI được chia thành các phần nhỏ, tái sử dụng
-- **JSX**: Viết HTML trong JavaScript
-- **Props**: Truyền dữ liệu từ cha sang con
-- **State**: Dữ liệu thay đổi, trigger re-render
-- **Hooks**: useState, useEffect cho function components
+1. **Component**: Chia nhỏ giao diện.
+2. **JSX**: Viết UI trong JS.
+3. **Props**: Truyền dữ liệu xuống.
+4. **State**: Quản lý dữ liệu nội bộ và phản hồi tương tác.
+5. **Hooks**: Công cụ mạnh mẽ (như `useState`, `useEffect`) giúp Function Component làm được mọi thứ.
 
-**Bài tiếp theo:** JavaScript Node.js Introduction
+Ở bài tiếp theo, chúng ta sẽ tìm hiểu về hệ sinh thái **Node.js**, mảnh ghép quan trọng để bạn trở thành một Fullstack Developer.

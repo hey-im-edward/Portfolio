@@ -855,5 +855,25 @@
   })();
 </script>
 
-{{/* Structured Data */}} {{ if .IsPage }} {{ partial "schema/blogposting.html"
-. }} {{ end }}
+{{/* Structured Data */}} {{ if .IsPage }} {{ partial "schema/blogposting.html" . }} {{ end }}
+
+{{/* Mermaid.js Diagram Support */}}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ 
+    startOnLoad: true,
+    theme: 'dark',
+    securityLevel: 'loose',
+    fontFamily: 'Inter, sans-serif',
+    themeVariables: {
+      primaryColor: '#3b82f6',
+      primaryTextColor: '#f8fafc',
+      primaryBorderColor: '#64748b',
+      lineColor: '#94a3b8',
+      secondaryColor: '#1e293b',
+      tertiaryColor: '#0f172a',
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '16px'
+    }
+  });
+</script>

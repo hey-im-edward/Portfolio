@@ -1,87 +1,86 @@
 ---
-title: "Welcome to My Portfolio Blog"
-date: 2025-01-01T08:00:00+07:00
-lastmod: 2025-01-01T08:00:00+07:00
+title: "Chào mừng đến với Portfolio Blog của Edward"
+date: 2025-01-01
 draft: false
-
 author: "Edward"
-
-categories: ["JavaScript"]
-tags: ["hugo", "web-development", "portfolio"]
-
-summary: "Bài viết đầu tiên giới thiệu portfolio blog được xây dựng với Hugo - static site generator cực kỳ nhanh."
-description: "Giới thiệu portfolio blog xây dựng với Hugo, chia sẻ về tech stack và lý do chọn Hugo cho dự án này."
-
+categories: ["General"]
+tags: ["portfolio", "hugo", "introduction"]
+image: "images/blog/welcome.png"
+summary: "Nơi tôi chia sẻ hành trình lập trình, tư duy 'Hiểu bản chất > Học vẹt', và các dự án cá nhân thú vị."
+description: "Giới thiệu về Portfolio Blog, triết lý chia sẻ kiến thức và công nghệ đằng sau website này."
 reading_time: true
 toc: true
 ---
 
-## Giới thiệu
+## 👋 Xin chào
 
-Xin chào! Đây là bài viết đầu tiên trên portfolio blog của mình. Blog được xây dựng với **Hugo** - một trong những static site generator nhanh nhất hiện nay.
+Chào mừng bạn đến với góc nhỏ của mình trên internet. Mình là **Edward**, một lập trình viên đam mê việc **học sâu, hiểu kỹ** và xây dựng những sản phẩm có giá trị thực tế.
 
-## Tại sao chọn Hugo?
+Website này không chỉ là Portfolio giới thiệu dự án, mà còn là một **Blog cá nhân** - nơi mình ghi lại những gì đã học, những vấn đề đã giải quyết và những "khoảnh khắc Aha!" trong quá trình coding.
 
-### 1. Tốc độ build cực nhanh
+## 🚀 Triết lý: "Text > Code"
 
-Hugo được viết bằng Go, cho phép build hàng nghìn trang trong vài giây:
+Trong hành trình học lập trình, mình nhận ra một điều: **Copy code thì dễ, hiểu tại sao code chạy mới khó.**
 
-```bash
-# Build toàn bộ site
-hugo --gc --minify
+Vì vậy, các bài viết trên blog này sẽ tuân theo triết lý **"Text > Code"**:
 
-# Output: Built in 234 ms
-```
+* Tập trung giải thích **bản chất vấn đề** bằng ngôn ngữ đời thường.
+* Sử dụng các **ví dụ ẩn dụ** (như Nhà kho, Nhà bếp, Bản vẽ...) để biến kiến thức trừu tượng thành hình ảnh dễ hiểu.
+* Ưu tiên **Diagram & Hình ảnh** hơn là dán hàng đống code vô hồn.
 
-### 2. Không cần database
+## 🛠️ Tech Stack của Website này
 
-Static site = không cần server phức tạp. Chỉ cần HTML, CSS, JS.
+Blog này được xây dựng hoàn toàn "tự cung tự cấp" với công nghệ Static Site hiện đại, tập trung vào tốc độ và trải nghiệm người dùng tối giản.
 
-### 3. Triển khai dễ dàng
+{{< mermaid >}}
+graph TD
+    Me((Edward)) --> |Code| Source[Source Code]
+    subgraph "Local Development"
+        Source --> |Markdown| Content[Bài viết]
+        Source --> |HTML/CSS/JS| layouts[Giao diện]
+        Content & layouts --> Hugo[Hugo Generator]
+    end
+    Hugo --> |Build| Static[Static HTML Files]
+    Static --> |Deploy| Github[GitHub Pages]
+    Github --> |Serve| User((Bạn đọc))
 
-Github Pages, Netlify, Vercel... đều hỗ trợ tốt.
+    style Hugo fill:#ff0055,stroke:#333,stroke-width:2px
+    style Github fill:#333,stroke:#fff,stroke-width:2px,color:#fff
+{{< /mermaid >}}
 
-## Tech Stack
+* **Core**: [Hugo](https://gohugo.io/) (Static Site Generator) - Cực nhanh, viết bằng Go.
+* **Styling**: Vanilla CSS với phong cách **Glassmorphism** (Hiệu ứng kính).
+* **Diagrams**: [Mermaid.js](https://mermaid.js.org/) để vẽ biểu đồ trực tiếp từ code.
+* **Hosting**: GitHub Pages.
 
-| Component | Technology |
-|-----------|------------|
-| Generator | Hugo 0.153+ |
-| Styling | CSS Custom Properties |
-| Deployment | GitHub Pages |
-| CI/CD | GitHub Actions |
+## 📚 Các chủ đề chính
 
-## Tính năng chính
+Hiện tại và trong tương lai, mình sẽ tập trung chia sẻ về:
 
-- ✅ Dark mode tự động
-- ✅ Responsive design
-- ✅ SEO optimized
-- ✅ Fast loading (< 1s)
-- ✅ Accessibility (WCAG 2.2)
+1. **Java & OOP**: Nền tảng vững chắc cho Backend.
+2. **JavaScript & Node.js**: Hệ sinh thái Web linh hoạt.
+3. **Data Structures & Algorithms**: Tư duy giải quyết vấn đề.
+4. **System Design**: Cách thiết kế hệ thống lớn (khi mình đủ trình! 😄).
 
-## Code Sample
+## 🔗 Code mẫu?
 
-Đây là một ví dụ JavaScript đơn giản:
+Dưới đây là một ví dụ nhỏ về cách mình thích viết code: Tường minh và dễ đọc.
 
 ```javascript
-// Theme toggle function
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+// Một function đơn giản nhưng rõ ràng
+function calculateCircleArea(radius) {
+    if (radius <= 0) {
+        throw new Error("Bán kính phải là số dương!");
+    }
+    
+    const PI = 3.14159;
+    return PI * radius * radius;
 }
+
+console.log(calculateCircleArea(10)); // Output: 314.159
 ```
 
-## Kết luận
-
-Hugo là lựa chọn tuyệt vời cho:
-
-- Portfolio websites
-- Technical blogs
-- Documentation sites
-
-Hãy theo dõi blog để đọc thêm các bài viết về **Java** và **JavaScript**!
+Cảm ơn bạn đã ghé thăm. Hy vọng bạn tìm thấy điều gì đó hữu ích ở đây!
 
 ---
-
-*Cảm ơn bạn đã đọc! 🙏*
+*Stay curious, keep coding.*
