@@ -13,7 +13,7 @@ const contactSchema = z.object({
   subject: z.string().trim().max(120).optional().default(""),
   company: z.string().trim().max(120).optional().default(""),
   locale: z.enum(allowedLocales).optional().default("en"),
-  turnstileToken: z.string().trim().min(1).optional().default(""),
+  turnstileToken: z.string().trim().max(4096).optional().default(""),
   honeypot: z.string().trim().max(0).optional().default(""),
 });
 
