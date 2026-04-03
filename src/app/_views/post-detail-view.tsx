@@ -81,7 +81,7 @@ export async function PostDetailView({ locale, slug }: { locale: Locale; slug: s
       <section className="py-16 sm:py-20">
         <Container className="flex flex-col gap-8">
           {locale !== post.locale ? (
-            <LocaleFallbackNotice>{copy.articleFallback}</LocaleFallbackNotice>
+            <LocaleFallbackNotice locale={locale}>{copy.articleFallback}</LocaleFallbackNotice>
           ) : null}
           <RichContent source={post.body} />
           <div className="flex flex-wrap items-center gap-3">

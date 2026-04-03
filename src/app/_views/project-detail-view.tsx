@@ -102,7 +102,7 @@ export async function ProjectDetailView({ locale, slug }: { locale: Locale; slug
         <Container className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="flex flex-col gap-8">
             {locale !== project.locale ? (
-              <LocaleFallbackNotice>{copy.projectFallback}</LocaleFallbackNotice>
+              <LocaleFallbackNotice locale={locale}>{copy.projectFallback}</LocaleFallbackNotice>
             ) : null}
             <div className="surface-outline rounded-3xl p-6">
               <p className="text-muted-foreground text-xs font-medium tracking-[0.24em] uppercase">

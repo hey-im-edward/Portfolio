@@ -1,0 +1,57 @@
+---
+title: "Workflow xuất bản bằng MDX"
+slug: "mdx-publishing-workflow"
+locale: "vi"
+summary: "Một quy trình xuất bản thực dụng cho trang song ngữ, bài blog và case study."
+role: "Kỹ sư nội dung độc lập"
+period: "2026"
+status: "đã phát hành"
+teamSize: 1
+stack:
+  - "MDX"
+  - "Content schema"
+  - "Zod"
+  - "Static routing"
+  - "SEO"
+repoUrl: ""
+demoUrl: ""
+featured: false
+coverImage: "/images/projects/mdx-publishing-workflow.svg"
+ogImage: "/images/projects/mdx-publishing-workflow.svg"
+results:
+  - "Xây dựng content contract hỗ trợ bài viết, case study và trang tĩnh theo cùng một khung rõ ràng."
+  - "Giữ bản tiếng Việt và tiếng Anh đồng bộ mà không phải nhân đôi cấu trúc UI."
+  - "Đơn giản hóa luồng xuất bản để v1 chưa cần CMS admin riêng."
+order: 3
+draft: false
+tags:
+  - "mdx"
+  - "content"
+  - "bilingual"
+  - "workflow"
+---
+
+# Tổng quan
+
+Project này tập trung vào cách nội dung được viết, cấu trúc, kiểm tra và xuất bản.
+
+## Vấn đề
+
+Nhiều site cá nhân trở nên khó bảo trì khi phần copy, metadata và route structure đều được quản lý theo kiểu chắp vá.
+
+## Cách tiếp cận
+
+Tôi đưa vào một schema ổn định cho trang tĩnh, project và bài blog để nội dung vẫn có trật tự khi site tiếp tục mở rộng.
+
+## Quyết định chính
+
+- Mô hình hóa nội dung trước, sau đó mới dựng route quanh nó.
+- Giữ workflow launch theo kiểu Git-based để v1 đủ đơn giản.
+- Validate front matter để lỗi nội dung bị chặn sớm.
+
+## Kết quả
+
+- Nội dung nhất quán hơn
+- Chi phí bảo trì thấp hơn
+- Xuất bản song ngữ dễ hơn
+- Mở rộng về sau an toàn hơn
