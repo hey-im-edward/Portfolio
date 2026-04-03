@@ -1,0 +1,248 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-serif);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+}
+
+:root {
+  color-scheme: light;
+  --radius: 1.125rem;
+  --background: oklch(0.972 0.011 84.32);
+  --foreground: oklch(0.278 0.026 254.11);
+  --card: oklch(0.989 0.004 84.12);
+  --card-foreground: oklch(0.278 0.026 254.11);
+  --popover: oklch(0.989 0.004 84.12);
+  --popover-foreground: oklch(0.278 0.026 254.11);
+  --primary: oklch(0.372 0.047 253.58);
+  --primary-foreground: oklch(0.985 0.005 84.72);
+  --secondary: oklch(0.934 0.012 83.86);
+  --secondary-foreground: oklch(0.278 0.026 254.11);
+  --muted: oklch(0.948 0.008 83.91);
+  --muted-foreground: oklch(0.51 0.023 255.34);
+  --accent: oklch(0.798 0.062 73.74);
+  --accent-foreground: oklch(0.244 0.021 254.6);
+  --destructive: oklch(0.596 0.196 27.37);
+  --border: oklch(0.852 0.01 84.77);
+  --input: oklch(0.932 0.008 83.9);
+  --ring: oklch(0.604 0.054 250.48);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.192 0.018 255.53);
+  --foreground: oklch(0.956 0.009 83.79);
+  --card: oklch(0.238 0.019 255.46);
+  --card-foreground: oklch(0.956 0.009 83.79);
+  --popover: oklch(0.238 0.019 255.46);
+  --popover-foreground: oklch(0.956 0.009 83.79);
+  --primary: oklch(0.772 0.054 73.74);
+  --primary-foreground: oklch(0.188 0.017 254.08);
+  --secondary: oklch(0.272 0.021 255.51);
+  --secondary-foreground: oklch(0.956 0.009 83.79);
+  --muted: oklch(0.268 0.019 255.45);
+  --muted-foreground: oklch(0.782 0.009 84.21);
+  --accent: oklch(0.71 0.067 73.84);
+  --accent-foreground: oklch(0.188 0.017 254.08);
+  --destructive: oklch(0.66 0.187 24.35);
+  --border: oklch(0.331 0.019 255.84);
+  --input: oklch(0.291 0.018 255.45);
+  --ring: oklch(0.696 0.044 250.8);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in oklab, var(--accent) 22%, transparent),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, white 65%, var(--background)) 0%,
+      var(--background) 36%,
+      color-mix(in oklab, var(--secondary) 48%, var(--background)) 100%
+    );
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  isolation: isolate;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 60%, transparent);
+  color: var(--foreground);
+}
+
+a {
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif), serif;
+  letter-spacing: -0.03em;
+}
+
+@utility text-display {
+  font-family: var(--font-serif), serif;
+  letter-spacing: -0.05em;
+}
+
+@utility surface-outline {
+  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent);
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  box-shadow: 0 24px 80px -56px color-mix(in oklab, var(--foreground) 20%, transparent);
+}
+
+@utility prose-editorial {
+  max-width: 72ch;
+  color: var(--foreground);
+}
+
+.prose-editorial > * + * {
+  margin-top: 1.2rem;
+}
+
+.prose-editorial :where(h1, h2, h3, h4) {
+  color: var(--foreground);
+  font-family: var(--font-serif), serif;
+  letter-spacing: -0.04em;
+}
+
+.prose-editorial :where(h1) {
+  font-size: clamp(2.75rem, 6vw, 4.8rem);
+  line-height: 0.95;
+}
+
+.prose-editorial :where(h2) {
+  margin-top: 3rem;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.05;
+}
+
+.prose-editorial :where(h3) {
+  margin-top: 2.2rem;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.12;
+}
+
+.prose-editorial :where(p, li) {
+  color: color-mix(in oklab, var(--foreground) 88%, white);
+  font-size: 1.05rem;
+  line-height: 1.82;
+}
+
+.prose-editorial :where(ul, ol) {
+  padding-left: 1.25rem;
+}
+
+.prose-editorial :where(li + li) {
+  margin-top: 0.45rem;
+}
+
+.prose-editorial :where(strong) {
+  color: var(--foreground);
+}
+
+.prose-editorial :where(code) {
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--secondary) 92%, white);
+  padding: 0.15rem 0.55rem;
+  font-size: 0.95em;
+}
+
+.prose-editorial :where(pre) {
+  overflow-x: auto;
+  border: 1px solid color-mix(in oklab, var(--border) 76%, transparent);
+  border-radius: calc(var(--radius) + 0.2rem);
+  background: color-mix(in oklab, var(--foreground) 7%, white);
+  padding: 1rem 1.125rem;
+}
+
+.prose-editorial :where(pre code) {
+  background: transparent;
+  padding: 0;
+}
+
+.prose-editorial :where(a) {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--accent) 68%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.prose-editorial :where(a:hover) {
+  color: color-mix(in oklab, var(--primary) 85%, black);
+}
+
+.prose-editorial :where(blockquote) {
+  border-left: 2px solid color-mix(in oklab, var(--accent) 72%, transparent);
+  padding-left: 1.15rem;
+  color: color-mix(in oklab, var(--foreground) 76%, white);
+  font-family: var(--font-serif), serif;
+  font-size: 1.18rem;
+  line-height: 1.65;
+}
+
+.mdx-anchor {
+  margin-left: 0.5rem;
+  color: color-mix(in oklab, var(--muted-foreground) 66%, transparent);
+  text-decoration: none;
+}
+
+.mdx-anchor:hover {
+  color: var(--primary);
+}

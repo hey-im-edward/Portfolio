@@ -1,0 +1,9 @@
+.next
+node_modules
+portfolio-app
+public
+coverage
+out
+dist
+turbo
+.vercel

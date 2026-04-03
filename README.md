@@ -1,142 +1,78 @@
-# Portfolio Blog
+# Portfolio Production
 
-> Blog cá nhân chia sẻ về lập trình Java & JavaScript với thiết kế Liquid Glass
+Đây là bản rebuild hoàn toàn cho portfolio `Senior / Lead Developer` theo hướng `recruiter-first`, `EN-first`, có lớp `VI` phụ, dùng `Next.js App Router`, `TypeScript`, `MDX`, và sẵn sàng deploy lên `Vercel`.
 
-🔗 **Live:** [https://hey-im-edward.github.io/Portfolio/](https://hey-im-edward.github.io/Portfolio/)
+## Stack
 
-## ✨ Features
+- `Next.js` App Router
+- `TypeScript`
+- `MDX` cho page tĩnh, blog, và project case study
+- `Tailwind CSS` + `shadcn/ui`
+- `Resend` + `Cloudflare Turnstile` cho luồng liên hệ
+- `Vercel Analytics` + `Speed Insights`
 
-- 🎨 **Liquid Glass Design** - iOS 26 style glassmorphism với blur effects
-- 🌙 **Dark/Light Mode** - Toggle kéo thả mượt mà với iOS physics
-- 📱 **Responsive** - Mobile-first design, hoạt động tốt mọi kích thước màn hình
-- 🧭 **Navigation Pill** - Hiệu ứng di chuyển mượt mà kiểu iOS
-- 💬 **Comments** - Tích hợp Giscus (GitHub Discussions)
-- 📧 **Contact Form** - Formspree integration
-- 🔍 **Search** - Tìm kiếm bài viết nhanh chóng
-- 📑 **Table of Contents** - Tự động tạo mục lục cho bài viết
-- 📄 **CV/Resume** - Tải PDF hoặc xem online
+## Cấu trúc repo
 
-## 🚀 Quick Start
+- `src/app`: route tree, layout, metadata, API route, sitemap, RSS, robots
+- `src/components`: UI dùng lại được và các shell component
+- `src/lib`: helper chung, env parsing, content loader, SEO, JSON-LD
+- `content`: nội dung `MDX/JSON` cho page, project, blog, author, site settings
+- `public`: asset tĩnh như ảnh minh hoạ và file download
 
-### Yêu cầu
+## Route chính
 
-- [Hugo Extended](https://gohugo.io/installation/) v0.153.0+
+- `/`, `/about`, `/projects`, `/projects/[slug]`, `/blog`, `/blog/[slug]`, `/contact`, `/resume`
+- `/vi`, `/vi/about`, `/vi/projects`, `/vi/projects/[slug]`, `/vi/blog`, `/vi/blog/[slug]`, `/vi/contact`, `/vi/resume`
 
-### Chạy local
-
-```bash
-git clone https://github.com/hey-im-edward/Portfolio.git
-cd Portfolio
-hugo server -D
-```
-
-Mở [http://localhost:1313](http://localhost:1313) trong browser.
-
-### Build production
+## Chạy local
 
 ```bash
-hugo --gc --minify
+npm ci
+npm run dev
 ```
 
-Output sẽ nằm trong thư mục `public/`.
+Mở `http://localhost:3000`.
 
-## 📁 Cấu trúc
-
-```
-Portfolio/
-├── archetypes/          # Templates cho content mới
-├── assets/
-│   └── css/             # Stylesheets (glass, components, animations)
-├── content/
-│   ├── blog/            # Bài viết (10 posts)
-│   ├── about/           # Giới thiệu
-│   ├── projects/        # Dự án
-│   └── contact/         # Liên hệ
-├── data/                # Data files
-│   ├── skills.yaml      # Kỹ năng
-│   ├── certificates.yaml # Chứng chỉ
-│   └── experiences.yaml  # Kinh nghiệm
-├── layouts/
-│   ├── _default/        # Base templates
-│   ├── partials/        # Reusable components
-│   │   ├── header.html  # Navigation với pill effect
-│   │   ├── scripts.html # Theme toggle, animations
-│   │   └── comments.html # Giscus integration
-│   ├── blog/            # Blog templates
-│   ├── about/           # About page
-│   ├── projects/        # Projects page
-│   └── contact/         # Contact page
-├── static/
-│   └── files/           # Static files (CV PDF)
-└── config.toml          # Hugo configuration
-```
-
-## 📝 Nội dung
-
-### Blog Posts (10 bài)
-
-**Java:**
-
-- Biến và Kiểu dữ liệu
-- Collections Framework
-- OOP: Classes & Objects
-
-**JavaScript:**
-
-- JavaScript Fundamentals
-- ES6 Features
-- Async/Await
-- DOM Manipulation
-- Node.js Introduction
-- React Basics
-
-## 🎯 Key Components
-
-### Navigation Pill
-
-Navigation sử dụng hiệu ứng "pill" di chuyển mượt mà giữa các menu items, với:
-
-- Kéo thả để navigate
-- Dropdown cho Blog submenu
-- iOS-style physics animation
-
-### Theme Toggle
-
-Toggle Dark/Light mode với:
-
-- Kéo thả slider
-- iOS rubber-banding physics
-- Live haptic feedback (mobile)
-
-## 🚀 Deploy
-
-Auto-deploy via GitHub Actions khi push lên `main`.
-
-Workflow file: `.github/workflows/hugo.yml`
-
-## 🛠️ Development
-
-### Thêm bài viết mới
+## Kiểm tra chất lượng
 
 ```bash
-hugo new blog/ten-bai-viet.md
+npm run format:check
+npm run lint
+npm run typecheck
+npm run content:check
+npm run build
 ```
 
-### Thêm project mới
+## Workflow nội dung
 
-```bash
-hugo new projects/ten-project.md
-```
+- `English` là nguồn nội dung chuẩn.
+- `Vietnamese` nằm dưới `/vi` và có thể fallback sang `English` ở detail page khi chưa có bản dịch.
+- Thêm hoặc sửa nội dung trong `content/pages`, `content/projects`, `content/blog`, `content/authors`, `content/global`.
+- Project case study nên giữ cấu trúc rõ: `problem`, `role`, `constraints`, `architecture`, `decisions`, `implementation`, `results`.
+- Blog nên ưu tiên `proof of thinking`, tránh filler content.
 
-### Cấu hình
+## Biến môi trường
 
-Edit `config.toml` để thay đổi:
+Copy `.env.example` thành `.env.local`, sau đó điền các giá trị production:
 
-- Site title, description
-- Social links (GitHub, LinkedIn, Email)
-- Giscus settings
-- Formspree ID
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+- `TURNSTILE_SECRET_KEY`
+- `RESEND_API_KEY`
+- `CONTACT_FROM_EMAIL`
+- `CONTACT_TO_EMAIL`
 
-## 📄 License
+Nếu chưa cấu hình email production, API contact vẫn nhận request an toàn ở trạng thái `accepted` để test end-to-end.
 
-MIT License
+## Deploy
+
+- Preview deploy: chạy qua `Vercel` cho mỗi push/PR.
+- Production deploy: nối với branch `main`.
+- Khi gắn custom domain thật, cập nhật `NEXT_PUBLIC_SITE_URL` tương ứng.
+
+## Quy ước kỹ thuật
+
+- Không dùng public auth cho portfolio v1.
+- Xem content như dữ liệu, không hardcode vào page component.
+- Ưu tiên component và config dùng lại được thay vì duplication theo từng page.
+- Giữ public pages nhanh, rõ, ít JS không cần thiết.
