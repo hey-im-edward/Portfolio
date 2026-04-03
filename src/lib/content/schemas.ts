@@ -19,7 +19,7 @@ export const siteSettingsSchema = z.object({
   location: z.string().min(1),
   email: z.email(),
   github: z.url(),
-  linkedin: z.url(),
+  linkedin: z.url().optional(),
   resumeUrl: z.string().min(1),
   domain: z.url(),
   defaultLocale: localeSchema,
@@ -34,7 +34,7 @@ export const authorSchema = z.object({
   location: z.string().min(1),
   email: z.email(),
   github: z.url(),
-  linkedin: z.url(),
+  linkedin: z.url().optional(),
   focusAreas: z.array(z.string().min(1)).min(1),
   availability: z.string().min(1).optional(),
 });

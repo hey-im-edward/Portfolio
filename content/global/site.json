@@ -4,9 +4,8 @@
   "location": "Remote / Global",
   "email": "hey_im_edward@icloud.com",
   "github": "https://github.com/hey-im-edward",
-  "linkedin": "https://linkedin.com/in/replace-with-your-handle",
   "resumeUrl": "/resume",
-  "domain": "https://replace-with-your-domain.com",
+  "domain": "https://portfolio-hey-im-edwards-projects.vercel.app",
   "defaultLocale": "en",
   "alternateLocales": ["vi"]
 }
