@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getReadingTimeLabel } from "@/lib/localized-content";
 
 type PostListProps = {
   posts: PostDocument[];
@@ -25,12 +26,10 @@ function PostList({ posts, locale, className }: PostListProps) {
   const copy =
     locale === "vi"
       ? {
-          readTime: "phút đọc",
           draft: "Bản nháp",
           readArticle: "Đọc bài viết",
         }
       : {
-          readTime: "min read",
           draft: "Draft",
           readArticle: "Read article",
         };
@@ -55,7 +54,7 @@ function PostList({ posts, locale, className }: PostListProps) {
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge variant="secondary">{formatDate(post.publishedAt, locale)}</Badge>
                   <Badge variant="outline">
-                    {post.readingMinutes} {copy.readTime}
+                    {getReadingTimeLabel(post.readingMinutes, locale)}
                   </Badge>
                   {post.draft ? <Badge variant="destructive">{copy.draft}</Badge> : null}
                 </div>

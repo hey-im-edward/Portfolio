@@ -16,6 +16,7 @@ import {
 } from "@/lib/content/loaders";
 import { buildWebsiteJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile } from "@/lib/localized-content";
 
 export async function getProjectsMetadata(locale: Locale) {
   const page = await getPageBySlug(locale, "/projects");
@@ -40,6 +41,7 @@ export async function ProjectsView({ locale, activeTag }: { locale: Locale; acti
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const tags = [...new Set(projects.flatMap((project) => project.tags))].sort((left, right) =>
     left.localeCompare(right),
   );
@@ -69,7 +71,7 @@ export async function ProjectsView({ locale, activeTag }: { locale: Locale; acti
             label: copy.proofProjects,
             value: `${projects.length} ${copy.labelFeaturedProjectsCount}`,
           },
-          { label: copy.proofFocus, value: author.focusAreas.join(" · ") },
+          { label: copy.proofFocus, value: profile.focusAreas.join(" · ") },
           { label: copy.filterLabel, value: activeTag ?? copy.filterAll },
         ]}
       />
@@ -102,8 +104,8 @@ export async function ProjectsView({ locale, activeTag }: { locale: Locale; acti
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={localizePath(locale, site.resumeUrl)}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );

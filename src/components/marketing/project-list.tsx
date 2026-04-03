@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedProjectStatus } from "@/lib/localized-content";
 
 type ProjectListProps = {
   projects: ProjectDocument[];
@@ -58,7 +59,7 @@ function ProjectList({ projects, locale, className }: ProjectListProps) {
           <CardHeader className="gap-3">
             <div className="flex flex-wrap items-center gap-2">
               {project.featured ? <Badge variant="secondary">{copy.featured}</Badge> : null}
-              <Badge variant="outline">{project.status}</Badge>
+              <Badge variant="outline">{getLocalizedProjectStatus(project.status, locale)}</Badge>
               {project.draft ? <Badge variant="destructive">{copy.draft}</Badge> : null}
             </div>
 

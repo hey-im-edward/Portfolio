@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "Trang chủ" },
+  { href: "/projects", label: "Dự án" },
+  { href: "/blog", label: "Bài viết" },
+  { href: "/contact", label: "Liên hệ" },
 ];
 
 export default function NotFound() {

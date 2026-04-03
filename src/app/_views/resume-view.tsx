@@ -17,6 +17,7 @@ import {
 } from "@/lib/content/loaders";
 import { buildPersonJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile } from "@/lib/localized-content";
 
 export async function getResumeMetadata(locale: Locale) {
   const page = await getPageBySlug(locale, "/resume");
@@ -41,11 +42,12 @@ export async function ResumeView({ locale }: { locale: Locale }) {
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const contactHref = localizePath(locale, "/contact");
 
   return (
     <>
-      <JsonLdScript payload={serializeJsonLd(buildPersonJsonLd(site, author))} />
+      <JsonLdScript payload={serializeJsonLd(buildPersonJsonLd(site, profile))} />
 
       <Hero
         eyebrow={copy.resumeEyebrow}
@@ -60,9 +62,9 @@ export async function ResumeView({ locale }: { locale: Locale }) {
           },
         ]}
         facts={[
-          { label: copy.labelRole, value: author.role },
-          { label: copy.proofFocus, value: author.focusAreas.join(" · ") },
-          { label: copy.labelLocation, value: author.location },
+          { label: copy.labelRole, value: profile.role },
+          { label: copy.proofFocus, value: profile.focusAreas.join(" · ") },
+          { label: copy.labelLocation, value: profile.location },
         ]}
       />
 
@@ -74,11 +76,11 @@ export async function ResumeView({ locale }: { locale: Locale }) {
               {locale === "vi" ? "Tóm tắt" : "Snapshot"}
             </p>
             <p className="font-heading text-foreground mt-4 text-2xl leading-tight font-semibold tracking-tight">
-              {author.headline}
+              {profile.headline}
             </p>
-            <p className="text-muted-foreground mt-4 text-base leading-7">{author.bio}</p>
+            <p className="text-muted-foreground mt-4 text-base leading-7">{profile.bio}</p>
             <div className="mt-6 flex flex-col gap-3">
-              {author.focusAreas.map((item) => (
+              {profile.focusAreas.map((item) => (
                 <div key={item} className="border-border/70 border-t pt-3 text-sm">
                   {item}
                 </div>
@@ -119,8 +121,8 @@ export async function ResumeView({ locale }: { locale: Locale }) {
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={localizePath(locale, site.resumeUrl)}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );

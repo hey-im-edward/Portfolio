@@ -53,10 +53,15 @@ export async function buildMetadata({
   const canonicalPath = localizePath(locale, pathname);
   const resolvedImage = image ? absoluteUrl(image).toString() : absoluteUrl("/api/og").toString();
   const resolvedBaseUrl = getResolvedSiteBaseUrl(site.domain);
+  const resolvedTitle = title.toLowerCase().includes(site.name.toLowerCase())
+    ? title
+    : `${title} | ${site.name}`;
 
   return {
     metadataBase: new URL(resolvedBaseUrl),
-    title,
+    title: {
+      absolute: resolvedTitle,
+    },
     description,
     alternates: {
       canonical: canonicalPath,
@@ -66,7 +71,7 @@ export async function buildMetadata({
       },
     },
     openGraph: {
-      title,
+      title: resolvedTitle,
       description,
       url: absoluteUrl(canonicalPath).toString(),
       siteName: site.name,
@@ -82,7 +87,7 @@ export async function buildMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: resolvedTitle,
       description,
       images: [resolvedImage],
     },

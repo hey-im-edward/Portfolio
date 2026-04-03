@@ -10,6 +10,7 @@ import { Container } from "@/components/layout/container";
 import { getPageBySlug, getPrimaryAuthor, getSiteConfig } from "@/lib/content/loaders";
 import { buildPersonJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile } from "@/lib/localized-content";
 import { normalizeContactValue } from "@/lib/utils";
 
 export async function getContactMetadata(locale: Locale) {
@@ -34,6 +35,7 @@ export async function ContactView({ locale }: { locale: Locale }) {
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const email = normalizeContactValue(site.email);
   const github = normalizeContactValue(site.github);
   const linkedin = normalizeContactValue(site.linkedin);
@@ -48,7 +50,7 @@ export async function ContactView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <JsonLdScript payload={serializeJsonLd(buildPersonJsonLd(site, author))} />
+      <JsonLdScript payload={serializeJsonLd(buildPersonJsonLd(site, profile))} />
 
       <Hero
         eyebrow={copy.contactEyebrow}
@@ -57,8 +59,8 @@ export async function ContactView({ locale }: { locale: Locale }) {
         actions={actions}
         facts={[
           ...(email ? [{ label: copy.labelEmail, value: email }] : []),
-          { label: copy.labelLocation, value: author.location },
-          { label: copy.labelRole, value: author.role },
+          { label: copy.labelLocation, value: profile.location },
+          { label: copy.labelRole, value: profile.role },
         ]}
       />
 
@@ -76,8 +78,8 @@ export async function ContactView({ locale }: { locale: Locale }) {
         github={github}
         linkedin={linkedin}
         resumeHref={localizePath(locale, site.resumeUrl)}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       >
         <ContactForm locale={locale} />
       </ContactPanel>

@@ -20,6 +20,7 @@ import {
 } from "@/lib/content/loaders";
 import { buildPersonJsonLd, buildWebsiteJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile, getLocalizedSiteHeadline } from "@/lib/localized-content";
 import { formatList } from "@/lib/utils";
 
 export async function getHomeMetadata(locale: Locale) {
@@ -46,18 +47,19 @@ export async function HomeView({ locale }: { locale: Locale }) {
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const latestPosts = posts.slice(0, 3);
   const resumeHref = localizePath(locale, site.resumeUrl);
 
   return (
     <>
       <JsonLdScript
-        payload={serializeJsonLd([buildWebsiteJsonLd(site), buildPersonJsonLd(site, author)])}
+        payload={serializeJsonLd([buildWebsiteJsonLd(site), buildPersonJsonLd(site, profile)])}
       />
 
       <Hero
         eyebrow={copy.homeEyebrow}
-        title={site.headline}
+        title={getLocalizedSiteHeadline(site.headline, locale)}
         summary={page.summary}
         actions={[
           { label: copy.ctaProjects, href: localizePath(locale, "/projects"), variant: "primary" },
@@ -65,7 +67,7 @@ export async function HomeView({ locale }: { locale: Locale }) {
           { label: copy.ctaResume, href: resumeHref, variant: "secondary" },
         ]}
         facts={[
-          { label: copy.proofFocus, value: formatList(author.focusAreas.slice(0, 3), locale) },
+          { label: copy.proofFocus, value: formatList(profile.focusAreas.slice(0, 3), locale) },
           {
             label: copy.proofLocale,
             value:
@@ -84,11 +86,11 @@ export async function HomeView({ locale }: { locale: Locale }) {
             {copy.homeSupportTitle}
           </p>
           <p className="font-heading text-foreground text-2xl leading-tight font-semibold tracking-tight text-balance">
-            {page.title === "Home" ? author.role : page.title}
+            {page.title === "Home" ? profile.role : page.title}
           </p>
           <p className="text-muted-foreground text-base leading-7">{copy.homeSupportSummary}</p>
           <div className="flex flex-wrap gap-2 pt-2">
-            {author.focusAreas.map((area) => (
+            {profile.focusAreas.map((area) => (
               <span
                 key={area}
                 className="border-border bg-background text-foreground inline-flex rounded-full border px-3 py-1.5 text-sm"
@@ -106,19 +108,19 @@ export async function HomeView({ locale }: { locale: Locale }) {
             label: copy.proofProjects,
             value:
               locale === "vi"
-                ? `${featuredProjects.length} project và case study nổi bật`
+                ? `${featuredProjects.length} dự án và phân tích dự án nổi bật`
                 : `${featuredProjects.length} featured projects and case studies`,
           },
           {
             label: copy.proofWriting,
             value:
               locale === "vi"
-                ? `${latestPosts.length} bài viết mới về portfolio systems và engineering communication`
+                ? `${latestPosts.length} bài viết mới về portfolio, hệ thống nội dung và giao tiếp kỹ thuật`
                 : `${latestPosts.length} recent articles on portfolio systems and engineering communication`,
           },
           {
             label: copy.proofFocus,
-            value: formatList(author.focusAreas, locale),
+            value: formatList(profile.focusAreas, locale),
           },
         ]}
       />
@@ -141,7 +143,7 @@ export async function HomeView({ locale }: { locale: Locale }) {
             title={copy.selectedProjects}
             summary={
               locale === "vi"
-                ? "Những case study nên đọc đầu tiên nếu bạn muốn đánh giá cách tôi cấu trúc, triển khai và ship sản phẩm."
+                ? "Những case study nên đọc đầu tiên nếu bạn muốn đánh giá cách tôi cấu trúc, triển khai và phát hành sản phẩm."
                 : "Start here if you want to evaluate how I structure, implement, and ship product-facing work."
             }
             action={
@@ -188,8 +190,8 @@ export async function HomeView({ locale }: { locale: Locale }) {
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={resumeHref}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );

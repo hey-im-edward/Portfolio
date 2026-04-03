@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { getLocalizedPostBySlug, getPrimaryAuthor, getSiteConfig } from "@/lib/content/loaders";
 import { buildArticleJsonLd, buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile, getReadingTimeLabel } from "@/lib/localized-content";
 import { formatDate } from "@/lib/utils";
 
 export async function getPostDetailMetadata(locale: Locale, slug: string) {
@@ -35,6 +36,7 @@ export async function PostDetailView({ locale, slug }: { locale: Locale; slug: s
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const postPath = `/blog/${post.slug}`;
   const breadcrumbs = [
     { name: site.name, url: localizePath(locale, "/") },
@@ -49,7 +51,7 @@ export async function PostDetailView({ locale, slug }: { locale: Locale; slug: s
           buildArticleJsonLd({
             post,
             locale,
-            author,
+            author: profile,
             pathname: localizePath(locale, postPath),
           }),
           buildBreadcrumbJsonLd(breadcrumbs),
@@ -66,7 +68,7 @@ export async function PostDetailView({ locale, slug }: { locale: Locale; slug: s
         facts={[
           { label: copy.publishedOn, value: formatDate(post.publishedAt, locale) },
           { label: copy.updatedOn, value: formatDate(post.updatedAt, locale) },
-          { label: copy.labelReadTime, value: `${post.readingMinutes} min` },
+          { label: copy.labelReadTime, value: getReadingTimeLabel(post.readingMinutes, locale) },
         ]}
       >
         <div className="flex flex-wrap gap-2">
@@ -103,8 +105,8 @@ export async function PostDetailView({ locale, slug }: { locale: Locale; slug: s
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={localizePath(locale, site.resumeUrl)}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );

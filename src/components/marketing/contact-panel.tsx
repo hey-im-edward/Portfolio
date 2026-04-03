@@ -52,6 +52,7 @@ function ContactPanel({
   const copy =
     locale === "vi"
       ? {
+          email: "Email",
           location: "Địa điểm",
           directLinks: "Liên kết trực tiếp",
           emailMe: "Gửi email",
@@ -61,6 +62,7 @@ function ContactPanel({
           remote: "Remote / linh hoạt",
         }
       : {
+          email: "Email",
           location: "Location",
           directLinks: "Direct links",
           emailMe: "Email me",
@@ -91,7 +93,7 @@ function ContactPanel({
                   {hasEmail ? (
                     <div className="border-border/80 bg-background rounded-2xl border p-4">
                       <p className="text-muted-foreground text-xs font-medium tracking-[0.24em] uppercase">
-                        Email
+                        {copy.email}
                       </p>
                       <a
                         className="text-foreground mt-1 block text-sm font-medium underline-offset-4 hover:underline"

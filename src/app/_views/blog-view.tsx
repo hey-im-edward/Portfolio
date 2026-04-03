@@ -16,6 +16,7 @@ import {
 } from "@/lib/content/loaders";
 import { buildWebsiteJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile } from "@/lib/localized-content";
 
 export async function getBlogMetadata(locale: Locale) {
   const page = await getPageBySlug(locale, "/blog");
@@ -40,6 +41,7 @@ export async function BlogView({ locale, activeTag }: { locale: Locale; activeTa
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const tags = [...new Set(posts.flatMap((post) => post.tags))].sort((left, right) =>
     left.localeCompare(right),
   );
@@ -60,7 +62,7 @@ export async function BlogView({ locale, activeTag }: { locale: Locale; activeTa
         ]}
         facts={[
           { label: copy.proofWriting, value: `${posts.length} ${copy.labelPublishedEntriesCount}` },
-          { label: copy.proofFocus, value: author.focusAreas.join(" · ") },
+          { label: copy.proofFocus, value: profile.focusAreas.join(" · ") },
           { label: copy.filterLabel, value: activeTag ?? copy.filterAll },
         ]}
       />
@@ -93,8 +95,8 @@ export async function BlogView({ locale, activeTag }: { locale: Locale; activeTa
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={localizePath(locale, site.resumeUrl)}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );

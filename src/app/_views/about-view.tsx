@@ -17,6 +17,7 @@ import {
 } from "@/lib/content/loaders";
 import { buildPersonJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile } from "@/lib/localized-content";
 
 export async function getAboutMetadata(locale: Locale) {
   const page = await getPageBySlug(locale, "/about");
@@ -41,11 +42,12 @@ export async function AboutView({ locale }: { locale: Locale }) {
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const resumeHref = localizePath(locale, site.resumeUrl);
 
   return (
     <>
-      <JsonLdScript payload={serializeJsonLd(buildPersonJsonLd(site, author))} />
+      <JsonLdScript payload={serializeJsonLd(buildPersonJsonLd(site, profile))} />
 
       <Hero
         eyebrow={copy.aboutEyebrow}
@@ -56,16 +58,16 @@ export async function AboutView({ locale }: { locale: Locale }) {
           { label: copy.ctaContact, href: localizePath(locale, "/contact"), variant: "secondary" },
         ]}
         facts={[
-          { label: copy.labelRole, value: author.role },
-          { label: copy.labelLocation, value: author.location },
-          { label: copy.proofFocus, value: author.focusAreas.join(" · ") },
+          { label: copy.labelRole, value: profile.role },
+          { label: copy.labelLocation, value: profile.location },
+          { label: copy.proofFocus, value: profile.focusAreas.join(" · ") },
         ]}
       >
         <div className="flex flex-col gap-4">
           <p className="font-heading text-foreground text-2xl leading-tight font-semibold tracking-tight">
-            {author.headline}
+            {profile.headline}
           </p>
-          <p className="text-muted-foreground text-base leading-7">{author.bio}</p>
+          <p className="text-muted-foreground text-base leading-7">{profile.bio}</p>
         </div>
       </Hero>
 
@@ -77,7 +79,7 @@ export async function AboutView({ locale }: { locale: Locale }) {
               {copy.proofFocus}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              {author.focusAreas.map((item) => (
+              {profile.focusAreas.map((item) => (
                 <span
                   key={item}
                   className="border-border bg-background text-foreground inline-flex rounded-full border px-3 py-1.5 text-sm"
@@ -126,8 +128,8 @@ export async function AboutView({ locale }: { locale: Locale }) {
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={resumeHref}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );

@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { getLocalizedProjectBySlug, getPrimaryAuthor, getSiteConfig } from "@/lib/content/loaders";
 import { buildBreadcrumbJsonLd, buildProjectJsonLd, serializeJsonLd } from "@/lib/json-ld";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getLocalizedAuthorProfile, getLocalizedProjectStatus } from "@/lib/localized-content";
 
 export async function getProjectDetailMetadata(locale: Locale, slug: string) {
   const project = await getLocalizedProjectBySlug(locale, slug);
@@ -33,6 +34,7 @@ export async function ProjectDetailView({ locale, slug }: { locale: Locale; slug
   }
 
   const copy = getUiCopy(locale);
+  const profile = getLocalizedAuthorProfile(author, locale);
   const projectPath = `/projects/${project.slug}`;
   const breadcrumbs = [
     { name: site.name, url: localizePath(locale, "/") },
@@ -91,9 +93,9 @@ export async function ProjectDetailView({ locale, slug }: { locale: Locale; slug
         ]}
       >
         <div className="flex flex-col gap-4">
-          <Badge variant="secondary">{project.status}</Badge>
+          <Badge variant="secondary">{getLocalizedProjectStatus(project.status, locale)}</Badge>
           <p className="text-muted-foreground text-base leading-7">
-            {locale !== project.locale ? copy.projectFallback : author.headline}
+            {locale !== project.locale ? copy.projectFallback : profile.headline}
           </p>
         </div>
       </Hero>
@@ -133,8 +135,8 @@ export async function ProjectDetailView({ locale, slug }: { locale: Locale; slug
         github={site.github}
         linkedin={site.linkedin}
         resumeHref={localizePath(locale, site.resumeUrl)}
-        availability={author.availability}
-        location={author.location}
+        availability={profile.availability}
+        location={profile.location}
       />
     </>
   );
